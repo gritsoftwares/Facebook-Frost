@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Theme.Transparent" parent="AppTheme">
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+    </style>
+
+    <style name="SplashTheme" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:background">@color/splashBackground</item>
+        <item name="android:windowBackground">@color/splashBackground</item>
+    </style>
 </resources>

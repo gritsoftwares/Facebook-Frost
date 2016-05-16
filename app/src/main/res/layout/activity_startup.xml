@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/startup_layout"
+    android:background="@color/splashBackground">
+
+    <Space
+        android:id="@+id/center_space"
+        android:layout_centerInParent="true"
+        android:layout_width="1dp"
+        android:layout_height="30dp"/>
+
+    <com.facebook.login.widget.ProfilePictureView
+        android:id="@+id/profilePicture_splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/center_space"
+        android:gravity="bottom"
+        facebook:com_facebook_preset_size="normal" />
+
+    <Button
+        android:id="@+id/button_login_splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/center_space"
+        android:layout_centerHorizontal="true"
+        android:text="@string/login" />
+
+    <TextView
+        android:id="@+id/text_status_splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_login_splash"
+        android:layout_marginTop="30.0dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#f0f"
+        android:text="" />
+
+</RelativeLayout>
+
