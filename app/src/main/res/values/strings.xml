@@ -45,4 +45,16 @@
     <string name="login">Login</string>
     <string name="get_friends">Get friends</string>
     <string name="load_more">load more...</string>
+
+    <string name="test">TEST 123</string>
+    <string name="demo_tab_1">TEST 1</string>
+    <string name="demo_tab_2">TEST 2</string>
+    <string name="demo_tab_3">TEST 3</string>
+    <string name="demo_tab_4">TEST 4</string>
+    <string name="demo_tab_5">TEST 5</string>
+    <string name="demo_tab_6">TEST 6</string>
+    <string name="demo_tab_7">TEST 7</string>
+    <string name="demo_tab_8">TEST 8</string>
+    <string name="demo_tab_9">TEST 9</string>
+    <string name="demo_tab_10">TEST 10</string>
 </resources>

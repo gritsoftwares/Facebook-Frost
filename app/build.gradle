@@ -38,4 +38,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
 //    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.github.AllanWang:android-simple-facebook:d3db27b431'
+
+    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+
+    //Optional: see how to use the utility.
+    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
 }
