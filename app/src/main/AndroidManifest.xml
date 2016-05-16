@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pitchedapps.facebook.glass">
+
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
-        android:name=".HelloFacebookSampleApplication"
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -44,11 +46,11 @@
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider420849111448972"
             android:exported="true" />
-        <receiver android:name="com.pitchedapps.facebook.glass.HelloFacebookBroadcastReceiver">
-            <intent-filter>
-                <action android:name="com.facebook.platform.AppCallResultBroadcast" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name="com.pitchedapps.facebook.glass.HelloFacebookBroadcastReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.facebook.platform.AppCallResultBroadcast" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>
