@@ -10,5 +10,6 @@
     <color name="result_border">#dddddd</color>
     <color name="result_background">#f0f0f0</color>
 
-    <color name="splashBackground">#f0f</color>
+    <color name="splashBackground">@color/facebook_blue</color>
+    <color name="facebook_blue">#3b5998</color>
 </resources>

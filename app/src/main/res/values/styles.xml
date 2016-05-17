@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
     </style>
 
     <style name="Theme.Transparent" parent="AppTheme">
@@ -14,8 +15,10 @@
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
-    <style name="SplashTheme" parent="@android:style/Theme.DeviceDefault.NoActionBar">
-        <item name="android:background">@color/splashBackground</item>
+    <style name="SplashTheme">
         <item name="android:windowBackground">@color/splashBackground</item>
+        <item name="android:navigationBarColor">@color/splashBackground</item>
+        <item name="colorPrimaryDark">@color/splashBackground</item>
+        <item name="colorAccent">@color/splashBackground</item>
     </style>
 </resources>

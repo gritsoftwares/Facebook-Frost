@@ -20,7 +20,7 @@ android {
         variant.outputs.each { output ->
             output.outputFile = new File(
                     output.outputFile.parent,
-                    output.outputFile.name.replace("app-release.apk", "FBGlass-v" + versionName + ".apk"))
+                    output.outputFile.name.replace("app-release.apk", "FBFrost-v" + versionName + ".apk"))
         }
     }
 

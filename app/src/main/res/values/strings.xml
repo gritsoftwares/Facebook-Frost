@@ -20,7 +20,7 @@
 -->
 
 <resources>
-    <string name="app_name">Facebook Glass</string>
+    <string name="app_name">Frost for Facebook</string>
     <string name="facebook_app_name">@string/app_name</string>
     <string name="facebook_app_id">420849111448972</string>
     <string name="fb_login_protocol_scheme">fb420849111448972</string>
@@ -57,4 +57,8 @@
     <string name="demo_tab_8">TEST 8</string>
     <string name="demo_tab_9">TEST 9</string>
     <string name="demo_tab_10">TEST 10</string>
+
+    <string name="share">Share</string>
+    <string name="changelog">Changelog</string>
+    <string name="sendemail">Contact</string>
 </resources>
