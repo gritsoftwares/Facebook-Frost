@@ -3,6 +3,7 @@ package com.pitchedapps.facebook.frost;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -171,8 +172,13 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         Log.e("MENU", menu + " ");
 //        Menu mMenu = (Menu)(findViewById(R.id.main_menu));
-        logoutMenuButton = (Button)menu.getItem(2).getActionView();
-        Log.e("BUTTON", logoutMenuButton + " ");
+//        logoutMenuButton = (Button)menu.getItem(2).getActionView();
+//        Log.e("BUTTON", logoutMenuButton + " ");
+//        int[] location = new int[2];
+//        logoutMenuButton.getLocationInWindow(location);
+//        int x = location[0] + logoutMenuButton.getWidth()/2;
+//        int y = location[1] + logoutMenuButton.getHeight()/2;
+//        Log.e("AAA", " " + new Point(x, y));
 //        logoutMenuButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v)
@@ -182,7 +188,61 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        logoutMenuButton.setOnTouchListener(new View.OnTouchListener() {
+//        logoutMenuButton.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent e) {
+////                x = (int) e.getX() + v.getLeft();
+////                y = (int) e.getY() + v.getTop();
+//                Log.e("GOT", "HsEREE");
+//                return true;
+//            }
+//        });
+        return true;
+    }
+
+//    @Override
+//    public boolean onMenuOpened(int featureId, Menu menu) {
+//        super.onMenuOpened(featureId, menu);
+//        Log.e("MENUOPEN", featureId + " " + Window.FEATURE_ACTION_BAR);
+//        if (menu != null) {
+//            Button b = (Button) menu.getItem(2).getActionView();
+//
+//            int[] location = new int[2];
+//            b.getLocationInWindow(location);
+//            int x = location[0] + b.getWidth() / 2;
+//            int y = location[1] + b.getHeight() / 2;
+//            Log.e("AAA", " " + new Point(x, y));
+//        } else {
+//            Log.e("MENU", "NuLL");
+//        }
+//        return true;
+//    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem a = menu.getItem(2);
+        if (a != null) {
+            Log.e("MA", a.getMenuInfo() + " ");
+        }
+        Log.e("IS A", a.isVisible() + " ");
+        TextView t = (TextView) menu.getItem(2).getActionView();
+        Log.e("TI", t.getX() + " " + t.getHeight() + " " + t.getOffsetForPosition(0.0f, 0.0f));
+//        View m = t;
+
+        Log.e("Text", t + " ");
+//        int[] location = new int[2];
+//        if (m != null) {
+//            m.getLocationOnScreen(location);
+//            Log.e("CC", Arrays.toString(location));
+//            int x = location[0] + m.getWidth() / 2;
+//            int y = location[1] + m.getHeight() / 2;
+//            Log.e("AAA", " " + new Point(x, y));
+//        } else {
+//            Log.e("M", "NUL");
+//        }
+
+        t.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent e) {
 //                x = (int) e.getX() + v.getLeft();
@@ -191,70 +251,60 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        logoutMenuButton = (Button) menu.getItem(2).getActionView();
-        Log.e("BUTTON", logoutMenuButton + " ");
-        int[] location = new int[2];
-        logoutMenuButton.getLocationOnScreen(location);
-        Log.e("CC", Arrays.toString(location));
-        logoutMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("GOT", "HEREE");
-                //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        super.onTouchEvent(event);
-        // MotionEvent object holds X-Y values
-        String text = event.getRawX() + " " + event.getRawY();
-        Log.e("TOUCH", text);
-        return false;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        super.onTouchEvent(event);
+//        // MotionEvent object holds X-Y values
+//        String text = event.getRawX() + " " + event.getRawY();
+//        Log.e("TOUCH", text);
+//        return false;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
+
 //int a = (int)item.getActionView().getX();
 //        Log.e("A", a + " ");
-        final OnLogoutListener onLogoutListener = new OnLogoutListener() {
-
-            @Override
-            public void onLogout() {
-                // change the state of the button or do whatever you want
-                mTextStatus.setText("Logged out");
-                revealSplashLayout();
-            }
-        };
+//        final OnLogoutListener onLogoutListener = new OnLogoutListener() {
+//
+//            @Override
+//            public void onLogout() {
+//                // change the state of the button or do whatever you want
+//                mTextStatus.setText("Logged out");
+//                revealSplashLayout();
+//            }
+//        };
 
 
         switch (item.getItemId()) {
             case R.id.changelog:
-                Button b = (Button) item.getActionView();
+//                Button b = (Button) item.getActionView();
 
-                Rect myViewRect = new Rect();
-                b.getGlobalVisibleRect(myViewRect);
-                float cx = myViewRect.left;
-                float cy = myViewRect.exactCenterY();
-                Log.e("D", cx + " " + cy);
+//                int[] location = new int[2];
+//                b.getLocationInWindow(location);
+//                int x = location[0] + b.getWidth()/2;
+//                int y = location[1] + b.getHeight()/2;
+//                Log.e("AAA", " " + new Point(x, y));
 
-                Log.e("B", b + " ");
-                int[] location = new int[2];
-                b.getLocationOnScreen(location);
-                Log.e("D", " " + b.getX());
-                Log.e("C", Arrays.toString(location));
+//                Rect myViewRect = new Rect();
+//                b.getGlobalVisibleRect(myViewRect);
+//                float cx = myViewRect.left;
+//                float cy = myViewRect.exactCenterY();
+//                Log.e("D", cx + " " + cy);
+
+//                Log.e("B", b + " ");
+//                int[] location = new int[2];
+//                b.getLocationOnScreen(location);
+//                Log.e("D", " " + b.getX());
+//                Log.e("C", Arrays.toString(location));
                 break;
             case R.id.logout:
-                mSimpleFacebook.logout(onLogoutListener);
+//                mSimpleFacebook.logout(onLogoutListener);
 //                logoutClick = true;
                 break;
             default:

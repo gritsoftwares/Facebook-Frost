@@ -17,7 +17,7 @@
         android:id="@+id/changelog"
         android:orderInCategory="300"
         android:title="@string/changelog"
-        app:actionViewClass="android.widget.Button"
+        tools:actionViewClass="android.widget.Button"
         app:showAsAction="never" />
     <item
         android:id="@+id/logout"
