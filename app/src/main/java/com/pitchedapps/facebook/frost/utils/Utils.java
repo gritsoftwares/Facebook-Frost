@@ -143,4 +143,8 @@ public class Utils {
         return output.toByteArray();
     }
 
+    public static void e(Object o) {
+        Log.e("FBFrost", o.toString());
+    }
+
 }
