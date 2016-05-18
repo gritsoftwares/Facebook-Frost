@@ -34,4 +34,10 @@ public class DemoFragment extends Fragment {
         title.setText(String.valueOf(position));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("BLANK");
+    }
+
 }

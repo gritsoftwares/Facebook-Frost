@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="Frost.Theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/facebook_blue</item>
+        <item name="colorPrimaryDark">@color/facebook_blue_dark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="colorButtonNormal">@color/button_color</item>-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Frost.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@color/facebook_blue</item>
+        <item name="colorPrimary">@color/facebook_blue</item>
+        <item name="colorPrimaryDark">@color/facebook_blue_dark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="colorButtonNormal">@color/button_color</item>-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">#20000000</item>
+    </style>
+
+    <style name="Frost.Popup" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:colorBackground">@color/facebook_blue</item>
+    </style>
+
+    <style name="Frost.Theme.Splash">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:navigationBarColor">@color/splashBackground</item>
+        <item name="colorPrimaryDark">@color/splashBackground</item>
+        <item name="colorAccent">@color/splashBackground</item>
+    </style>
+
+    <style name="Startup">
+        <item name="android:windowBackground">@color/splashBackground</item>
+        <item name="android:background">@color/splashBackground</item>
+        <item name="colorPrimary">@color/splashBackground</item>
+        <item name="colorPrimaryDark">@color/splashBackground</item>
+        <item name="colorAccent">#fff</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

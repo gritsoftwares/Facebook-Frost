@@ -59,11 +59,10 @@ public class HomeActivity extends AppCompatActivity {
             public void run() {
 
                 startActivity(intent);
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right); //TODO change to slide up and fade
                 finish();
             }
-        }, 2000);
+        }, 1000);
 
     }
 }

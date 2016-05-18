@@ -1,36 +1,9 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
-        <!--<item name="android:windowTranslucentNavigation">true</item>-->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+    <style name="LoginButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/facebook_blue</item>
+        <item name="colorControlHighlight">#33ffffff</item>
+        <item name="android:textColor">#fff</item>
     </style>
 
-    <style name="Theme.Transparent" parent="AppTheme">
-        <!--<item name="android:windowIsTranslucent">true</item>-->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
-    </style>
-
-    <style name="AppTheme.SplashTheme">
-        <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="android:navigationBarColor">@color/splashBackground</item>
-        <item name="colorPrimaryDark">@color/splashBackground</item>
-        <item name="colorAccent">@color/splashBackground</item>
-    </style>
-
-    <style name="Startup">
-        <item name="android:windowBackground">@color/splashBackground</item>
-        <item name="android:background">@color/splashBackground</item>
-        <item name="colorPrimary">@color/splashBackground</item>
-        <item name="colorPrimaryDark">@color/splashBackground</item>
-        <item name="colorAccent">#fff</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 </resources>

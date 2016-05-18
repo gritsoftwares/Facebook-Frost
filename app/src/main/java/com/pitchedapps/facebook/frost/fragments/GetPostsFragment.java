@@ -1,4 +1,4 @@
-package com.pitchedapps.facebook.frost.exampleFragments;
+package com.pitchedapps.facebook.frost.fragments;
 
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.pitchedapps.facebook.frost.exampleFragments.BaseFragment;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.actions.Cursor;
 import com.sromku.simple.fb.entities.Post;
@@ -18,6 +19,8 @@ import com.sromku.simple.fb.utils.Utils;
 
 import java.util.List;
 
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
+
 public class GetPostsFragment extends BaseFragment {
 
     private final static String EXAMPLE = "Get posts";
@@ -26,12 +29,6 @@ public class GetPostsFragment extends BaseFragment {
     private Button mGetButton;
     private TextView mMore;
     private String mAllPages = "";
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().setTitle(EXAMPLE);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +44,7 @@ public class GetPostsFragment extends BaseFragment {
                 mAllPages = "";
                 mResult.setText(mAllPages);
 
-                SimpleFacebook.getInstance().getPosts(new OnPostsListener() {
+                SimpleFacebook.getInstance().getPosts(Post.PostType.POSTS, new OnPostsListener() {
 
                     @Override
                     public void onThinking() {
@@ -74,7 +71,8 @@ public class GetPostsFragment extends BaseFragment {
                         mAllPages += Utils.join(response.iterator(), "<br>", new Utils.Process<Post>() {
                             @Override
                             public String process(Post post) {
-                                return "\u25CF " + post.getMessage() == null || "null".equalsIgnoreCase(post.getMessage()) ? post.getId() : post.getMessage() + " \u25CF";
+                                e("Post " + post);
+                                return "\u25CF " + (post.getMessage() == null || "null".equalsIgnoreCase(post.getMessage()) ? post.getId() : post.getMessage()) + " \u25CF";
                             }
                         });
                         mAllPages += "<br>";
@@ -92,6 +90,12 @@ public class GetPostsFragment extends BaseFragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(EXAMPLE);
     }
 
     private void enableLoadMore(final Cursor<List<Post>> cursor) {

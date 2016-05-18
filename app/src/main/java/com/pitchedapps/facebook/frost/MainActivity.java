@@ -2,12 +2,10 @@ package com.pitchedapps.facebook.frost;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -15,14 +13,11 @@ import android.support.v4.view.WindowInsetsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -35,8 +30,9 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.pitchedapps.facebook.frost.exampleFragments.GetPostsFragment;
+import com.pitchedapps.facebook.frost.fragments.GetPostsFragment;
 import com.pitchedapps.facebook.frost.fragments.DemoFragment;
+import com.pitchedapps.facebook.frost.fragments.GetProfileFragment;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
@@ -44,8 +40,6 @@ import com.sromku.simple.fb.listeners.OnLoginListener;
 import com.sromku.simple.fb.listeners.OnLogoutListener;
 
 import java.util.List;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by 7681 on 2016-05-16.
@@ -61,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SimpleFacebook mSimpleFacebook;
 
-    private boolean logoutClick = false;
+    private boolean logoutClick = false, blockBack = false, backPressedWhenBlocked = false;
     private int lX = 0, lY = 0;
 
     public static int[] tabs = {
@@ -93,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.facebook_blue_dark)); //TODO fix this
 
         padMain();
         addTabbedContent();
@@ -113,10 +108,14 @@ public class MainActivity extends AppCompatActivity {
         mSimpleFacebook.onActivityResult(requestCode, resultCode, data);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//    }
+    @Override
+    public void onBackPressed() {
+        if (blockBack) {
+            backPressedWhenBlocked = true;
+            return;
+        }
+        super.onBackPressed();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         lX = (int) (mToolbar.getWidth() - mToolbar.getHeight() * 2); //TODO make this read clicks
-        lY = (int) (mToolbar.getHeight() * 3.2);
+        lY = (int) (mToolbar.getHeight() * 4.2);
 //        e("toolbar dimen " + lX + " " + lY);
 
         final OnLogoutListener onLogoutListener = new OnLogoutListener() {
@@ -143,8 +142,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         switch (item.getItemId()) {
-//            case R.id.changelog:
-//                break;
+            case R.id.sendemail:
+                Utils.sendEmailWithDeviceInfo(this);
+                break;
+            case R.id.update_url:
+                Utils.openLinkInChromeCustomTab(this, getResources().getString(R.string.host_update_url));
+                break;
             case R.id.logout:
                 mSimpleFacebook.logout(onLogoutListener);
 //                logoutClick = true;
@@ -222,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     private void revealMainLayout() {
+        blockBack = true;
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -260,6 +264,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentPagerItems pages = new FragmentPagerItems(this);
         for (int i = 0; i < tabs.length; i++) {
             switch (i) {
+                case 0:
+                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetProfileFragment.class));
+                    break;
                 case 3:
                     pages.add(FragmentPagerItem.of(getString(tabs[i]), GetPostsFragment.class));
                     break;
@@ -316,6 +323,11 @@ public class MainActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mStartLayout.setVisibility(View.GONE);
+                blockBack = false;
+                if (backPressedWhenBlocked) {
+                    backPressedWhenBlocked = false;
+                    onBackPressed();
+                }
             }
         });
         anim.start();
@@ -323,15 +335,15 @@ public class MainActivity extends AppCompatActivity {
 
     private Animation fadeInAnimation(double offset, double duration) {
         Animation fadeInAnimation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-        fadeInAnimation.setStartOffset((int)offset);
+        fadeInAnimation.setStartOffset((int) offset);
         fadeInAnimation.setDuration((int) duration);
         return fadeInAnimation;
     }
 
     private Animation fadeOutAnimation(double offset, double duration) {
         Animation fadeOutAnimation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
-        fadeOutAnimation.setStartOffset((int)offset);
-        fadeOutAnimation.setDuration((int)duration);
+        fadeOutAnimation.setStartOffset((int) offset);
+        fadeOutAnimation.setDuration((int) duration);
         return fadeOutAnimation;
     }
 
@@ -339,13 +351,16 @@ public class MainActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(mMainLayout, new OnApplyWindowInsetsListener() {
             @Override
             public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-                e("INSET");
                 final int statusBar = insets.getSystemWindowInsetTop();
                 final int navigationBar = insets.getSystemWindowInsetBottom();
                 mMainLayout.setPadding(0, statusBar, 0, navigationBar);
                 return insets;
             }
         });
+    }
+
+    public void setTitle(String title) {
+        mToolbar.setTitle(title);
     }
 
 }

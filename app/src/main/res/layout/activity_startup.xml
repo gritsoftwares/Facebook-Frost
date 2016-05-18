@@ -23,6 +23,8 @@
 
     <Button
         android:id="@+id/button_login_splash"
+        android:theme="@style/LoginButton"
+        android:stateListAnimator="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/center_space"

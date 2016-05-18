@@ -1,8 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_menu"
-    app:actionViewClass="android.widget.Button"
     tools:context="com.pitchedapps.icons.activities.MainActivity">
     <item
         android:id="@+id/share"
@@ -18,12 +16,15 @@
         android:id="@+id/changelog"
         android:orderInCategory="300"
         android:title="@string/changelog"
-        app:actionViewClass="android.widget.Button"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/update_url"
+        android:orderInCategory="350"
+        android:title="@string/update_url"
         app:showAsAction="never" />
     <item
         android:id="@+id/logout"
         android:orderInCategory="400"
         android:title="@string/logout"
-        app:actionViewClass="android.widget.Button"
         app:showAsAction="never" />
 </menu>

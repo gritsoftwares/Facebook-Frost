@@ -58,7 +58,13 @@
     <string name="demo_tab_9">TEST 9</string>
     <string name="demo_tab_10">TEST 10</string>
 
+    <string name="host_update_url">http://allanwang.ca/facebook/</string>
+
     <string name="share">Share</string>
     <string name="changelog">Changelog</string>
+    <string name="update_url">Update URL</string>
     <string name="sendemail">Contact</string>
+    <string name="email_subject">Frost for Facebook - Support</string>
+    <string name="email_id">pitchedapps@gmail.com</string>
+    <string name="send_title">Send via</string>
 </resources>
