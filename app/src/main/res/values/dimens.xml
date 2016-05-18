@@ -10,6 +10,8 @@
     <dimen name="splash_logo">16dp</dimen>
 
     <dimen name="big_text">20sp</dimen>
+    <dimen name="icon_button_size">24dip</dimen>
+    <dimen name="padding_medium">24dip</dimen>
 
 
 </resources>
