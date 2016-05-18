@@ -1,0 +1,55 @@
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profile_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/profile_cover"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:layout_alignParentTop="true"
+                android:contentDescription="@string/profile_cover_desc"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/profile_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_cover"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="144dp"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:padding="20dp"
+                android:textSize="@dimen/big_text" />
+
+            <ImageView
+                android:id="@+id/profile_photo"
+                android:layout_width="96dip"
+                android:layout_height="96dip"
+                android:layout_alignBottom="@id/profile_header"
+                android:layout_marginStart="48dip"
+                android:contentDescription="@string/profile_photo_desc" />
+
+            <TextView
+                android:id="@+id/profile_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_header"
+                android:padding="24dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

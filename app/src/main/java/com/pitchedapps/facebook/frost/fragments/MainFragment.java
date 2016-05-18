@@ -31,7 +31,6 @@ import com.pitchedapps.facebook.frost.exampleFragments.GetMusicFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.GetNotificationsFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.GetPageFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.GetPagesLikesFragment;
-import com.pitchedapps.facebook.frost.exampleFragments.GetPhotosFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.GetScoresFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.GetStoryObjectsFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.GetTaggedPlacesFragment;

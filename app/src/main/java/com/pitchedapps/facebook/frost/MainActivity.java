@@ -30,6 +30,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.pitchedapps.facebook.frost.fragments.GetPhotosFragment;
 import com.pitchedapps.facebook.frost.fragments.GetPostsFragment;
 import com.pitchedapps.facebook.frost.fragments.DemoFragment;
 import com.pitchedapps.facebook.frost.fragments.GetProfileFragment;
@@ -41,11 +42,12 @@ import com.sromku.simple.fb.listeners.OnLogoutListener;
 
 import java.util.List;
 
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
+
 /**
  * Created by 7681 on 2016-05-16.
  */
 public class MainActivity extends AppCompatActivity {
-    protected static final String TAG = "FB_Glass";
     private Button mButtonLogin;
     private TextView mTextStatus;
     private RelativeLayout mStartLayout;
@@ -171,13 +173,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFail(String reason) {
                 mTextStatus.setText(reason);
-                Log.w(TAG, "Failed to login");
+                e("MainActivity Login Fail");
             }
 
             @Override
             public void onException(Throwable throwable) {
                 mTextStatus.setText("Exception: " + throwable.getMessage());
-                Log.e(TAG, "Bad thing happened", throwable);
+                e("MainActivity Exception: " + throwable);
             }
 
             @Override
@@ -190,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancel() {
                 mTextStatus.setText("Cancelled");
-                Log.w(TAG, "Canceled the login");
+                e("MainActivity Login Cancel");
             }
 
         };
@@ -252,41 +254,7 @@ public class MainActivity extends AppCompatActivity {
         anim.start();
     }
 
-    private void addTabbedContent() {
-        ViewGroup tab = (ViewGroup) findViewById(R.id.tab);
-        if (tab != null) { //TODO see if necessary
-            tab.addView(LayoutInflater.from(this).inflate(R.layout.demo_basic, tab, false));
-        }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
-
-        FragmentPagerItems pages = new FragmentPagerItems(this);
-        for (int i = 0; i < tabs.length; i++) {
-            switch (i) {
-                case 0:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetProfileFragment.class));
-                    break;
-                case 3:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetPostsFragment.class));
-                    break;
-                default:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), DemoFragment.class));
-                    break;
-            }
-        }
-
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
-                getSupportFragmentManager(), pages);
-
-        //TODO fix nullables
-        if (viewPager != null) {
-            viewPager.setAdapter(adapter);
-        }
-        if (viewPagerTab != null) {
-            viewPagerTab.setViewPager(viewPager);
-        }
-    }
 
 //    private void updateProfile() {
 //        if (mProfilePicture == null) return;
@@ -359,8 +327,44 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void setTitle(String title) {
-        mToolbar.setTitle(title);
+
+    private void addTabbedContent() {
+        ViewGroup tab = (ViewGroup) findViewById(R.id.tab);
+        if (tab != null) { //TODO see if necessary
+            tab.addView(LayoutInflater.from(this).inflate(R.layout.demo_basic, tab, false));
+        }
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+
+        FragmentPagerItems pages = new FragmentPagerItems(this);
+        for (int i = 0; i < tabs.length; i++) {
+            switch (i) {
+                case 0:
+                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetProfileFragment.class));
+                    break;
+                case 1:
+                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetPhotosFragment.class));
+                    break;
+                case 3:
+                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetPostsFragment.class));
+                    break;
+                default:
+                    pages.add(FragmentPagerItem.of(getString(tabs[i]), DemoFragment.class));
+                    break;
+            }
+        }
+
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+                getSupportFragmentManager(), pages);
+
+        //TODO fix nullables
+        if (viewPager != null) {
+            viewPager.setAdapter(adapter);
+        }
+        if (viewPagerTab != null) {
+            viewPagerTab.setViewPager(viewPager);
+        }
     }
 
 }

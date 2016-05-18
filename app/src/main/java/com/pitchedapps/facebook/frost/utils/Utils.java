@@ -160,6 +160,10 @@ public class Utils {
         Log.e("FBFrost", o.toString());
     }
 
+    public static void d(Object o) {
+        Log.d("FBFrost", o.toString());
+    }
+
     public static String getAppVersion(Context context) {
         try {
             return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
@@ -235,5 +239,18 @@ public class Utils {
         context.startActivity(Intent.createChooser(intent, (context.getResources().getString(R.string.send_title))));
     }
 
+    public static String componentFromHttp(String s, String http) {
+        return componentFromHttp(s, http, true);
+    }
+
+    public static String componentFromHttp(String s, String http, boolean log) {
+        if (!http.contains(s)) return null;
+        String s2 = http.substring(http.indexOf(s));
+        s2 = s2.split(">")[1];
+        s2 = s2.split("<")[0];
+        if (log) d(s + " " + s2);
+        if (s2.equals("null")) return null;
+        return s2;
+    }
 
 }

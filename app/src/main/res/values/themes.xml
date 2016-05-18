@@ -17,12 +17,22 @@
         <item name="colorPrimaryDark">@color/facebook_blue_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="colorButtonNormal">@color/button_color</item>-->
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:statusBarColor">#20000000</item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:statusBarColor">#20000000</item>-->
+        <item name="android:actionMenuTextAppearance">@style/Frost.MenuTextStyle</item>
+    </style>
+
+    <style name="Frost.MenuTextStyle" parent="@android:style/TextAppearance.Material.Widget.ActionBar.Title">
+
     </style>
 
     <style name="Frost.Popup" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:colorBackground">@color/facebook_blue</item>
+        <item name="android:background">@color/facebook_blue_dark</item>
+        <item name="android:textViewStyle">@style/Frost.TextStyle.NoBackground</item>
+    </style>
+
+    <style name="Frost.TextStyle.NoBackground" parent="Widget.AppCompat.ActionBar.TabText">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="Frost.Theme.Splash">

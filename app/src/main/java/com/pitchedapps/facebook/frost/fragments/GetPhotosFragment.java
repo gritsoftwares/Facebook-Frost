@@ -1,4 +1,4 @@
-package com.pitchedapps.facebook.frost.exampleFragments;
+package com.pitchedapps.facebook.frost.fragments;
 
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.pitchedapps.facebook.frost.exampleFragments.BaseFragment;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.actions.Cursor;
 import com.sromku.simple.fb.entities.Photo;
@@ -18,7 +19,7 @@ import com.sromku.simple.fb.utils.Utils;
 
 import java.util.List;
 
-public class GetPhotosFragment extends BaseFragment{
+public class GetPhotosFragment extends BaseFragment {
 
     private final static String EXAMPLE = "Get photos";
 
