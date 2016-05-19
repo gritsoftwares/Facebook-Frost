@@ -13,15 +13,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.WindowInsetsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,7 +32,8 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.pitchedapps.facebook.frost.fragments.GetPhotosFragment;
 import com.pitchedapps.facebook.frost.fragments.GetPostsFragment;
 import com.pitchedapps.facebook.frost.fragments.DemoFragment;
-import com.pitchedapps.facebook.frost.fragments.GetProfileFragment;
+import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
+import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
@@ -244,17 +242,8 @@ public class MainActivity extends AppCompatActivity {
         double finalRadius = Math.max(mMainLayout.getWidth(), mMainLayout.getHeight());
         finalRadius *= 1.2;
 
-        mMainLayout.setVisibility(View.GONE);
-        mMainLayout.startAnimation(fadeOutAnimation((int) (finalRadius * 0.2), (int) (finalRadius * 0.3)));
-
-        // create the animator for this view (the start radius is zero)
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(mStartLayout, lX, lY, 0, (int) (finalRadius * 1.2)).setDuration((long) (finalRadius));
-
-        // make the view visible and start the animation
-        mStartLayout.setVisibility(View.VISIBLE);
-        mStartLayout.bringToFront();
-        anim.start();
+        AnimUtils.fadeOut(this, mMainLayout, finalRadius * 0.2, finalRadius * 0.3);
+        AnimUtils.circleReveal(mStartLayout, lX, lY, finalRadius * 1.2, finalRadius);
     }
 
 
@@ -280,9 +269,7 @@ public class MainActivity extends AppCompatActivity {
         double finalRadius = Math.max(mStartLayout.getWidth(), mStartLayout.getHeight());
         finalRadius *= 0.6;
 
-        mMainLayout.setVisibility(View.VISIBLE);
-        mMainLayout.bringToFront();
-        mMainLayout.startAnimation(fadeInAnimation((int) (finalRadius * 0.3), (int) (finalRadius * 0.5)));
+        AnimUtils.fadeIn(this, mMainLayout, finalRadius * 0.3, finalRadius * 0.5);
 
         // create the animator for this view (the start radius is zero)
         Animator anim =
@@ -302,20 +289,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         anim.start();
-    }
-
-    private Animation fadeInAnimation(double offset, double duration) {
-        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-        fadeInAnimation.setStartOffset((int) offset);
-        fadeInAnimation.setDuration((int) duration);
-        return fadeInAnimation;
-    }
-
-    private Animation fadeOutAnimation(double offset, double duration) {
-        Animation fadeOutAnimation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
-        fadeOutAnimation.setStartOffset((int) offset);
-        fadeOutAnimation.setDuration((int) duration);
-        return fadeOutAnimation;
     }
 
     private void padMain() {
@@ -344,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < tabs.length; i++) {
             switch (i) {
                 case 0:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetProfileFragment.class));
+                    pages.add(FragmentPagerItem.of(getString(tabs[i]), ProfileFragment.class));
                     break;
                 case 1:
                     pages.add(FragmentPagerItem.of(getString(tabs[i]), GetPhotosFragment.class));

@@ -1,7 +1,6 @@
 package com.pitchedapps.facebook.frost.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +11,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.customtabs.CustomTabsClient;
@@ -20,12 +21,15 @@ import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.pitchedapps.facebook.frost.R;
 
@@ -39,6 +43,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class Utils {
+
     /**
      * Take screenshot of the activity including the action bar
      *
@@ -79,8 +84,7 @@ public class Utils {
     /**
      * Update language
      *
-     * @param code
-     *            The language code. Like: en, cz, iw, ...
+     * @param code The language code. Like: en, cz, iw, ...
      */
     public static void updateLanguage(Context context, String code) {
         Locale locale = new Locale(code);
@@ -110,8 +114,7 @@ public class Utils {
             public void onClick(DialogInterface dialog, int id) {
             }
         });
-        AlertDialog alertDialog = builder.create();
-        return alertDialog;
+        return builder.create();
     }
 
     public static String toHtml(Object object) {
@@ -239,6 +242,15 @@ public class Utils {
         context.startActivity(Intent.createChooser(intent, (context.getResources().getString(R.string.send_title))));
     }
 
+    public static void sendEmailFromFrost(Context context, String email) {
+        StringBuilder emailBuilder = new StringBuilder();
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + email));
+        intent.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.subject_here));
+        emailBuilder.append("\n \n \nSent via Frost for Facebook");
+        intent.putExtra(Intent.EXTRA_TEXT, emailBuilder.toString());
+        context.startActivity(Intent.createChooser(intent, (context.getResources().getString(R.string.send_title))));
+    }
+
     public static String componentFromHttp(String s, String http) {
         return componentFromHttp(s, http, true);
     }
@@ -251,6 +263,21 @@ public class Utils {
         if (log) d(s + " " + s2);
         if (s2.equals("null")) return null;
         return s2;
+    }
+
+    //Screen size
+    public static Point getScreenSize(Context c) {
+        WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
+
+    public static Point getLocation(View v) {
+        int[] posXY = new int[2];
+        v.getLocationInWindow(posXY);
+        return new Point(posXY[0] + v.getWidth()/2, posXY[1] + v.getHeight()/2);
     }
 
 }

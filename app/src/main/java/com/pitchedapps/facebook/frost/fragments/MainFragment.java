@@ -132,7 +132,7 @@ public class MainFragment extends Fragment implements OnItemClickListener {
         mExamples.add(new Example("Get pages user like", GetPagesLikesFragment.class, true));
         mExamples.add(new Example("Get photos", GetPhotosFragment.class, true));
         mExamples.add(new Example("Get posts", GetPostsFragment.class, true));
-        mExamples.add(new Example("Get profile", GetProfileFragment.class, true));
+        mExamples.add(new Example("Get profile", ProfileFragment.class, true));
         mExamples.add(new Example("Get scores", GetScoresFragment.class, true));
         mExamples.add(new Example("Get tagged places", GetTaggedPlacesFragment.class, true));
         mExamples.add(new Example("Get television", GetTelevisionFragment.class, true));

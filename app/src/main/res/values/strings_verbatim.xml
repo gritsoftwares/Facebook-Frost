@@ -23,4 +23,5 @@
     <string name="changelog">Changelog</string>
     <string name="update_url">Update URL</string>
     <string name="sendemail">Send Email</string>
+    <string name="subject_here">Subject Here</string>
 </resources>
