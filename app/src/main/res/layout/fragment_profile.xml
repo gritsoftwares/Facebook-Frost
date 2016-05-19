@@ -4,121 +4,122 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/profile_cover"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:layout_alignParentTop="true"
+                android:contentDescription="@string/profile_cover_desc"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/profile_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_below="@id/profile_cover"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="144dp"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:padding="@dimen/padding_medium"
+                android:textSize="@dimen/big_text" />
+
+            <ImageView
+                android:id="@+id/profile_photo"
+                android:layout_width="96dip"
+                android:layout_height="96dip"
+                android:layout_alignBottom="@id/profile_header"
+                android:layout_marginBottom="@dimen/padding_medium"
+                android:layout_marginStart="48dip"
+                android:contentDescription="@string/profile_photo_desc" />
+
+            <LinearLayout
+                android:id="@+id/profile_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_header"
+                android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
 
                 <ImageView
-                    android:id="@+id/profile_cover"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dip"
-                    android:layout_alignParentTop="true"
-                    android:contentDescription="@string/profile_cover_desc"
-                    android:scaleType="centerCrop" />
+                    android:id="@+id/profile_buttons_email"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/icon_button_padding"
+                    tools:ignore="ContentDescription" />
 
-                <TextView
-                    android:id="@+id/profile_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/profile_cover"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="144dp"
-                    android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:padding="@dimen/padding_medium"
-                    android:textSize="@dimen/big_text" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
 
                 <ImageView
-                    android:id="@+id/profile_photo"
-                    android:layout_width="96dip"
-                    android:layout_height="96dip"
-                    android:layout_alignBottom="@id/profile_header"
-                    android:layout_marginBottom="@dimen/padding_medium"
-                    android:layout_marginStart="48dip"
-                    android:contentDescription="@string/profile_photo_desc" />
+                    android:id="@+id/profile_buttons_gender"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/icon_button_padding"
+                    tools:ignore="ContentDescription" />
 
-                <LinearLayout
-                    android:id="@+id/profile_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/profile_header"
-                    android:orientation="horizontal">
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
 
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
+                <ImageView
+                    android:id="@+id/profile_buttons_birthday"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/icon_button_padding"
+                    tools:ignore="ContentDescription" />
 
-                    <ImageView
-                        android:id="@+id/profile_buttons_email"
-                        android:layout_width="@dimen/icon_button_size"
-                        android:layout_height="@dimen/icon_button_size"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/icon_button_padding"
-                        tools:ignore="ContentDescription" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
 
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
+                <ImageView
+                    android:id="@+id/profile_buttons_location"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/icon_button_padding"
+                    tools:ignore="ContentDescription" />
 
-                    <ImageView
-                        android:id="@+id/profile_buttons_gender"
-                        android:layout_width="@dimen/icon_button_size"
-                        android:layout_height="@dimen/icon_button_size"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/icon_button_padding"
-                        tools:ignore="ContentDescription" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
 
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
+            </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/profile_buttons_birthday"
-                        android:layout_width="@dimen/icon_button_size"
-                        android:layout_height="@dimen/icon_button_size"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/icon_button_padding"
-                        tools:ignore="ContentDescription" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/profile_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_buttons"
+                android:background="@android:color/transparent"
+                android:paddingTop="@dimen/padding_medium" />
 
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
+        </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/profile_buttons_location"
-                        android:layout_width="@dimen/icon_button_size"
-                        android:layout_height="@dimen/icon_button_size"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="@dimen/icon_button_padding"
-                        tools:ignore="ContentDescription" />
-
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/profile_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/profile_buttons"
-                    android:padding="@dimen/padding_medium" />
-
-            </RelativeLayout>
-
-        </ScrollView>
+    </ScrollView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

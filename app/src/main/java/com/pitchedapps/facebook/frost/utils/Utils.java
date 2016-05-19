@@ -274,6 +274,11 @@ public class Utils {
         return size;
     }
 
+    public static double getScreenDiagonal(Context c) {
+        Point p = getScreenSize(c);
+        return Math.sqrt(p.x * p.x + p.y * p.y);
+    }
+
     public static Point getLocation(View v) {
         int[] posXY = new int[2];
         v.getLocationInWindow(posXY);

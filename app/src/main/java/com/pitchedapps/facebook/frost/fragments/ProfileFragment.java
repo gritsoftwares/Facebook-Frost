@@ -5,7 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.adapters.EmptyAdapter;
+import com.pitchedapps.facebook.frost.adapters.PostAdapter;
 import com.pitchedapps.facebook.frost.customViews.AlertDialogWithCircularReveal;
 import com.pitchedapps.facebook.frost.exampleFragments.BaseFragment;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
@@ -42,13 +45,14 @@ public class ProfileFragment extends BaseFragment {
 
     private final static String EXAMPLE = "Profile";
 
-    private TextView mResult, mHeader;
+    private TextView mHeader;
     private ImageView mCover, mProfile, mbEmail, mbGender, mbLocation, mbBirthday;
     private Drawable iMale, iFemale;
     private SwipeRefreshLayout mRefresh;
+    private RecyclerView mRV;
     private Context mContext;
     private View[] viewList;
-    private boolean firstRun = true;
+    private boolean firstRun = true, firstRun2 = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +60,12 @@ public class ProfileFragment extends BaseFragment {
         mContext = getActivity();
         getViews(view);
         getData();
+
+
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
+//                null, getResources().getDimensionPixelSize(R.dimen.dividers_height), false, true));
+//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        mRecyclerView.setHasFixedSize(true);
 
         return view;
     }
@@ -66,6 +76,7 @@ public class ProfileFragment extends BaseFragment {
         getActivity().setTitle(EXAMPLE);
     }
 
+
     private void getViews(View view) {
         mCover = (ImageView) view.findViewById(R.id.profile_cover);
         mbEmail = (ImageView) view.findViewById(R.id.profile_buttons_email);
@@ -74,13 +85,20 @@ public class ProfileFragment extends BaseFragment {
         mbBirthday = (ImageView) view.findViewById(R.id.profile_buttons_birthday);
         mProfile = (ImageView) view.findViewById(R.id.profile_photo);
         mHeader = (TextView) view.findViewById(R.id.profile_header);
-        mResult = (TextView) view.findViewById(R.id.profile_list);
         mRefresh = (SwipeRefreshLayout) view.findViewById(R.id.profile_refresh);
-
+        mRV = (RecyclerView) view.findViewById(R.id.profile_rv);
+        LinearLayoutManager mLLM = new LinearLayoutManager(mContext);
+        mLLM.setOrientation(LinearLayoutManager.VERTICAL);
+        mRV.setLayoutManager(mLLM);
+        mRV.setAdapter(new EmptyAdapter()); //Set empty adapter so error does not occur
+        mRV.setFocusable(false); //Do not jump to mRV when the animation starts
         if (firstRun) {
             viewList = new View[]{mbEmail, mbGender, mbBirthday, mbLocation};
             AnimUtils.setVisibility(viewList, AnimUtils.V.INVISIBLE);
-//            mResult.setVisibility(View.INVISIBLE);
+        }
+
+        if (firstRun2) {
+            mRV.setVisibility(View.INVISIBLE);
         }
 
         int buttonColor = ContextCompat.getColor(mContext, R.color.profile_buttons);
@@ -176,13 +194,13 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onException(Throwable throwable) {
                 mRefresh.setRefreshing(false);
-                mResult.setText(throwable.getMessage());
+                Utils.showSimpleSnackbar(mContext, mRefresh, throwable.getMessage());
             }
 
             @Override
             public void onFail(String reason) {
                 mRefresh.setRefreshing(false);
-                mResult.setText(reason);
+                Utils.showSimpleSnackbar(mContext, mRefresh, reason);
             }
 
             @Override
@@ -202,13 +220,13 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onException(Throwable throwable) {
                 mRefresh.setRefreshing(false);
-                mResult.setText(throwable.getMessage());
+                Utils.showSimpleSnackbar(mContext, mRefresh, throwable.getMessage());
             }
 
             @Override
             public void onFail(String reason) {
                 mRefresh.setRefreshing(false);
-                mResult.setText(reason);
+                Utils.showSimpleSnackbar(mContext, mRefresh, reason);
             }
 
             @Override
@@ -221,7 +239,7 @@ public class ProfileFragment extends BaseFragment {
 
     private void updateProfileContent(final Profile response) {
 
-        printProfileData(response);
+//        printProfileData(response);
 //                e(response.getAgeRange().getMax() + "-" + response.getAgeRange().getMin());
         if (!response.getCover().toString().equals("null")) { //TODO learn more about cover
             Glide.with(mContext)
@@ -339,20 +357,29 @@ public class ProfileFragment extends BaseFragment {
 
     }
 
-    private void  updatePostContent(List<Post> response) {
+    private void updatePostContent(List<Post> response) {
 
-        String mAllPages = "";
-        // make the result more readable.
-//        mAllPages += "<u>\u25B7\u25B7\u25B7 (paging) #" + getPageNum() + " \u25C1\u25C1\u25C1</u><br>";
-        mAllPages += com.sromku.simple.fb.utils.Utils.join(response.iterator(), "<br>", new com.sromku.simple.fb.utils.Utils.Process<Post>() {
-            @Override
-            public String process(Post post) {
-                e("Post " + post);
-                return "\u25CF " + (post.getMessage() == null || "null".equalsIgnoreCase(post.getMessage()) ? post.getId() : post.getMessage()) + " \u25CF";
-            }
-        });
-        mAllPages += "<br>";
-        mResult.setText(Html.fromHtml(mAllPages));
+        PostAdapter mAdapter = new PostAdapter(mContext, response);
+        mRV.setAdapter(mAdapter);
+        if (firstRun2) {
+//            AnimUtils.fadeIn(mContext, mRV, 0, 1000);
+            AnimUtils.circleReveal(mRV, 0, 0, Utils.getScreenDiagonal(mContext), Utils.getScreenDiagonal(mContext));
+            firstRun2 = false;
+        }
+//        e("DI " + response.get(0).getMessage() + " " + response.get(0).getId() + " " + response.get(0).getObjectId());
+
+//        String mAllPages = "";
+//        // make the result more readable.
+////        mAllPages += "<u>\u25B7\u25B7\u25B7 (paging) #" + getPageNum() + " \u25C1\u25C1\u25C1</u><br>";
+//        mAllPages += com.sromku.simple.fb.utils.Utils.join(response.iterator(), "<br>", new com.sromku.simple.fb.utils.Utils.Process<Post>() {
+//            @Override
+//            public String process(Post post) {
+//                e("Post " + post.getId() + " " + post.getPicture() + " " + post.getType() + " " + post.getProperties() + " " + post.getLink());
+//                return "\u25CF " + (post.getMessage() == null || "null".equalsIgnoreCase(post.getMessage()) ? post.getId() : post.getMessage()) + " \u25CF";
+//            }
+//        });
+//        mAllPages += "<br>";
+//        mResult.setText(Html.fromHtml(mAllPages));
 //        mResult.setTextColor(0xff000000);
 
         // check if more pages exist
@@ -375,5 +402,39 @@ public class ProfileFragment extends BaseFragment {
         } catch (IllegalAccessException e) {
             //do nothing
         }
+    }
+
+    private void getSinglePost(String id) {
+        SimpleFacebook.getInstance().getPosts(id, new OnPostsListener() {
+
+            @Override
+            public void onException(Throwable throwable) {
+                Utils.showSimpleSnackbar(mContext, mRefresh, throwable.getMessage());
+//                mRefresh.setRefreshing(false);
+//                mResult.setText(throwable.getMessage());
+            }
+
+            @Override
+            public void onFail(String reason) {
+                Utils.showSimpleSnackbar(mContext, mRefresh, reason);
+//                mResult.setText(reason);
+            }
+
+            @Override
+            public void onComplete(List<Post> response) {
+//                mRefresh.setRefreshing(false);
+                AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
+//                e("P " + response.get(0).getProperties());
+                StringBuilder s = new StringBuilder();
+                Post post = response.get(0);
+                String[] ss = {post.getProperties().toString(), post.getLink(), post.getMessage(), post.getObjectId()};
+                for (String sss : ss) {
+                    s.append("\n" + sss);
+                }
+                ((TextView) p.getChildView(R.id.overlay_dialog_content)).setText(s.toString());
+                p.showDialog();
+//                updatePostContent(response);
+            }
+        });
     }
 }

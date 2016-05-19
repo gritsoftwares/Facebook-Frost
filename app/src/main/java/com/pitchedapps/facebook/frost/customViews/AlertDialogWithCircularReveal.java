@@ -22,6 +22,7 @@ public class AlertDialogWithCircularReveal {
     private View mView;
     private int startX = 0, startY = 0;
     private double duration = 1000;
+    private boolean rippleStartSet = false;
 
     //v should be View.inflate(c, v, null);
     public AlertDialogWithCircularReveal(Context c, int layoutID) {
@@ -53,11 +54,11 @@ public class AlertDialogWithCircularReveal {
     }
 
     public void setRippleStart(Point p) {
-        startX = p.x;
-        startY = p.y;
+        setRippleStart(p.x, p.y);
     }
 
     public void setRippleStart(int x, int y) {
+        rippleStartSet = true;
         startX = x;
         startY = y;
     }
@@ -71,18 +72,26 @@ public class AlertDialogWithCircularReveal {
     }
 
     private void revealShow() {
+
+        int x, y;
         int w = mView.getWidth();
         int h = mView.getHeight();
-
-        Point size = Utils.getScreenSize(mContext);
-        int width = size.x;
-        int height = size.y;
-
-        //Make coordinates reflect position from alertDialog
-        int x = startX - width / 2 + w / 2;
-        int y = startY - height / 2 + h / 2;
-
         double maxRadius = Math.sqrt(w * w + h * h);
+
+        if (rippleStartSet) {
+            Point size = Utils.getScreenSize(mContext);
+            int width = size.x;
+            int height = size.y;
+
+            //Make coordinates reflect position from alertDialog
+            x = startX - width / 2 + w / 2;
+            y = startY - height / 2 + h / 2;
+
+        } else { //no starting click, center position
+            x = w/2;
+            y = h/2;
+            maxRadius /= 2;
+        }
 
         AnimUtils.circleReveal(mView, x, y, maxRadius, duration);
     }
