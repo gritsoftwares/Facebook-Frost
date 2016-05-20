@@ -11,8 +11,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.AlertDialogWithCircularReveal;
+import com.pitchedapps.facebook.frost.customViews.HeaderProfile;
+import com.pitchedapps.facebook.frost.customViews.PostCard;
 import com.pitchedapps.facebook.frost.utils.Retrieve;
 import com.sromku.simple.fb.entities.Post;
+import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.utils.Attributes;
 import com.sromku.simple.fb.utils.PictureAttributes;
 
@@ -26,20 +29,62 @@ import static com.pitchedapps.facebook.frost.utils.Utils.e;
 public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private View view;
     private List<Post> mPosts;
+    private boolean customHeader = false;
+    private PostType headerType;
+    private Object headerContents;
+
+    public enum PostType {
+
+        PROFILE("profile", -1);
+
+        private String typeName;
+        private int typeInt;
+
+        PostType(String s, int i) {
+            typeName = s;
+            typeInt = i;
+        }
+
+        public String getTypeName() {
+            return typeName;
+        }
+
+        public int getType() {
+            return typeInt;
+        }
+    }
+
 
     public PostAdapter(Context context, List<Post> posts) {
         mContext = context;
         mPosts = posts;
     }
 
+    public PostAdapter(Context context, List<Post> posts, PostType newHeader, Object headerContents) {
+        mContext = context;
+        mPosts = posts;
+        customHeader = true;
+        headerType = newHeader;
+        this.headerContents = headerContents;
+    }
+
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        final View singlePost = LayoutInflater.from(
-                viewGroup.getContext()).inflate(R.layout.item_post_card,
-                viewGroup, false);
-        return new PostCard(singlePost, i);
+        switch (i) {
+            case -1: //Profile
+                final View profileHeader = LayoutInflater.from(
+                        viewGroup.getContext()).inflate(R.layout.header_profile,
+                        viewGroup, false);
+                return new HeaderProfile(mContext, profileHeader, (Profile) headerContents);
+            default: //just a normal post
+                final View singlePost = LayoutInflater.from(
+                        viewGroup.getContext()).inflate(R.layout.item_post_card,
+                        viewGroup, false);
+                return new PostCard(mContext, singlePost, mPosts.get(i));
+        }
     }
 
     @Override
@@ -49,81 +94,18 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mPosts.size();
+        if (!customHeader) return mPosts.size();
+        return mPosts.size() + 1;
     }
 
+    /*
+     * Work around to have different item types; header may contain a negative value
+     */
     @Override
     public int getItemViewType(int position) {
-        return position;
-    }
-
-    public class PostCard extends RecyclerView.ViewHolder {
-
-        public PostCard(View itemView, int i) {
-            super(itemView);
-            view = itemView;
-//            itemView.setVisibility(View.INVISIBLE);
-
-            String description;
-
-            final Post sPost = mPosts.get(i);
-
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    singlePostData(sPost);
-                }
-            });
-
-            String message = sPost.getMessage();
-            String story = sPost.getStory();
-            ((TextView) itemView.findViewById(R.id.item_post_text)).setText(message != null ? message : story);
-
-            ((TextView) itemView.findViewById(R.id.item_post_from)).setText(sPost.getFrom().getName());
-
-
-            if (sPost.getFrom() != null) {
-                ImageView avatar = (ImageView) itemView.findViewById(R.id.item_post_avatar);
-                Retrieve.setProfilePhoto(mContext, avatar, sPost.getFrom().getId());
-            }
-
-            switch (mPosts.get(i).getType()) {
-
-                case "photo":
-                    ImageView photo = (ImageView) itemView.findViewById(R.id.item_post_picture);
-                    photo.setVisibility(View.VISIBLE);
-                    Glide.with(mContext)
-                            .load(sPost.getFullPicture())
-                            .centerCrop()
-                            .into(photo);
-                    break;
-                case "link":
-                    break;
-                case "status":
-                    break;
-
-                default:
-                    e("New post type: " + mPosts.get(i).getType());
-                    break;
-            }
-
-
-//            AnimUtils.fadeIn(mContext, itemView, pos * 200, 5000);
-        }
-    }
-
-    private void singlePostData(Post post) {
-        AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-//                e("P " + response.get(0).getProperties());
-        StringBuilder s = new StringBuilder();
-        String[] ss = {post.getId(), post.getType(), post.getStatusType(), post.getPicture()};
-        for (String sss : ss) {
-            s.append("\n" + sss);
-        }
-
-        ((TextView) p.getChildView(R.id.overlay_dialog_content)).setText(s.toString());
-        p.showDialog();
+        if (!customHeader) return position; //no custom header; continue as usual
+        if (position == 0) return headerType.getType(); //custom header; change position value of first card
+        return position - 1; //Start of actual post list
     }
 
 }
