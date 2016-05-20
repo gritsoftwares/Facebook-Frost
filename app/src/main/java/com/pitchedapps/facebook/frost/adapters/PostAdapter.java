@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.AlertDialogWithCircularReveal;
+import com.pitchedapps.facebook.frost.utils.Retrieve;
 import com.sromku.simple.fb.entities.Post;
+import com.sromku.simple.fb.utils.Attributes;
+import com.sromku.simple.fb.utils.PictureAttributes;
 
 import java.util.List;
 
@@ -80,15 +83,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((TextView) itemView.findViewById(R.id.item_post_from)).setText(sPost.getFrom().getName());
 
 
-
-            ImageView avatar = (ImageView) itemView.findViewById(R.id.item_post_avatar);
-            e("FROM " + i + sPost.getFrom());
-//            if (sPost.getFrom() != null) { //TODO learn more about cover
-//                Glide.with(mContext)
-//                        .load(response.getCover().toString())
-//                        .centerCrop()
-//                        .into(mCover);
-//            }
+            if (sPost.getFrom() != null) {
+                ImageView avatar = (ImageView) itemView.findViewById(R.id.item_post_avatar);
+                Retrieve.setProfilePhoto(mContext, avatar, sPost.getFrom().getId());
+            }
 
             switch (mPosts.get(i).getType()) {
 
@@ -96,7 +94,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ImageView photo = (ImageView) itemView.findViewById(R.id.item_post_picture);
                     photo.setVisibility(View.VISIBLE);
                     Glide.with(mContext)
-                            .load(sPost.getPicture())
+                            .load(sPost.getFullPicture())
                             .centerCrop()
                             .into(photo);
                     break;
@@ -119,21 +117,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
 //                e("P " + response.get(0).getProperties());
         StringBuilder s = new StringBuilder();
-        if (post != null) {
-            String[] ss = {post.getId(), post.getType(), post.getStatusType(), post.getPicture()};
-            for (String sss : ss) {
-                s.append("\n" + sss);
-            }
-        } else {
-            s.append("POST IS NULL");
+        String[] ss = {post.getId(), post.getType(), post.getStatusType(), post.getPicture()};
+        for (String sss : ss) {
+            s.append("\n" + sss);
         }
+
         ((TextView) p.getChildView(R.id.overlay_dialog_content)).setText(s.toString());
         p.showDialog();
-        try {
-            e("Actions: " + post.getActions());
-        } catch (Exception e) {
-            e("Error: " + e);
-        }
     }
 
 }

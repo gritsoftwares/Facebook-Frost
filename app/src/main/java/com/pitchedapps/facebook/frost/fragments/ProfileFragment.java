@@ -3,6 +3,8 @@ package com.pitchedapps.facebook.frost.fragments;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +47,7 @@ import static com.pitchedapps.facebook.frost.utils.Utils.e;
 public class ProfileFragment extends BaseFragment {
 
     private final static String EXAMPLE = "Profile";
+    private static final String BUNDLE_RECYCLER_LAYOUT = "ProfileFragment.recycler.layout";
 
     private TextView mHeader;
     private ImageView mCover, mProfile, mbEmail, mbGender, mbLocation, mbBirthday;
@@ -77,6 +80,27 @@ public class ProfileFragment extends BaseFragment {
         getActivity().setTitle(EXAMPLE);
     }
 
+    /*
+     * Saves recyclerview scroll position
+     * http://stackoverflow.com/a/29166336/4407321
+     */
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if(savedInstanceState != null)
+        {
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            mRV.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mRV.getLayoutManager().onSaveInstanceState());
+    }
+
 
     private void getViews(View view) {
         mCover = (ImageView) view.findViewById(R.id.profile_cover);
@@ -92,13 +116,13 @@ public class ProfileFragment extends BaseFragment {
         mLLM.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(mLLM);
         mRV.setAdapter(new EmptyAdapter()); //Set empty adapter so error does not occur
-        mRV.setFocusable(false); //Do not jump to mRV when the animation starts
         if (firstRun) {
             viewList = new View[]{mbEmail, mbGender, mbBirthday, mbLocation};
             AnimUtils.setVisibility(viewList, AnimUtils.V.INVISIBLE);
         }
 
         if (firstRun2) {
+            mRV.setFocusable(false); //Do not jump to mRV when the animation starts
             mRV.setVisibility(View.INVISIBLE);
         }
 
@@ -232,7 +256,8 @@ public class ProfileFragment extends BaseFragment {
 //
 //        });
 //e("TOKEN " + Utils.getToken());
-        SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, "message,story,type,id,picture,updated_time,actions,from", new OnPostsListener() {
+
+        SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, "message,story,type,id,full_picture,updated_time,actions,from", new OnPostsListener() {
 
             @Override
             public void onThinking() {

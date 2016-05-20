@@ -69,6 +69,7 @@ public class Post {
     private static final String NAME = "name";
     private static final String OBJECT_ID = "object_id";
     private static final String PICTURE = "picture";
+    private static final String FULL_PICTURE = "full_picture";
     private static final String PLACE = "place";
     // private static final String PRIVACY = "privacy";
     private static final String PROPERTIES = "properties";
@@ -135,6 +136,9 @@ public class Post {
 
     @SerializedName(PICTURE)
     private String mPicture;
+
+    @SerializedName(FULL_PICTURE)
+    private String mFullPicture;
 
     @SerializedName(PLACE)
     private Place mPlace;
@@ -306,6 +310,14 @@ public class Post {
      */
     public String getPicture() {
         return mPicture;
+    }
+
+    /*
+     * Allan Wang; full picture variant
+     */
+
+    public String getFullPicture() {
+        return mFullPicture;
     }
 
     /**
