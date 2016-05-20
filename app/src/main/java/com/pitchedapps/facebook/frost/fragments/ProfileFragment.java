@@ -26,6 +26,7 @@ import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Post;
 import com.sromku.simple.fb.entities.Profile;
+import com.sromku.simple.fb.listeners.OnActionListener;
 import com.sromku.simple.fb.listeners.OnPostsListener;
 import com.sromku.simple.fb.listeners.OnProfileListener;
 import com.sromku.simple.fb.utils.Attributes;
@@ -210,7 +211,28 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
-        SimpleFacebook.getInstance().getPosts(Post.PostType.POSTS, new OnPostsListener() {
+//        SimpleFacebook.getInstance().get("me", "?fields=feed{type}?access_token=" + Utils.getToken(), null, new OnActionListener<List<Post>>() {
+//
+//            @Override
+//            public void onException(Throwable throwable) {
+////                mRefresh.setRefreshing(false);
+//                Utils.showSimpleSnackbar(mContext, mRefresh, throwable.getMessage());
+//            }
+//
+//            @Override
+//            public void onFail(String reason) {
+////                mRefresh.setRefreshing(false);
+//                Utils.showSimpleSnackbar(mContext, mRefresh, reason);
+//            }
+//
+//            @Override
+//            public void onComplete(List<Post> response) {
+//                e("WORKS\n\n\n\n\n\n\n\n\n" + response.size());
+//            }
+//
+//        });
+//e("TOKEN " + Utils.getToken());
+        SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, "message,story,type,id,picture,updated_time,actions,from", new OnPostsListener() {
 
             @Override
             public void onThinking() {
@@ -241,7 +263,7 @@ public class ProfileFragment extends BaseFragment {
 
 //        printProfileData(response);
 //                e(response.getAgeRange().getMax() + "-" + response.getAgeRange().getMin());
-        if (!response.getCover().toString().equals("null")) { //TODO learn more about cover
+        if (response.getCover() != null) { //TODO learn more about cover
             Glide.with(mContext)
                     .load(response.getCover().toString())
                     .centerCrop()
@@ -365,6 +387,7 @@ public class ProfileFragment extends BaseFragment {
 //            AnimUtils.fadeIn(mContext, mRV, 0, 1000);
             AnimUtils.circleReveal(mRV, 0, 0, Utils.getScreenDiagonal(mContext), Utils.getScreenDiagonal(mContext));
             firstRun2 = false;
+            mRV.setFocusable(true); //TODO test for change
         }
 //        e("DI " + response.get(0).getMessage() + " " + response.get(0).getId() + " " + response.get(0).getObjectId());
 

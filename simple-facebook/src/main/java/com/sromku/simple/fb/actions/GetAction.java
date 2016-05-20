@@ -1,6 +1,7 @@
 package com.sromku.simple.fb.actions;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookRequestError;
@@ -26,6 +27,7 @@ public class GetAction<T> extends AbstractAction {
     private String mEdge = null;
     private OnActionListener<T> mOnActionListener = null;
     private Cursor<T> mCursor = null;
+    private String mExtraField = null;
 
     private GraphRequest.Callback mCallback = new GraphRequest.Callback() {
         @Override
@@ -75,12 +77,20 @@ public class GetAction<T> extends AbstractAction {
         mOnActionListener = actionListener;
     }
 
+    public void addField(String s) {
+        mExtraField = s;
+    }
+
     @Override
     protected void executeImpl() {
         OnActionListener<T> actionListener = getActionListener();
         if (sessionManager.isLogin()) {
             AccessToken accessToken = sessionManager.getAccessToken();
             Bundle bundle = updateAppSecretProof(getBundle());
+            if (mExtraField != null) {
+                if (bundle == null) bundle = new Bundle();
+                bundle.putString("fields", mExtraField);
+            }
             GraphRequest request = new GraphRequest(accessToken, getGraphPath(), bundle, HttpMethod.GET);
             request.setVersion(configuration.getGraphVersion());
             runRequest(request);

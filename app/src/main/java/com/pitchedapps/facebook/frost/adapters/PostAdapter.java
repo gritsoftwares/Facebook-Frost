@@ -1,7 +1,6 @@
 package com.pitchedapps.facebook.frost.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.AlertDialogWithCircularReveal;
-import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.sromku.simple.fb.entities.Post;
 
 import java.util.List;
+
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-19.
@@ -55,10 +56,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class PostCard extends RecyclerView.ViewHolder {
 
-        CardView mCardView;
-        TextView cardTitle, cardDesc;
-        ImageView cardIcon;
-
         public PostCard(View itemView, int i) {
             super(itemView);
             view = itemView;
@@ -66,17 +63,54 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             String description;
 
-            final int pos = i;
+            final Post sPost = mPosts.get(i);
+
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    singlePostData(mPosts.get(pos));
+                    singlePostData(sPost);
                 }
             });
 
-            cardTitle = (TextView) itemView.findViewById(R.id.item_post_text);
-            cardTitle.setText(mPosts.get(pos).getMessage());
+            String message = sPost.getMessage();
+            String story = sPost.getStory();
+            ((TextView) itemView.findViewById(R.id.item_post_text)).setText(message != null ? message : story);
+
+            ((TextView) itemView.findViewById(R.id.item_post_from)).setText(sPost.getFrom().getName());
+
+
+
+            ImageView avatar = (ImageView) itemView.findViewById(R.id.item_post_avatar);
+            e("FROM " + i + sPost.getFrom());
+//            if (sPost.getFrom() != null) { //TODO learn more about cover
+//                Glide.with(mContext)
+//                        .load(response.getCover().toString())
+//                        .centerCrop()
+//                        .into(mCover);
+//            }
+
+            switch (mPosts.get(i).getType()) {
+
+                case "photo":
+                    ImageView photo = (ImageView) itemView.findViewById(R.id.item_post_picture);
+                    photo.setVisibility(View.VISIBLE);
+                    Glide.with(mContext)
+                            .load(sPost.getPicture())
+                            .centerCrop()
+                            .into(photo);
+                    break;
+                case "link":
+                    break;
+                case "status":
+                    break;
+
+                default:
+                    e("New post type: " + mPosts.get(i).getType());
+                    break;
+            }
+
+
 //            AnimUtils.fadeIn(mContext, itemView, pos * 200, 5000);
         }
     }
@@ -85,13 +119,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
 //                e("P " + response.get(0).getProperties());
         StringBuilder s = new StringBuilder();
-        String[] ss = {post.getLink(), post.getMessage(), post.getId(), post.getType()};
-        for (String sss : ss) {
-            if (sss == null) continue;
-            s.append("\n" + sss);
+        if (post != null) {
+            String[] ss = {post.getId(), post.getType(), post.getStatusType(), post.getPicture()};
+            for (String sss : ss) {
+                s.append("\n" + sss);
+            }
+        } else {
+            s.append("POST IS NULL");
         }
         ((TextView) p.getChildView(R.id.overlay_dialog_content)).setText(s.toString());
         p.showDialog();
+        try {
+            e("Actions: " + post.getActions());
+        } catch (Exception e) {
+            e("Error: " + e);
+        }
     }
 
 }

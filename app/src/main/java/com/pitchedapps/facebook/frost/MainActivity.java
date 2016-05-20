@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
             public void onLogin(String accessToken, List<Permission> acceptedPermissions, List<Permission> declinedPermissions) {
                 // change the state of the button or do whatever you want
                 mTextStatus.setText("Logged in");
+                Utils.setToken(accessToken);
                 revealMainLayout();
             }
 
@@ -212,8 +213,7 @@ public class MainActivity extends AppCompatActivity {
 //            revealMainLayout();
             mStartLayout.setVisibility(View.GONE);
             mMainLayout.setVisibility(View.VISIBLE);
-        } else {
-
+            Utils.setToken(mSimpleFacebook.getToken());
         }
     }
 
@@ -299,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 final int statusBar = insets.getSystemWindowInsetTop();
                 final int navigationBar = insets.getSystemWindowInsetBottom();
                 mMainLayout.setPadding(0, statusBar, 0, navigationBar);
+                Utils.saveNavBarHeight(navigationBar);
                 return insets;
             }
         });

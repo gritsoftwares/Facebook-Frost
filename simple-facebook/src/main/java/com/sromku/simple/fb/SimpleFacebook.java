@@ -1163,6 +1163,23 @@ public class SimpleFacebook {
     }
 
     /**
+     * Allan Wang 2016/05/20
+     * Get posts with customized fields
+     *
+     * @param postType
+     * @param extraFields
+     * @param onPostsListener
+     */
+    public void getPosts(PostType postType, String extraFields, OnPostsListener onPostsListener) {
+        GetPostsAction getPostsAction = new GetPostsAction(mSessionManager);
+        getPostsAction.setActionListener(onPostsListener);
+        getPostsAction.setPostType(postType);
+        getPostsAction.addField(extraFields);
+        getPostsAction.execute();
+    }
+
+
+    /**
      * Get all feeds on the wall of specific entity. It includes: links,
      * statuses, photos.. everything that appears on that wall.<br>
      *

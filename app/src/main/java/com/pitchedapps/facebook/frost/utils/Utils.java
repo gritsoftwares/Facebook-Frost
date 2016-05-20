@@ -19,6 +19,7 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -43,6 +44,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class Utils {
+
+    private static int navBarHeight = 0;
+    private static String token = "";
 
     /**
      * Take screenshot of the activity including the action bar
@@ -176,12 +180,19 @@ public class Utils {
         }
     }
 
+    public static void saveNavBarHeight(int i) {
+        navBarHeight = i;
+    }
+
     public static void showSimpleSnackbar(Context context, View location, String text) {
-        Snackbar shortSnackbar = Snackbar.make(location, text,
-                Snackbar.LENGTH_SHORT);
-        ViewGroup shortGroup = (ViewGroup) shortSnackbar.getView();
-        shortGroup.setBackgroundColor(ContextCompat.getColor(context, R.color.facebook_blue));
-        shortSnackbar.show();
+        Snackbar snackbar = Snackbar.make(location, text,
+                Snackbar.LENGTH_LONG);
+
+        ViewGroup viewgroup = (ViewGroup) snackbar.getView();
+        viewgroup.setBackgroundColor(ContextCompat.getColor(context, R.color.facebook_blue));
+        viewgroup.setPadding(viewgroup.getPaddingLeft(), viewgroup.getPaddingTop(),
+                viewgroup.getPaddingRight(), viewgroup.getPaddingBottom() + navBarHeight); //Add padding to match top of navbar
+        snackbar.show();
     }
 
     public static void openLink(Context context, String link) {
@@ -283,6 +294,14 @@ public class Utils {
         int[] posXY = new int[2];
         v.getLocationInWindow(posXY);
         return new Point(posXY[0] + v.getWidth()/2, posXY[1] + v.getHeight()/2);
+    }
+
+    public static void setToken(String s) {
+        token = s;
+    }
+
+    public static String getToken() {
+        return token;
     }
 
 }
