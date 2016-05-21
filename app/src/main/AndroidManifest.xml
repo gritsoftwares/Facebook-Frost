@@ -74,7 +74,7 @@
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:authorities="com.facebook.app.FacebookContentProvider420849111448972"
+            android:authorities="@string/facebook_authorities"
             android:exported="true" />
         <!--<receiver android:name="com.pitchedapps.facebook.glass.HelloFacebookBroadcastReceiver">-->
             <!--<intent-filter>-->
