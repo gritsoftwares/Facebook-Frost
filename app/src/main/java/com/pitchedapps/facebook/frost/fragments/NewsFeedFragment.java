@@ -36,7 +36,7 @@ public class NewsFeedFragment extends Fragment {
         mRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.webview_refresh);
 
 //        if (mWeb == null) {
-        e("HERE");
+//        e("HERE");
             mWeb = new WebView(mWebView, WebView.FB.FEED, getActivity());
             mWeb.addRefresher(mRefresh);
 
@@ -54,6 +54,7 @@ public class NewsFeedFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mWebView.onResume();
+        mWeb.addBackListener();
         // ...
     }
 
@@ -63,6 +64,12 @@ public class NewsFeedFragment extends Fragment {
         mWebView.onPause();
         // ...
         super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mWeb.removeBackListener();
     }
 
     @Override

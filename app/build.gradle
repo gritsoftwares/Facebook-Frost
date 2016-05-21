@@ -49,6 +49,7 @@ dependencies {
 
     compile 'com.mikepenz:iconics-core:2.5.11@aar'
     compile 'com.mikepenz:material-design-iconic-typeface:2.2.0.1@aar'
+    compile 'com.mikepenz:google-material-typeface:2.2.0.1.original@aar'
     compile 'com.mikepenz:community-material-typeface:1.5.54.1@aar'
 
     compile 'com.github.delight-im:Android-AdvancedWebView:v2.1.0'

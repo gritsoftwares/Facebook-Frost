@@ -18,6 +18,12 @@
     <string name="demo_tab_9">TEST 9</string>
     <string name="demo_tab_10">TEST 10</string>
 
+    <string name="tab_profile">Profile</string>
+    <string name="tab_friends">Friends</string>
+    <string name="tab_notifications">Notifications</string>
+    <string name="tab_feed">NewsFeed</string>
+    <string name="tab_settings">Settings</string>
+
     <string name="host_update_url">http://allanwang.ca/facebook/</string>
 
     <string name="email_subject">Frost for Facebook - Support</string>

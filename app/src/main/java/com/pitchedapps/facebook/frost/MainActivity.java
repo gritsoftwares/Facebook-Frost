@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -30,20 +29,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
-import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.pitchedapps.facebook.frost.customViews.Changelog;
-import com.pitchedapps.facebook.frost.fragments.DemoFragment;
-import com.pitchedapps.facebook.frost.fragments.GetPhotosFragment;
-import com.pitchedapps.facebook.frost.fragments.NewsFeedFragment;
-import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
+import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
+import com.pitchedapps.facebook.frost.utils.FragmentUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
@@ -54,6 +49,7 @@ import com.sromku.simple.fb.listeners.OnProfileListener;
 import com.sromku.simple.fb.utils.Attributes;
 import com.sromku.simple.fb.utils.PictureAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.pitchedapps.facebook.frost.utils.Utils.e;
@@ -71,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private SmartTabLayout mViewPagerTab;
     private Context mContext;
     private ImageView mAvatar;
-
+    private FragmentPagerItemAdapter mFPIAdapter;
+    private List<OnBackPressListener> mBackPressedListeners = new ArrayList<>();
     private Toolbar mToolbar;
 
     private SimpleFacebook mSimpleFacebook;
@@ -79,14 +76,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean fromError = false, blockBack = false, backPressedWhenBlocked = false;
     private int fadeUnfade = 300; //Used for mTextStatus transitions
     private int lX = 0, lY = 0;
-
-    public static int[] tabs = {
-            R.string.demo_tab_1,
-            R.string.demo_tab_2,
-            R.string.demo_tab_3,
-//            R.string.demo_tab_4,
-            R.string.demo_tab_5
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,13 +133,27 @@ public class MainActivity extends AppCompatActivity {
         mSimpleFacebook.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void addOnBackPressedListener(OnBackPressListener listener) {
+        mBackPressedListeners.add(listener);
+    }
+
+    public void removeOnBackPressedListener(OnBackPressListener listener) {
+        mBackPressedListeners.remove(listener);
+    }
+
     @Override
     public void onBackPressed() {
         if (blockBack) {
             backPressedWhenBlocked = true;
             return;
         }
-        super.onBackPressed();
+        boolean overridden = false;
+        for (OnBackPressListener listener : mBackPressedListeners) {
+            if (listener != null) {
+                overridden |= listener.backPressed();
+            }
+        }
+        if (!overridden) super.onBackPressed();
     }
 
     private void checkBlockedBackPress() {
@@ -393,77 +396,36 @@ public class MainActivity extends AppCompatActivity {
     private void addTabbedContent() {
         final LayoutInflater inflater = LayoutInflater.from(mContext);
 
-        final Drawable tProfile = new IconicsDrawable(mContext)
-                .icon(CommunityMaterial.Icon.cmd_account)
-                .sizeDp(24);
-
-        final Drawable tFriends = new IconicsDrawable(mContext)
-                .icon(CommunityMaterial.Icon.cmd_account)
-                .sizeDp(24);
-
-        final Drawable tNotifications = new IconicsDrawable(mContext)
-                .icon(MaterialDesignIconic.Icon.gmi_notifications)
-                .sizeDp(24);
-
-        final Drawable tNewsFeed = new IconicsDrawable(mContext)
-                .icon(CommunityMaterial.Icon.cmd_newspaper)
-                .sizeDp(24);
-
         mViewPagerTab.setCustomTabView(new SmartTabLayout.TabProvider() {
             @Override
             public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
                 ImageView icon = (ImageView) inflater.inflate(R.layout.smart_tab_icon, container,
                         false);
-                switch (position) {
-                    case 0:
-                        icon.setImageDrawable(tProfile);
-                        break;
-                    case 1:
-                        icon.setImageDrawable(tFriends);
-                        break;
-                    case 2:
-                        icon.setImageDrawable(tNotifications);
-                        break;
-                    case 3:
-                        icon.setImageDrawable(tNewsFeed);
-                        break;
-                    default:
-                        throw new IllegalStateException("Invalid position: " + position);
-                }
+
+                icon.setImageDrawable(new IconicsDrawable(mContext)
+                        .icon(FragmentUtils.getFrostFragment(position).getTabIcon())
+                        .sizeDp(24));
                 return icon;
             }
         });
 
         FragmentPagerItems pages = new FragmentPagerItems(mContext);
 
-//        Fragment fProfile = new ProfileFragment();
-        for (int i = 0; i < tabs.length; i++) {
-            switch (i) {
-                case 0:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), ProfileFragment.class));
-                    break;
-                case 1:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetPhotosFragment.class));
-                    break;
-                case 3:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), NewsFeedFragment.class));
-                    break;
-                default:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), DemoFragment.class));
-                    break;
-            }
+        for (int i = 0; i < 4; i++) {
+            pages.add(FragmentPagerItem.of(s(FragmentUtils.getFrostFragment(i).getTabNameID()), FragmentUtils.getFrostFragment(i).getFragment()));
         }
 
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+        mFPIAdapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), pages);
 
-        mViewPager.setAdapter(adapter);
+        mViewPager.setAdapter(mFPIAdapter);
         mViewPagerTab.setViewPager(mViewPager);
+
     }
+
 
     //Because I am lazy
     private String s(int id) {
         return getResources().getString(id);
     }
-
 }
