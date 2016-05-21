@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.HeaderProfile;
 import com.pitchedapps.facebook.frost.customViews.PostCard;
+import com.pitchedapps.facebook.frost.enums.PostType;
 import com.sromku.simple.fb.entities.Post;
 import com.sromku.simple.fb.entities.Profile;
 
@@ -25,26 +26,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private PostType headerType;
     private Object headerContents;
 
-    public enum PostType {
 
-        PROFILE("profile", -1);
-
-        private String typeName;
-        private int typeInt;
-
-        PostType(String s, int i) {
-            typeName = s;
-            typeInt = i;
-        }
-
-        public String getTypeName() {
-            return typeName;
-        }
-
-        public int getType() {
-            return typeInt;
-        }
-    }
 
 
     public PostAdapter(Context context, List<Post> posts) {

@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.WebView;
+import com.pitchedapps.facebook.frost.enums.FBURL;
 
 import im.delight.android.webview.AdvancedWebView;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-21.
@@ -37,32 +36,24 @@ public class NewsFeedFragment extends Fragment {
 
 //        if (mWeb == null) {
 //        e("HERE");
-            mWeb = new WebView(mWebView, WebView.FB.FEED, getActivity());
+            mWeb = new WebView(mWebView, FBURL.FEED, getActivity());
             mWeb.addRefresher(mRefresh);
 
 //        }
 
-
-
-        // ...
-
         return rootView;
     }
 
-//    @SuppressLint("NewApi")
     @Override
     public void onResume() {
         super.onResume();
         mWebView.onResume();
         mWeb.addBackListener();
-        // ...
     }
 
-//    @SuppressLint("NewApi")
     @Override
     public void onPause() {
         mWebView.onPause();
-        // ...
         super.onPause();
     }
 
@@ -75,7 +66,6 @@ public class NewsFeedFragment extends Fragment {
     @Override
     public void onDestroy() {
         mWebView.onDestroy();
-        // ...
         super.onDestroy();
     }
 
@@ -83,7 +73,6 @@ public class NewsFeedFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         mWebView.onActivityResult(requestCode, resultCode, intent);
-        // ...
     }
 
 }

@@ -8,25 +8,12 @@ import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
+import com.pitchedapps.facebook.frost.enums.V;
 
 /**
  * Created by Allan Wang on 2016-05-18.
  */
 public class AnimUtils {
-
-    public enum V {
-        VISIBLE(0),
-        INVISIBLE(1),
-        GONE(2);
-        V(int i) {
-            v = i;
-        }
-        private final int v;
-        public int getInt() {
-            return v;
-        }
-    }
 
     public static void circleReveal(View v, int x, int y, double radius, double duration) {
         // create the animator for this view (the start radius is zero)

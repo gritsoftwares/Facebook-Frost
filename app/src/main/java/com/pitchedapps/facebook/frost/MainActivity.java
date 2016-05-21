@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     private SmartTabLayout mViewPagerTab;
     private Context mContext;
     private ImageView mAvatar;
-    private FragmentPagerItemAdapter mFPIAdapter;
     private List<OnBackPressListener> mBackPressedListeners = new ArrayList<>();
     private Toolbar mToolbar;
 
@@ -153,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 overridden |= listener.backPressed();
             }
         }
+        e("OVER " + overridden);
         if (!overridden) super.onBackPressed();
     }
 
@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
             pages.add(FragmentPagerItem.of(s(FragmentUtils.getFrostFragment(i).getTabNameID()), FragmentUtils.getFrostFragment(i).getFragment()));
         }
 
-        mFPIAdapter = new FragmentPagerItemAdapter(
+        FragmentPagerItemAdapter mFPIAdapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), pages);
 
         mViewPager.setAdapter(mFPIAdapter);

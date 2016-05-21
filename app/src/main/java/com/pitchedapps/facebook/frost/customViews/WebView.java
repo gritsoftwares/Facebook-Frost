@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.pitchedapps.facebook.frost.MainActivity;
+import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
@@ -20,30 +21,13 @@ import im.delight.android.webview.AdvancedWebView;
  */
 public class WebView implements AdvancedWebView.Listener, OnBackPressListener {
 
-
-    //    https://touch.facebook.com/
-    public enum FB {
-
-        FEED("https://touch.facebook.com/");
-
-        private String url;
-
-        FB(String s) {
-            url = s;
-        }
-
-        public String getLink() {
-            return url;
-        }
-    }
-
     private AdvancedWebView mWebView;
     private SwipeRefreshLayout mRefresh;
-    private FB mURL;
+    private FBURL mURL;
     private boolean firstRun = true, reload = false;
     private Activity mActivity;
 
-    public WebView(AdvancedWebView web, FB url, Activity activity) {
+    public WebView(AdvancedWebView web, FBURL url, Activity activity) {
         mWebView = web;
         mWebView.setVisibility(View.INVISIBLE);
         mURL = url;
@@ -75,8 +59,9 @@ public class WebView implements AdvancedWebView.Listener, OnBackPressListener {
     public boolean backPressed() {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
+            return true;
         }
-        return true;
+        return false;
     }
 
     private void reload() {
