@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string-array name="fullchangelog">
+        <item>@array/v1a</item>
+        <item>@array/v0</item>
+    </string-array>
+
+    <string-array name="v">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="v1a">
+        <item>v1.0-alpha</item>
+        <item>Added timeline view</item>
+        <item>Imported and improved simple facebook lib</item>
+        <!--<item></item>-->
+        <!--<item></item>-->
+    </string-array>
+
+    <string-array name="v0">
+        <item>v0.0</item>
+        <item>May 17th, 2016</item>
+        <item>Commenced Frost Project</item>
+    </string-array>
+
+
+</resources>

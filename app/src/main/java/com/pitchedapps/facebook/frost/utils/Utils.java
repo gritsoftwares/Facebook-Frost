@@ -31,6 +31,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.pitchedapps.facebook.frost.R;
 
@@ -46,7 +47,6 @@ import java.util.Locale;
 public class Utils {
 
     private static int navBarHeight = 0;
-    private static String token = "";
 
     /**
      * Take screenshot of the activity including the action bar
@@ -185,14 +185,20 @@ public class Utils {
     }
 
     public static void showSimpleSnackbar(Context context, View location, String text) {
-        Snackbar snackbar = Snackbar.make(location, text,
-                Snackbar.LENGTH_LONG);
+        try {
+            Snackbar snackbar = Snackbar.make(location, text,
+                    Snackbar.LENGTH_LONG);
 
-        ViewGroup viewgroup = (ViewGroup) snackbar.getView();
-        viewgroup.setBackgroundColor(ContextCompat.getColor(context, R.color.facebook_blue));
-        viewgroup.setPadding(viewgroup.getPaddingLeft(), viewgroup.getPaddingTop(),
-                viewgroup.getPaddingRight(), viewgroup.getPaddingBottom() + navBarHeight); //Add padding to match top of navbar
-        snackbar.show();
+            ViewGroup viewgroup = (ViewGroup) snackbar.getView();
+            viewgroup.setBackgroundColor(ContextCompat.getColor(context, R.color.facebook_blue));
+            viewgroup.setPadding(viewgroup.getPaddingLeft(), viewgroup.getPaddingTop(),
+                    viewgroup.getPaddingRight(), viewgroup.getPaddingBottom() + navBarHeight); //Add padding to match top of navbar
+            snackbar.show();
+        } catch (Exception e) {
+            Toast.makeText(context, text,
+                    Toast.LENGTH_SHORT).show();
+            e("Snackbar error: " + e);
+        }
     }
 
     public static void openLink(Context context, String link) {
@@ -295,13 +301,4 @@ public class Utils {
         v.getLocationInWindow(posXY);
         return new Point(posXY[0] + v.getWidth()/2, posXY[1] + v.getHeight()/2);
     }
-
-    public static void setToken(String s) {
-        token = s;
-    }
-
-    public static String getToken() {
-        return token;
-    }
-
 }

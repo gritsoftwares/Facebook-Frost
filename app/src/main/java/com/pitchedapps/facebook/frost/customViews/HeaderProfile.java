@@ -92,12 +92,16 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
                     .into(mProfile);
         }
 
-        if (sProfile.getGender().equalsIgnoreCase("male")) {
-            mbGender.setImageDrawable(iMale);
-        } else if (sProfile.getGender().equalsIgnoreCase("female")) {
-            mbGender.setImageDrawable(iFemale);
-        } else {
+        if (sProfile.getGender() == null) {
             mbGender.setImageDrawable(iMaleFemale);
+        } else {
+            if (sProfile.getGender().equalsIgnoreCase("male")) {
+                mbGender.setImageDrawable(iMale);
+            } else if (sProfile.getGender().equalsIgnoreCase("female")) {
+                mbGender.setImageDrawable(iFemale);
+            } else {
+                mbGender.setImageDrawable(iMaleFemale);
+            }
         }
 
         mbEmail.setOnClickListener(new View.OnClickListener() {

@@ -13,10 +13,15 @@
     <dimen name="icon_button_size">48dip</dimen>
     <dimen name="icon_button_padding">12dip</dimen>
     <dimen name="padding_medium">24dip</dimen>
+    <dimen name="padding_large">64dip</dimen>
 
 
     <dimen name="item_post_avatar_size">48dip</dimen>
     <dimen name="item_post_image_size">200dip</dimen>
+
+    <!-- Dimensions for some dialogs -->
+    <dimen name="dialog_margin">24dp</dimen>
+    <dimen name="dialog_margin_bottom">16dp</dimen>
 
 
 </resources>

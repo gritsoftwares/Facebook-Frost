@@ -39,7 +39,7 @@ public class AnimUtils {
         anim.start();
     }
 
-    public static void circleHis(final View v, int x, int y, double radius, double duration) {
+    public static void circleHide(final View v, int x, int y, double radius, double duration) {
         Animator anim =
                 ViewAnimationUtils.createCircularReveal(v, x, y, (int) radius, 0).setDuration((long) duration);
 

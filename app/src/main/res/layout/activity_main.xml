@@ -6,31 +6,33 @@
     android:theme="@style/Frost.Theme"
     android:visibility="gone">
 
-    <LinearLayout
-        android:id="@+id/header"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/Frost.Popup"
+        app:theme="@style/Frost.ActionBar" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            app:popupTheme="@style/Frost.Popup"
-            app:theme="@style/Frost.ActionBar" />
-
-        <FrameLayout
-            android:id="@id/tab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+    <com.ogaclejapan.smarttablayout.SmartTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/viewpagertab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_below="@id/toolbar"
+        android:background="@color/facebook_blue"
+        app:stl_distributeEvenly="true"
+        app:stl_dividerColor="@android:color/transparent"
+        app:stl_dividerThickness="0dp"
+        app:stl_indicatorColor="@android:color/transparent"
+        app:stl_indicatorThickness="0dp"
+        app:stl_underlineColor="@android:color/transparent"
+        app:stl_underlineThickness="0dp" />
 
     <android.support.v4.view.ViewPager
-        android:id="@id/viewpager"
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header" />
+        android:layout_below="@id/viewpagertab" />
 
 </RelativeLayout>

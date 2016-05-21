@@ -18,23 +18,26 @@ import static com.pitchedapps.facebook.frost.utils.Utils.e;
  */
 public class PostCard extends RecyclerView.ViewHolder {
 
-    public PostCard(final Context mContext, final View itemView, final Post sPost) {
-        super(itemView);
-//            itemView.setVisibility(View.INVISIBLE);
+    private Post sPost;
+    private Context mContext;
 
-        String description;
+    public PostCard(Context c, View itemView, Post p) {
+        super(itemView);
+
+        mContext = c;
+        sPost = p;
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singlePostData(mContext, sPost);
+                singlePostData();
             }
         });
 
         String message = sPost.getMessage();
         String story = sPost.getStory();
-        ((TextView) itemView.findViewById(R.id.item_post_text)).setText(message != null ? message : story);
 
+        ((TextView) itemView.findViewById(R.id.item_post_text)).setText(message != null ? message : story);
         ((TextView) itemView.findViewById(R.id.item_post_from)).setText(sPost.getFrom().getName());
 
 
@@ -50,7 +53,7 @@ public class PostCard extends RecyclerView.ViewHolder {
                 photo.setVisibility(View.VISIBLE);
                 Glide.with(mContext)
                         .load(sPost.getFullPicture())
-                        .centerCrop()
+//                        .dontTransform() //load full image
                         .into(photo);
                 break;
             case "link":
@@ -67,11 +70,10 @@ public class PostCard extends RecyclerView.ViewHolder {
 //            AnimUtils.fadeIn(mContext, itemView, pos * 200, 5000);
     }
 
-    private void singlePostData(Context mContext, Post post) {
+    private void singlePostData() {
         AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-//                e("P " + response.get(0).getProperties());
         StringBuilder s = new StringBuilder();
-        String[] ss = {post.getId(), post.getType(), post.getStatusType(), post.getPicture()};
+        String[] ss = {sPost.getId(), sPost.getType(), sPost.getStatusType(), sPost.getPicture()};
         for (String sss : ss) {
             s.append("\n" + sss);
         }

@@ -148,11 +148,11 @@ public class MainFragment extends Fragment implements OnItemClickListener {
         mExamples.add(new Example("Connect Smart Device", SmartDeviceFragment.class, true));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(getActivity().getString(R.string.app_name));
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle(getActivity().getString(R.string.app_name));
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

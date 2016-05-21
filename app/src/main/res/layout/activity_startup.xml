@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/startup_layout"
-    android:theme="@style/Startup"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Startup">
 
     <Space
         android:id="@+id/center_space"
@@ -12,33 +12,32 @@
         android:layout_height="30dp"
         android:layout_centerInParent="true" />
 
-    <!--<com.facebook.login.widget.ProfilePictureView-->
-    <!--android:id="@+id/profilePicture_splash"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_above="@id/center_space"-->
-    <!--android:gravity="bottom"-->
-    <!--facebook:com_facebook_preset_size="normal" />-->
+    <ImageView
+        android:id="@+id/profilePicture_splash"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:layout_above="@id/center_space"
+        android:layout_centerHorizontal="true"
+        tools:ignore="ContentDescription" />
 
     <Button
         android:id="@+id/button_login_splash"
-        android:theme="@style/LoginButton"
-        android:stateListAnimator="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/center_space"
         android:layout_centerHorizontal="true"
-        android:text="@string/login" />
+        android:stateListAnimator="@null"
+        android:text="@string/login"
+        android:theme="@style/LoginButton" />
 
     <TextView
         android:id="@+id/text_status_splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/button_login_splash"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30.0dp"
-        android:text="" />
+        android:gravity="center_horizontal"
+        android:padding="@dimen/padding_medium"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
 

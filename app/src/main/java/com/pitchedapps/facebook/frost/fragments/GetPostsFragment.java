@@ -92,11 +92,11 @@ public class GetPostsFragment extends BaseFragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(EXAMPLE);
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle(EXAMPLE);
+//    }
 
     private void enableLoadMore(final Cursor<List<Post>> cursor) {
         mMore.setVisibility(View.VISIBLE);

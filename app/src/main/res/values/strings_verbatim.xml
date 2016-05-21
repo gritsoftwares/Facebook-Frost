@@ -12,10 +12,13 @@
     <string name="no_friends_selected">&lt;No friends selected&gt;</string>
     <string name="no_place_selected">&lt;No place selected&gt;</string>
 
+    <string name="welcome">Welcome %1$s</string>
     <string name="exception">Exception: %1$s</string>
 
     <string name="logout">Logout</string>
+    <string name="logged_out">Logged Out</string>
     <string name="login">Login</string>
+    <string name="logged_in">Logged In</string>
     <string name="get_friends">Get friends</string>
     <string name="load_more">load more…</string>
 

@@ -15,5 +15,7 @@
     <color name="facebook_blue">#3b5998</color>
     <color name="facebook_blue_dark">#2e4b86</color>
 
+    <color name="icon_enabled">#fff</color>
+    <color name="icon_disabled">#9cabcb</color>
     <color name="profile_buttons">#fff</color>
 </resources>

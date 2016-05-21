@@ -4,6 +4,18 @@
         <item name="colorButtonNormal">@color/facebook_blue</item>
         <item name="colorControlHighlight">#33ffffff</item>
         <item name="android:textColor">#fff</item>
+        <item name="android:textSize">18.0sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="Changelog" parent="AlertDialog.AppCompat">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/Changelog.Button</item>
+        <item name="android:background">@color/facebook_blue_dark</item>
+    </style>
+
+    <style name="Changelog.Button" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
 </resources>

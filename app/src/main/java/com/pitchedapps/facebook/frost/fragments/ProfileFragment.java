@@ -18,6 +18,7 @@ import com.pitchedapps.facebook.frost.adapters.EmptyAdapter;
 import com.pitchedapps.facebook.frost.adapters.PostAdapter;
 import com.pitchedapps.facebook.frost.exampleFragments.BaseFragment;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
+import com.pitchedapps.facebook.frost.utils.SharedObjects;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Post;
@@ -44,25 +45,6 @@ public class ProfileFragment extends BaseFragment {
     private Profile mProfile;
     private boolean firstRun = true;
 
-    private GestureDetector.OnGestureListener mOnGesture = new GestureDetector.SimpleOnGestureListener() {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            e("Flinged.");
-            return true;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-    };
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,11 +62,11 @@ public class ProfileFragment extends BaseFragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(EXAMPLE);
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle(EXAMPLE);
+//    }
 
     /*
      * Saves recyclerview scroll position
@@ -196,6 +178,7 @@ public class ProfileFragment extends BaseFragment {
             public void onComplete(Profile response) {
                 mRefresh.setRefreshing(false);
                 mProfile = response;
+                SharedObjects.saveProfile(response);
                 getTimeline();
 //                updateProfileContent(response);
             }
@@ -205,7 +188,7 @@ public class ProfileFragment extends BaseFragment {
     }
 
     public void getTimeline() {
-        SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, "message,story,type,id,full_picture,updated_time,actions,from", new OnPostsListener() {
+        SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, "message,story,type,id,full_picture,updated_time,actions,from,link,likes,comments{attachment},shares", new OnPostsListener() {
 
 //            @Override
 //            public void onThinking() {

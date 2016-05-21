@@ -28,11 +28,11 @@ public class GetPhotosFragment extends BaseFragment {
     private TextView mMore;
     private String mAllPages = "";
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().setTitle(EXAMPLE);
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        getActivity().setTitle(EXAMPLE);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
