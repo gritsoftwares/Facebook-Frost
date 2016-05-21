@@ -72,7 +72,7 @@ public class ProfileFragment extends BaseFragment {
      * Saves recyclerview scroll position
      * http://stackoverflow.com/a/29166336/4407321
      */
-    @Override
+    @Override //TODO see if necessary
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 
@@ -85,7 +85,9 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mRV.getLayoutManager().onSaveInstanceState());
+        if (mRV != null) {
+            outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mRV.getLayoutManager().onSaveInstanceState());
+        }
     }
 
     private void getViews(View view) {

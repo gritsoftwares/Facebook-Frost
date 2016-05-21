@@ -38,11 +38,10 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.pitchedapps.facebook.frost.customViews.AlertDialogWithCircularReveal;
 import com.pitchedapps.facebook.frost.customViews.Changelog;
 import com.pitchedapps.facebook.frost.fragments.DemoFragment;
 import com.pitchedapps.facebook.frost.fragments.GetPhotosFragment;
-import com.pitchedapps.facebook.frost.fragments.GetPostsFragment;
+import com.pitchedapps.facebook.frost.fragments.NewsFeedFragment;
 import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
@@ -447,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
                     pages.add(FragmentPagerItem.of(getString(tabs[i]), GetPhotosFragment.class));
                     break;
                 case 3:
-                    pages.add(FragmentPagerItem.of(getString(tabs[i]), GetPostsFragment.class));
+                    pages.add(FragmentPagerItem.of(getString(tabs[i]), NewsFeedFragment.class));
                     break;
                 default:
                     pages.add(FragmentPagerItem.of(getString(tabs[i]), DemoFragment.class));
