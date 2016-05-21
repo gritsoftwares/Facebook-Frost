@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="app_name">Frost for Facebook</string>
-    <string name="facebook_app_name">@string/app_name</string>
-    <string name="facebook_app_id">420849111448972</string>
-    <string name="fb_login_protocol_scheme">fb420849111448972</string>
-
     <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
 
     <string name="test">TEST 123</string>
