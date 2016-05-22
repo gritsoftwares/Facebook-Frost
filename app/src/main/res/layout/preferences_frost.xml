@@ -1,0 +1,29 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/preferences_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/preferences_theme_picker"
+            android:padding="@dimen/frost_preference_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.pitchedapps.facebook.frost.customViews.ColorPicker
+            android:id="@+id/preferences_text_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.pitchedapps.facebook.frost.customViews.ColorPicker
+            android:id="@+id/preferences_background_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</ScrollView>

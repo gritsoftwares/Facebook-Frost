@@ -18,9 +18,9 @@
         android:title="@string/changelog"
         app:showAsAction="never" />
     <item
-        android:id="@+id/update_url"
+        android:id="@+id/settings"
         android:orderInCategory="350"
-        android:title="@string/update_url"
+        android:title="@string/settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/logout"

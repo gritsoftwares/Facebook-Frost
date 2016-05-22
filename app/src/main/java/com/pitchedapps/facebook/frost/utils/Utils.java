@@ -11,6 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -300,5 +301,14 @@ public class Utils {
         int[] posXY = new int[2];
         v.getLocationInWindow(posXY);
         return new Point(posXY[0] + v.getWidth()/2, posXY[1] + v.getHeight()/2);
+    }
+
+    public static boolean isColorDark(int color){
+        double darkness = 1-(0.299* Color.red(color) + 0.587*Color.green(color) + 0.114* Color.blue(color))/255;
+        if(darkness<0.5){
+            return false; // It's a light color
+        }else{
+            return true; // It's a dark color
+        }
     }
 }

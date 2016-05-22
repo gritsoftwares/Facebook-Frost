@@ -57,6 +57,8 @@ dependencies {
 //    compile 'com.mostafagazar:customshapeimageview:1.0.4'
     compile 'de.hdodenhof:circleimageview:2.0.0'
 
+    compile 'com.pavelsikun:vintage-chroma:1.4.1'
+
     //Optional: see how to use the utility.
     compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
 }

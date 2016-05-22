@@ -39,6 +39,7 @@ import com.pitchedapps.facebook.frost.customViews.Changelog;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.FragmentUtils;
+import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
@@ -61,14 +62,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mButtonLogin;
     private TextView mTextStatus;
-    private RelativeLayout mStartLayout;
-    private RelativeLayout mMainLayout;
+    private RelativeLayout mStartLayout, mMainLayout, mFullLayout;
     private ViewPager mViewPager;
     private SmartTabLayout mViewPagerTab;
     private Context mContext;
     private ImageView mAvatar;
     private List<OnBackPressListener> mBackPressedListeners = new ArrayList<>();
     private Toolbar mToolbar;
+    private FrostPreferences fPrefs;
 
     private SimpleFacebook mSimpleFacebook;
 
@@ -83,13 +84,14 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = this;
         mSimpleFacebook = SimpleFacebook.getInstance(this);
-
+        fPrefs = new FrostPreferences(mContext);
         // test local language
         Utils.updateLanguage(getApplicationContext(), "en");
 //        Utils.printHashKey(getApplicationContext()); //for testing
 
         setContentView(R.layout.activity_full);
 
+        mFullLayout = (RelativeLayout) findViewById(R.id.full_layout);
         mMainLayout = (RelativeLayout) findViewById(R.id.main_layout);
         mStartLayout = (RelativeLayout) findViewById(R.id.startup_layout);
         mButtonLogin = (Button) findViewById(R.id.button_login_splash);
@@ -97,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
         mAvatar = (ImageView) findViewById(R.id.profilePicture_splash);
+
+        mFullLayout.setBackgroundColor(fPrefs.getBackgroundColor());
 
         mStartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 overridden |= listener.backPressed();
             }
         }
-        e("OVER " + overridden);
         if (!overridden) super.onBackPressed();
     }
 
@@ -196,8 +199,18 @@ public class MainActivity extends AppCompatActivity {
                 new Changelog(mContext).showWithCircularReveal(lX, (int) (lY * 2.2/4.2));
 //                new AlertDialogWithCircularReveal(mContext, R.layout.changelog_content).showDialog();
                 break;
-            case R.id.update_url:
-                Utils.openLinkInChromeCustomTab(mContext, s(R.string.host_update_url));
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("x", lX);
+                intent.putExtra("y", (int) (lY * 2.2/4.2));
+                startActivity(intent);
+//                FrostPreferenceFragment fPrefs = FrostPreferenceFragment.newInstance(lX, (int) (lY * 3.2/4.2));
+//                getFragmentManager().beginTransaction()
+////                        .setCustomAnimations(R.animator.anim_back_right,R.animator.anim_back_left, R.animator.anim_left, R.animator.anim_right)
+//                        .add(R.id.full_layout, fPrefs)
+//                        .addToBackStack("frost_prefs")
+//                        .commit();
+//                Utils.openLinkInChromeCustomTab(mContext, s(R.string.host_update_url));
                 break;
             case R.id.logout:
                 mSimpleFacebook.logout(onLogoutListener);

@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/facebook_blue</item>
         <item name="colorPrimaryDark">@color/facebook_blue_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="colorButtonNormal">@color/button_color</item>-->
+        <item name="android:windowShowWallpaper">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
@@ -35,7 +35,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="Frost.Theme.Splash">
+    <style name="Frost.Theme.Splash" parent="Frost.Theme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:navigationBarColor">@color/splashBackground</item>
         <item name="colorPrimaryDark">@color/splashBackground</item>
