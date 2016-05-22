@@ -3,14 +3,14 @@ package com.pitchedapps.facebook.frost.enums;
 /**
  * Created by Allan Wang on 2016-05-21.
  */
-public enum PostType {
+public enum PostHeader {
 
     PROFILE("profile", -1);
 
     private String typeName;
     private int typeInt;
 
-    PostType(String s, int i) {
+    PostHeader(String s, int i) {
         typeName = s;
         typeInt = i;
     }

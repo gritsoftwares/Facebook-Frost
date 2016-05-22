@@ -27,4 +27,7 @@
     <string name="update_url">Update URL</string>
     <string name="sendemail">Send Email</string>
     <string name="subject_here">Subject Here</string>
+
+
+    <string name="addStyleString">addStyleString(%1$s);</string>
 </resources>

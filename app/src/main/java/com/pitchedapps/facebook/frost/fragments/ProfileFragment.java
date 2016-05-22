@@ -7,15 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.EmptyAdapter;
 import com.pitchedapps.facebook.frost.adapters.PostAdapter;
+import com.pitchedapps.facebook.frost.enums.PostHeader;
 import com.pitchedapps.facebook.frost.exampleFragments.BaseFragment;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.SharedObjects;
@@ -219,7 +218,7 @@ public class ProfileFragment extends BaseFragment {
 
     private void updatePostContent(List<Post> response) {
 
-        PostAdapter mAdapter = new PostAdapter(mContext, response, PostAdapter.PostType.PROFILE, mProfile);
+        PostAdapter mAdapter = new PostAdapter(mContext, response, PostHeader.PROFILE, mProfile);
         mRV.setAdapter(mAdapter);
         if (firstRun) {
 //            AnimUtils.fadeIn(mContext, mRV, 0, 1000);
