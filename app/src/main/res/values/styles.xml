@@ -18,4 +18,9 @@
     <style name="Changelog.Button" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/colorAccent</item>
     </style>
+
+    <style name="Frost.AlertDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@color/facebook_blue_dark</item>
+    </style>
 </resources>

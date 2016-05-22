@@ -9,11 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Device;
-import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.listeners.OnAuthorizationDeviceListener;
 import com.sromku.simple.fb.listeners.OnConnectDeviceListener;
 

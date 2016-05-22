@@ -15,7 +15,19 @@ import com.pitchedapps.facebook.frost.enums.V;
  */
 public class AnimUtils {
 
-    public static void circleReveal(View v, int x, int y, double radius, double duration) {
+    public static void circleReveal(Context c, View v, int x, int y, double radius) {
+        // create the animator for this view (the start radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(v, x, y, 0, (int) radius).setDuration((long) (radius * 0.6 * FrostPreferences.getAnimationSpeedFactor(c)));
+
+        // make the view visible and start the animation
+        v.bringToFront();
+        v.setVisibility(View.VISIBLE);
+        anim.start();
+    }
+
+    public static void circleReveal(Context c, View v, int x, int y, double radius, double duration) {
+        duration *= FrostPreferences.getAnimationSpeedFactor(c);
         // create the animator for this view (the start radius is zero)
         Animator anim =
                 ViewAnimationUtils.createCircularReveal(v, x, y, 0, (int) radius).setDuration((long) duration);
@@ -26,7 +38,8 @@ public class AnimUtils {
         anim.start();
     }
 
-    public static void circleHide(final View v, int x, int y, double radius, double duration) {
+    public static void circleHide(Context c, final View v, int x, int y, double radius, double duration) {
+        duration *= FrostPreferences.getAnimationSpeedFactor(c);
         Animator anim =
                 ViewAnimationUtils.createCircularReveal(v, x, y, (int) radius, 0).setDuration((long) duration);
 
@@ -63,7 +76,8 @@ public class AnimUtils {
 
     }
 
-    public static Animation fadeInAnimation(Context c,double offset, double duration) {
+    public static Animation fadeInAnimation(Context c, double offset, double duration) {
+        duration *= FrostPreferences.getAnimationSpeedFactor(c);
         Animation fadeInAnimation = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
         fadeInAnimation.setStartOffset((int) offset);
         fadeInAnimation.setDuration((int) duration);
@@ -71,6 +85,7 @@ public class AnimUtils {
     }
 
     public static Animation fadeOutAnimation(Context c, double offset, double duration) {
+        duration *= FrostPreferences.getAnimationSpeedFactor(c);
         Animation fadeOutAnimation = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
         fadeOutAnimation.setStartOffset((int) offset);
         fadeOutAnimation.setDuration((int) duration);

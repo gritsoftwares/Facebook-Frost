@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.actions.Cursor;
 import com.sromku.simple.fb.entities.PlaceTag;
-import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.listeners.OnTaggedPlacesListener;
 import com.sromku.simple.fb.utils.Utils;
 

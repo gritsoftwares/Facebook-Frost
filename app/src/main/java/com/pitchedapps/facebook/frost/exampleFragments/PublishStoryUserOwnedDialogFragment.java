@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Story;
 import com.sromku.simple.fb.entities.Story.StoryAction;
 import com.sromku.simple.fb.entities.Story.StoryObject;
-import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.listeners.OnPublishListener;
 
 public class PublishStoryUserOwnedDialogFragment extends BaseFragment {

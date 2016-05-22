@@ -222,7 +222,7 @@ public class ProfileFragment extends BaseFragment {
         mRV.setAdapter(mAdapter);
         if (firstRun) {
 //            AnimUtils.fadeIn(mContext, mRV, 0, 1000);
-            AnimUtils.circleReveal(mRV, 0, 0, Utils.getScreenDiagonal(mContext), Utils.getScreenDiagonal(mContext));
+            AnimUtils.circleReveal(mContext, mRV, 0, 0, Utils.getScreenDiagonal(mContext));
             firstRun = false;
         }
 //        e("DI " + response.get(0).getMessage() + " " + response.get(0).getId() + " " + response.get(0).getObjectId());

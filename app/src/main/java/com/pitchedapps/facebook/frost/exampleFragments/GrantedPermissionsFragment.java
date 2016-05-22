@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sromku.simple.fb.SimpleFacebook;
 import com.pitchedapps.facebook.frost.R;
+import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.utils.Utils;
 
 import java.util.Set;

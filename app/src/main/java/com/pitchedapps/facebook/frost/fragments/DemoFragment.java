@@ -20,9 +20,6 @@ public class DemoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         int position = FragmentPagerItem.getPosition(getArguments());
-        if (position == 3) {
-            return inflater.inflate(R.layout.fragment_demo_2, container, false);
-        }
         return inflater.inflate(R.layout.fragment_demo, container, false);
     }
 

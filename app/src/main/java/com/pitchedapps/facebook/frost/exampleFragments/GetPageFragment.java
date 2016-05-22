@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.entities.Page;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.Utils;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Page;
 import com.sromku.simple.fb.listeners.OnPageListener;
 
 public class GetPageFragment extends BaseFragment{

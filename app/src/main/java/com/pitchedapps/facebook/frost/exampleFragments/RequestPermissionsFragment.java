@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
-import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.listeners.OnNewPermissionsListener;
 import com.sromku.simple.fb.utils.Utils;
 

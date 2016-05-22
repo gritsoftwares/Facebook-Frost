@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Feed;
-import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.listeners.OnPublishListener;
 
 public class PublishFeedFragment extends BaseFragment {

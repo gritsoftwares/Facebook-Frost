@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
 
@@ -21,7 +20,7 @@ public class AlertDialogWithCircularReveal {
     private Context mContext;
     private View mView;
     private int startX = 0, startY = 0;
-    private double duration = 1000;
+    private double duration = 600;
     private boolean rippleStartSet = false;
 
     //v should be View.inflate(c, v, null);
@@ -93,6 +92,6 @@ public class AlertDialogWithCircularReveal {
             maxRadius /= 2;
         }
 
-        AnimUtils.circleReveal(mView, x, y, maxRadius, duration);
+        AnimUtils.circleReveal(mContext, mView, x, y, maxRadius, duration);
     }
 }

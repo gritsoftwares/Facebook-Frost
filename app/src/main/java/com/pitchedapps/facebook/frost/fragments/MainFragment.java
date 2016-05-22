@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.pitchedapps.facebook.frost.Example;
+import com.pitchedapps.facebook.frost.ExamplesAdapter;
+import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.exampleFragments.CreateStoryObjectFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.GetAccountsFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.GetAlbumsFragment;
@@ -62,9 +65,6 @@ import com.pitchedapps.facebook.frost.exampleFragments.SendMessageToSuggestedFra
 import com.pitchedapps.facebook.frost.exampleFragments.SmartDeviceFragment;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
-import com.pitchedapps.facebook.frost.Example;
-import com.pitchedapps.facebook.frost.ExamplesAdapter;
-import com.pitchedapps.facebook.frost.R;
 import com.sromku.simple.fb.listeners.OnLoginListener;
 import com.sromku.simple.fb.listeners.OnLogoutListener;
 

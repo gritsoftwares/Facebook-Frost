@@ -38,6 +38,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.pitchedapps.facebook.frost.customViews.Changelog;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
+import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FragmentUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
@@ -100,7 +101,11 @@ public class MainActivity extends AppCompatActivity {
         mViewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
         mAvatar = (ImageView) findViewById(R.id.profilePicture_splash);
 
-        mFullLayout.setBackgroundColor(fPrefs.getBackgroundColor());
+        if (fPrefs.isDark()) {
+            mFullLayout.setBackgroundColor(fPrefs.getBackgroundColor());
+        } else {
+            mFullLayout.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+        }
 
         mStartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mSimpleFacebook.onActivityResult(requestCode, resultCode, data);
+
+        if (data.getExtras().containsKey("colorChange")) {
+            e("RECREATE");
+            if (data.getBooleanExtra("colorChange", false)) this.recreate();
+        }
     }
 
     public void addOnBackPressedListener(OnBackPressListener listener) {
@@ -196,21 +206,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.changelog:
 //                new Changelog(mContext).show();
-                new Changelog(mContext).showWithCircularReveal(lX, (int) (lY * 2.2/4.2));
+                new Changelog(mContext).showWithCircularReveal(lX, (int) (lY * 2.2 / 4.2));
 //                new AlertDialogWithCircularReveal(mContext, R.layout.changelog_content).showDialog();
                 break;
             case R.id.settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
-                intent.putExtra("x", lX);
-                intent.putExtra("y", (int) (lY * 2.2/4.2));
                 startActivity(intent);
-//                FrostPreferenceFragment fPrefs = FrostPreferenceFragment.newInstance(lX, (int) (lY * 3.2/4.2));
-//                getFragmentManager().beginTransaction()
-////                        .setCustomAnimations(R.animator.anim_back_right,R.animator.anim_back_left, R.animator.anim_left, R.animator.anim_right)
-//                        .add(R.id.full_layout, fPrefs)
-//                        .addToBackStack("frost_prefs")
-//                        .commit();
-//                Utils.openLinkInChromeCustomTab(mContext, s(R.string.host_update_url));
                 break;
             case R.id.logout:
                 mSimpleFacebook.logout(onLogoutListener);
@@ -281,7 +282,8 @@ public class MainActivity extends AppCompatActivity {
                                 Animation fadeText = AnimUtils.fadeOutAnimation(mContext, 0, fadeUnfade);
                                 fadeText.setAnimationListener(new Animation.AnimationListener() {
                                     @Override
-                                    public void onAnimationStart(Animation animation) { }
+                                    public void onAnimationStart(Animation animation) {
+                                    }
 
                                     @Override
                                     public void onAnimationEnd(Animation animation) {
@@ -292,7 +294,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onAnimationRepeat(Animation animation) { }
+                                    public void onAnimationRepeat(Animation animation) {
+                                    }
                                 });
 
                                 mTextStatus.setVisibility(View.INVISIBLE);
@@ -361,25 +364,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void revealSplashLayout() {
-        double finalRadius = Math.max(mMainLayout.getWidth(), mMainLayout.getHeight());
-        finalRadius *= 1.2;
+        double finalRadius = Utils.getScreenDiagonal(mContext) / 2;
 
-        AnimUtils.fadeOut(mContext, mMainLayout, finalRadius * 0.2, finalRadius * 0.3);
-        AnimUtils.circleReveal(mStartLayout, lX, lY, finalRadius * 1.2, finalRadius);
+        AnimUtils.fadeOut(mContext, mMainLayout, finalRadius * 0.1, finalRadius * 0.18);
+        AnimUtils.circleReveal(mContext, mStartLayout, lX, lY, finalRadius);
     }
 
     //Animations
     public void revealMain() {
         int x = mStartLayout.getWidth() / 2;
         int y = mStartLayout.getHeight() / 2;
-        double finalRadius = Math.max(mStartLayout.getWidth(), mStartLayout.getHeight());
-        finalRadius *= 0.6;
+        double finalRadius = Utils.getScreenDiagonal(mContext) / 2;
 
-        AnimUtils.fadeIn(mContext, mMainLayout, finalRadius * 0.3, finalRadius * 0.5);
+        AnimUtils.fadeIn(mContext, mMainLayout, finalRadius * 0.3, finalRadius * 0.3);
 
         // create the animator for this view (the start radius is zero)
         Animator anim =
-                ViewAnimationUtils.createCircularReveal(mStartLayout, x, y, (int) finalRadius, 0).setDuration((long) (finalRadius * 1.2));
+                ViewAnimationUtils.createCircularReveal(mStartLayout, x, y, (int) finalRadius, 0).setDuration((long) (finalRadius * 0.72 * FrostPreferences.getAnimationSpeedFactor(mContext)));
 
         // make the view invisible when the animation is done
         anim.addListener(new AnimatorListenerAdapter() {

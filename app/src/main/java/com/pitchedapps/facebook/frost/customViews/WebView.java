@@ -3,7 +3,6 @@ package com.pitchedapps.facebook.frost.customViews;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
@@ -12,22 +11,21 @@ import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
+import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 import com.pitchedapps.facebook.frost.webHelpers.WebThemer;
-
-import im.delight.android.webview.AdvancedWebView;
 
 /**
  * Created by Allan Wang on 2016-05-21.
  */
-public class WebView implements AdvancedWebView.Listener, OnBackPressListener {
+public class WebView implements FrostWebView.Listener, OnBackPressListener {
 
-    private AdvancedWebView mWebView;
+    private FrostWebView mWebView;
     private SwipeRefreshLayout mRefresh;
     private FBURL mURL;
     private boolean firstRun = true, reload = false;
     private Activity mActivity;
 
-    public WebView(AdvancedWebView web, FBURL url, Activity activity) {
+    public WebView(FrostWebView web, FBURL url, Activity activity) {
         mWebView = web;
         mWebView.setVisibility(View.INVISIBLE);
         mURL = url;
@@ -71,31 +69,38 @@ public class WebView implements AdvancedWebView.Listener, OnBackPressListener {
     }
 
     @Override
-    public void onPageStarted(String url, Bitmap favicon) {
-
+    public void onLoadResource(String url) {
+        WebThemer.injectTheme(mActivity, mWebView);
+//        e("URL " + mWebView.getUrl() + " " + url);
     }
 
     @Override
-    public void onPageFinished(String url) {
-        if (mRefresh != null) mRefresh.setRefreshing(false);
-
-        WebThemer.injectTheme(mActivity, mWebView);
+    public void onPageStarted(String url, Bitmap favicon) {
 
         // http://stackoverflow.com/a/12039477/4407321
         mWebView.setBackgroundColor(Color.TRANSPARENT);
 //        mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+    }
+
+
+    @Override
+    public void onPageFinished(String url) {
+        if (mRefresh != null) mRefresh.setRefreshing(false);
+
+//        WebThemer.injectTheme(mActivity, mWebView);
+
 
         if (firstRun || reload) {
             firstRun = false;
             reload = false;
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    AnimUtils.circleReveal(mWebView, 0, 0, Utils.getScreenDiagonal(mActivity), Utils.getScreenDiagonal(mActivity));
-                }
-            }, 300); //TODO fix theme delay
+//            final Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+                    AnimUtils.circleReveal(mActivity, mWebView, 0, 0, Utils.getScreenDiagonal(mActivity));
+//                }
+//            }, 300); //TODO fix theme delay
         }
 
 

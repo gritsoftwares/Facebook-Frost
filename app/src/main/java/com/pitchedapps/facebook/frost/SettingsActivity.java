@@ -3,6 +3,7 @@ package com.pitchedapps.facebook.frost;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +11,6 @@ import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 import com.pitchedapps.facebook.frost.customViews.FrostPreferenceView;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-22.
@@ -31,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Context mContext;
     private FragmentManager fManager;
     private FrostPreferences fPrefs;
+    private boolean colorChanged = false;
 
     /*
      * A ViewGroup container that can actively add the preference framelayout
@@ -53,13 +52,33 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void colorChanged() {
+        colorChanged = true;
         mFPVanimation(newPreferenceView()); //replicate view with new colors
     }
+
+    @Override
+    public void onBackPressed() {
+        if (colorChanged) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("colorChange", true);
+            startActivity(intent);
+        }
+
+        super.onBackPressed();
+    }
+
 
     private FrostPreferenceView newPreferenceView() {
         FrostPreferenceView mFPV = new FrostPreferenceView(mContext);
         mFPV.initialize(fManager, this);
         mFrame.addView(mFPV);
+//        mFPV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CharSequence[] test = {"A", "B", "C"};
+//                new AlertDialogWithSingleChoiceItems(mContext, "test", test, 0, this);
+//            }
+//        });
         return mFPV;
     }
 
@@ -68,7 +87,7 @@ public class SettingsActivity extends AppCompatActivity {
         mFPV.setVisibility(View.INVISIBLE);
         Point p = Utils.getScreenSize(mContext);
         final Animator anim =
-                ViewAnimationUtils.createCircularReveal(mFPV, p.x/2, p.y/2, 0, (float) Utils.getScreenDiagonal(mContext)/2).setDuration((int) Utils.getScreenDiagonal(mContext));
+                ViewAnimationUtils.createCircularReveal(mFPV, p.x / 2, p.y / 2, 0, (float) Utils.getScreenDiagonal(mContext) / 2).setDuration((long) (Utils.getScreenDiagonal(mContext) / 2 * FrostPreferences.getAnimationSpeedFactor(mContext)));
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

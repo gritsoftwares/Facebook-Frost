@@ -1,8 +1,8 @@
 package com.pitchedapps.facebook.frost.customViews;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.entities.Profile;
 
@@ -32,12 +33,14 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
     private Drawable iMale, iFemale;
     private Context mContext;
     private Profile sProfile;
+    private FrostPreferences fPrefs;
 
     public HeaderProfile(Context c, View view, Profile p) {
         super(view);
 
         mContext = c;
         sProfile = p;
+        fPrefs = new FrostPreferences(mContext);
 
         mCover = (ImageView) view.findViewById(R.id.header_profile_cover);
         mbEmail = (ImageView) view.findViewById(R.id.header_profile_buttons_email);
@@ -47,7 +50,8 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
         mProfile = (ImageView) view.findViewById(R.id.header_profile_photo);
         mHeader = (TextView) view.findViewById(R.id.header_profile_header);
 
-        int buttonColor = ContextCompat.getColor(mContext, R.color.profile_buttons);
+        mHeader.setTextColor(fPrefs.getTextColor());
+        int buttonColor = fPrefs.getTextColor();
 
         //Buttons
         Drawable iEmail = new IconicsDrawable(mContext)
@@ -110,7 +114,7 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
                 if (sProfile.getEmail() != null) {
                     Utils.sendEmailFromFrost(mContext, sProfile.getEmail());
                 } else {
-//                    Utils.showSimpleSnackbar(mContext, mRefresh, "No email found");
+                    Utils.showSimpleSnackbar(mContext, (View) mHeader.getParent().getParent(), mContext.getResources().getString(R.string.no_email_found));
                 }
             }
         });
@@ -122,7 +126,8 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
                 d.setDuration(2000);
                 d.setRippleStart(Utils.getLocation(mbGender));
                 TextView t = (TextView) d.getChildView(R.id.overlay_dialog_title);
-                t.setText("About " + sProfile.getFirstName());
+                t.setText(String.format(mContext.getResources().getString(R.string.about_user), sProfile.getFirstName()));
+                t.setTextColor(fPrefs.getTextColor());
 
                 StringBuilder content = new StringBuilder();
 
@@ -140,7 +145,7 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
                                 f.getName().equalsIgnoreCase("mLanguages") ||
                                 f.getName().equalsIgnoreCase("mRelationshipStatus") ||
                                 f.getName().equalsIgnoreCase("mWebsite")) {
-                            content.append("\n\u2022" + f.getName().substring(1) + " " + f.get(sProfile));
+                            content.append("\n\u2022").append(f.getName().substring(1)).append(" ").append(f.get(sProfile));
                         }
                     }
                 } catch (IllegalAccessException e) {
@@ -149,6 +154,7 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
 
                 TextView t2 = (TextView) d.getChildView(R.id.overlay_dialog_content);
                 t2.setText(content.toString());
+                t2.setTextColor(fPrefs.getTextColor());
                 d.showDialog();
             }
         });
@@ -161,9 +167,10 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
                 d.setDuration(2000);
                 d.setRippleStart(Utils.getLocation(mbBirthday));
                 TextView t = (TextView) d.getChildView(R.id.overlay_dialog_title);
-                t.setText("About " + sProfile.getFirstName());
+                t.setText(String.format(mContext.getResources().getString(R.string.about_user), sProfile.getFirstName()));
+                t.setTextColor(fPrefs.getTextColor());
 
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 Date date = null;
                 try {
                     date = formatter.parse(sProfile.getBirthday());//catch exception
@@ -181,14 +188,16 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
                 long days = diff / (24 * 60 * 60 * 1000);
 
                 TextView t2 = (TextView) d.getChildView(R.id.overlay_dialog_content);
-                t2.setText("Birthday: " + sProfile.getBirthday() + "\nCurrently " + days + " days old.");
+                t2.setText(String.format(mContext.getResources().getString(R.string.birthday_currently), sProfile.getBirthday(), days));
+                t2.setTextColor(fPrefs.getTextColor());
+
                 d.showDialog();
             }
         });
 
         String header = sProfile.getFirstName() + " " + sProfile.getLastName();
         if (header.equals("null null")) {
-            mHeader.setText("Unnamed");
+            mHeader.setText(R.string.unnamed);
         } else {
             mHeader.setText(header);
         }

@@ -6,8 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -15,8 +13,6 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.ChangelogAdapter;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-21.
@@ -61,7 +57,7 @@ public class Changelog {
         mDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                AnimUtils.circleReveal(mView, x, y, Utils.getScreenDiagonal(mContext), Utils.getScreenDiagonal(mContext));
+                AnimUtils.circleReveal(mContext, mView, x, y, Utils.getScreenDiagonal(mContext));
             }
         });
         mDialog.show();

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -14,8 +15,6 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 
 import java.util.Random;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-22.
@@ -58,16 +57,24 @@ public class FrostPreferenceView extends FrameLayout {
 
         ((ScrollView) findViewById(R.id.preferences_frame)).setBackgroundColor(fPrefs.getBackgroundColor());
         TextView t = (TextView) findViewById(R.id.preferences_theme_picker);
-        t.setText("Added tv\nTnnnnnn\nTESTETSET\nTESFSEFSEFSEFES\nTTESESSE\nTTEEEE");
+        t.setText(getResources().getString(R.string.animation_speed));
         t.setTextColor(fPrefs.getTextColor());
+        t.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWithSingleChoiceItems(mContext, mContext.getResources().getString(R.string.animation_speed)).addAnimSpeedOptions();
+            }
+        });
 //        t.setBackgroundColor(randomColor());
 
         ColorPicker cText = (ColorPicker) findViewById(R.id.preferences_text_color);
         cText.initialize(fManager, mActivity);
+        cText.setText(getResources().getString(R.string.text_color));
         cText.setPrefKey(FrostPreferences.TEXT_COLOR);
 
         ColorPicker cBG = (ColorPicker) findViewById(R.id.preferences_background_color);
         cBG.initialize(fManager, mActivity);
+        cBG.setText(getResources().getString(R.string.background_color));
         cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR);
     }
 

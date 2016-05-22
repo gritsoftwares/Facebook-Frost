@@ -16,11 +16,10 @@ import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.SettingsActivity;
+import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.isColorDark;
 
 /**
  * Created by Allan Wang on 2016-05-22.
@@ -32,7 +31,7 @@ public class ColorPicker extends LinearLayout {
     private FrostPreferences fPrefs;
     private Context mContext;
     private FragmentManager fManager;
-    private String mTextString;
+    private String mTextString, mKey;
     private Activity mActivity;
 
     public ColorPicker(Context c) {
@@ -72,11 +71,12 @@ public class ColorPicker extends LinearLayout {
 
     }
 
-    public void setPrefKey(final String s) {
+    public void setPrefKey(String s) {
+        mKey = s;
         final int color = fPrefs.getInt(s);
         if (mTextString == null) mTextString = s;
         mText.setText(mTextString);
-        int borderColor = isColorDark(fPrefs.getTheme()) ? 0x80ffffff : 0x80000000;
+        int borderColor = fPrefs.isDark() ? 0x80ffffff : 0x80000000;
         mColor.setBorderColor(borderColor);
         mColor.setBorderWidth(5);
         mColor.setImageDrawable(new ColorDrawable(color));
@@ -85,19 +85,21 @@ public class ColorPicker extends LinearLayout {
             public void onClick(View v) {
                 new ChromaDialog.Builder()
                         .initialColor(color)
-                        .colorMode((s.toLowerCase().contains("text")) ? ColorMode.RGB : ColorMode.ARGB)
+                        .colorMode((mKey.equals(FrostPreferences.TEXT_COLOR)) ? ColorMode.RGB : ColorMode.ARGB)
                         .indicatorMode(IndicatorMode.DECIMAL) //HEX or DECIMAL;
                         .onColorSelected(new OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(int newColor) {
-                                fPrefs.setInt(s, newColor);
-                                if (color != newColor) {
-                                    ((SettingsActivity)mActivity).colorChanged();
-                                }
+                                fPrefs.setInt(mKey, newColor);
+                                if (mKey.equals(FrostPreferences.BACKGROUND_COLOR))
+                                    fPrefs.setIsDark(ColorUtils.isColorDark(newColor));
+                                if (color != newColor)
+                                    ((SettingsActivity) mActivity).colorChanged();
+
                             }
                         })
                         .create()
-                        .show(fManager, "dialog_" + s);
+                        .show(fManager, "dialog_" + mKey);
             }
         });
     }

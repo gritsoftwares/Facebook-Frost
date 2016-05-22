@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.entities.Photo;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.Utils;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Photo;
 import com.sromku.simple.fb.listeners.OnPublishListener;
 
 public class PublishPhotoDialogFragment extends BaseFragment {

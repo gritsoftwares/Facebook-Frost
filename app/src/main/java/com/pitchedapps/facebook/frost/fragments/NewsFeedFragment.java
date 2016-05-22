@@ -11,15 +11,14 @@ import android.view.ViewGroup;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.WebView;
 import com.pitchedapps.facebook.frost.enums.FBURL;
-
-import im.delight.android.webview.AdvancedWebView;
+import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 
 /**
  * Created by Allan Wang on 2016-05-21.
  */
 public class NewsFeedFragment extends Fragment {
 
-    private AdvancedWebView mWebView;
+    private FrostWebView mWebView;
     private SwipeRefreshLayout mRefresh;
     private WebView mWeb;
 
@@ -31,7 +30,7 @@ public class NewsFeedFragment extends Fragment {
             savedInstanceState) {
         View rootView = inflater.inflate(R.layout.webview_advanced, container, false);
 
-        mWebView = (AdvancedWebView) rootView.findViewById(R.id.webview_container);
+        mWebView = (FrostWebView) rootView.findViewById(R.id.webview_container);
         mRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.webview_refresh);
 
 //        if (mWeb == null) {

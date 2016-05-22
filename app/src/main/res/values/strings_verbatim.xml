@@ -15,6 +15,12 @@
     <string name="welcome">Welcome %1$s</string>
     <string name="exception">Exception: %1$s</string>
 
+    <!--Profile strings-->
+    <string name="about_user">About %1$s</string>
+    <string name="birthday_currently">Birthday: %1$s \nCurrently %2$s days old.</string>
+    <string name="no_email_found">No Email Found</string>
+    <string name="unnamed">Unnamed</string>
+
     <string name="logout">Logout</string>
     <string name="logged_out">Logged Out</string>
     <string name="login">Login</string>
@@ -22,9 +28,22 @@
     <string name="get_friends">Get friends</string>
     <string name="load_more">load more…</string>
 
+    <!--Menu Items-->
     <string name="share">Share</string>
     <string name="changelog">Changelog</string>
     <string name="settings">Settings</string>
     <string name="sendemail">Send Email</string>
     <string name="subject_here">Subject Here</string>
+
+    <!--Theme Settings-->
+    <string name="theme">Theme</string>
+    <string name="text_color">Text Color</string>
+    <string name="background_color">Background Color</string>
+
+    <!--Animation Speeds-->
+    <string name="animation_speed">Animation Speed</string>
+    <string name="slow">Slow</string>
+    <string name="normal">Normal</string>
+    <string name="fast">Fast</string>
+    <string name="lightning">Lightning</string>
 </resources>
