@@ -4,17 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.OnApplyWindowInsetsListener;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.WindowInsetsCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
+import com.pitchedapps.facebook.frost.utils.Utils;
 
 import java.util.Random;
+
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-22.
@@ -25,6 +32,7 @@ public class FrostPreferenceView extends FrameLayout {
     private FragmentManager fManager;
     private Context mContext;
     private Activity mActivity;
+    private View mViewGroup;
     private FrostPreferences fPrefs;
 
     public FrostPreferenceView(Context c) {
@@ -55,7 +63,8 @@ public class FrostPreferenceView extends FrameLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.preferences_frost, this);
 
-        ((ScrollView) findViewById(R.id.preferences_frame)).setBackgroundColor(fPrefs.getBackgroundColor());
+        mViewGroup = findViewById(R.id.preferences_frame);
+        mViewGroup.setBackgroundColor(fPrefs.getBackgroundColor());
         TextView t = (TextView) findViewById(R.id.preferences_theme_picker);
         t.setText(getResources().getString(R.string.animation_speed));
         t.setTextColor(fPrefs.getTextColor());
@@ -76,9 +85,24 @@ public class FrostPreferenceView extends FrameLayout {
         cBG.initialize(fManager, mActivity);
         cBG.setText(getResources().getString(R.string.background_color));
         cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR);
+
+        padContainer();
     }
 
     private int randomColor() {
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
+
+    private void padContainer() {
+        ViewCompat.setOnApplyWindowInsetsListener(mViewGroup, new android.support.v4.view.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                final int statusBar = insets.getSystemWindowInsetTop();
+                final int navigationBar = insets.getSystemWindowInsetBottom();
+                mViewGroup.setPadding(0, statusBar, 0, navigationBar);
+                e("PADDIN G " + statusBar + " " + navigationBar);
+                return insets;
+            }
+        });
     }
 }

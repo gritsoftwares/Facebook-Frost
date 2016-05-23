@@ -44,7 +44,7 @@ import java.util.Locale;
 
 public class Utils {
 
-    private static int navBarHeight = 0;
+    private static int statusBarHeight = 0, navBarHeight = 0;
 
     /**
      * Take screenshot of the activity including the action bar
@@ -178,8 +178,20 @@ public class Utils {
         }
     }
 
+    public static void saveStatusBarHeight(int i) {
+        statusBarHeight = i;
+    }
+
+    public static int getStatusBarHeight() {
+        return statusBarHeight;
+    }
+
     public static void saveNavBarHeight(int i) {
         navBarHeight = i;
+    }
+
+    public static int getNavBarHeight() {
+        return navBarHeight;
     }
 
     public static void showSimpleSnackbar(Context context, View location, String text) {

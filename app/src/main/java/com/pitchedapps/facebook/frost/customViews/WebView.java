@@ -1,48 +1,75 @@
 package com.pitchedapps.facebook.frost.customViews;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.pitchedapps.facebook.frost.MainActivity;
+import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
+import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 import com.pitchedapps.facebook.frost.webHelpers.WebThemer;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Allan Wang on 2016-05-21.
  */
-public class WebView implements FrostWebView.Listener, OnBackPressListener {
+public class WebView extends FrameLayout implements FrostWebView.Listener, OnBackPressListener {
 
     private FrostWebView mWebView;
     private SwipeRefreshLayout mRefresh;
     private FBURL mURL;
     private boolean firstRun = true, reload = false;
     private Activity mActivity;
+//    private Context mContext;
 
-    public WebView(FrostWebView web, FBURL url, Activity activity) {
-        mWebView = web;
-        mWebView.setVisibility(View.INVISIBLE);
+    public WebView(Context c) {
+        super(c);
+//        mContext = c;
+    }
+
+    public WebView(Context c, AttributeSet attrs) {
+        super(c, attrs);
+//        mContext = c;
+    }
+
+    public WebView(Context c, AttributeSet attrs, int defStyle) {
+        super(c, attrs, defStyle);
+//        mContext = c;
+    }
+
+    private void initializeViews(FBURL url, Activity activity) {
+//        fPrefs = new FrostPreferences(mContext);
+        LayoutInflater inflater = (LayoutInflater) activity
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.webview_advanced, this);
+
         mURL = url;
         mActivity = activity;
+        mRefresh = (SwipeRefreshLayout) findViewById(R.id.webview_refresh);
+        mWebView = (FrostWebView) findViewById(R.id.webview_container);
         mWebView.setListener(activity, this);
         mWebView.loadUrl(mURL.getLink());
 
-    }
-
-    public void addRefresher(SwipeRefreshLayout refresh) {
-        mRefresh = refresh;
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 reload();
             }
         });
+//        mText.setTextColor(fPrefs.getTextColor());
     }
 
     public void addBackListener() {

@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.OnApplyWindowInsetsListener;
@@ -16,8 +18,11 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 
 import com.pitchedapps.facebook.frost.customViews.FrostPreferenceView;
+import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
+
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-22.
@@ -47,8 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         fPrefs = new FrostPreferences(mContext);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        updateStatusNav();
-        padMain();
+        updateStatusBar();
     }
 
     public void colorChanged() {
@@ -94,28 +98,19 @@ public class SettingsActivity extends AppCompatActivity {
                 super.onAnimationEnd(animation);
                 mFrame.removeView(mCurrent);
                 mCurrent = mFPV;
+                updateStatusBar();
             }
         });
         mFPV.setVisibility(View.VISIBLE);
         anim.start();
     }
 
-    private void padMain() {
-        ViewCompat.setOnApplyWindowInsetsListener(mFrame, new OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-                final int statusBar = insets.getSystemWindowInsetTop();
-                final int navigationBar = insets.getSystemWindowInsetBottom();
-                mFrame.setPadding(0, statusBar, 0, navigationBar);
-                Utils.saveNavBarHeight(navigationBar);
-                return insets;
+    private void updateStatusBar() {
+            if (ColorUtils.isColorBright(fPrefs.getBackgroundColor())) {
+                getWindow().setStatusBarColor(0x80000000);
+            } else {
+                getWindow().setStatusBarColor(Color.TRANSPARENT);
             }
-        });
-    }
-
-    private void updateStatusNav() {
-        getWindow().setStatusBarColor(fPrefs.getBackgroundColor()); //TODO fix this
-        getWindow().setNavigationBarColor(fPrefs.getBackgroundColor()); //TODO fix this
-
+//        }
     }
 }
