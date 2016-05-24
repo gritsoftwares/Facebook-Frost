@@ -437,6 +437,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager(), pages);
 
         mViewPager.setAdapter(mFPIAdapter);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPagerTab.setViewPager(mViewPager);
 
     }

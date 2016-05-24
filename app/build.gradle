@@ -54,6 +54,8 @@ dependencies {
 
     compile 'com.github.delight-im:Android-AdvancedWebView:v2.1.0'
 
+    compile 'com.github.clans:fab:1.6.3'
+
 //    compile 'com.mostafagazar:customshapeimageview:1.0.4'
     compile 'de.hdodenhof:circleimageview:2.0.0'
 

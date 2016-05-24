@@ -21,6 +21,7 @@ import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 import com.pitchedapps.facebook.frost.webHelpers.WebThemer;
 
 import static com.pitchedapps.facebook.frost.utils.Utils.e;
+import static com.pitchedapps.facebook.frost.utils.Utils.t;
 
 /**
  * Created by Allan Wang on 2016-05-21.
@@ -33,6 +34,7 @@ public class FullWebView extends FrameLayout implements FrostWebView.Listener, O
     private boolean firstRun = true, reload = false;
     private Activity mActivity;
     private FrostPreferences fPrefs;
+    private OnScrollChangedCallback mOnScrollChangedCallback;
 //    private Context mContext;
 
     public FullWebView(Context c) {
@@ -124,7 +126,7 @@ public class FullWebView extends FrameLayout implements FrostWebView.Listener, O
         mRefresh.setRefreshing(true);
         AnimUtils.fadeOut(mActivity, mWebView, 0, 200);
         reload = true;
-        e("RELOADING");
+        t(mActivity, "RELOADING");
         mWebView.reload();
     }
 
@@ -180,6 +182,37 @@ public class FullWebView extends FrameLayout implements FrostWebView.Listener, O
     @Override
     public void onExternalPageRequest(String url) {
 
+    }
+
+    /*
+     * Scroll change listener
+     * http://stackoverflow.com/a/14753235/4407321
+     */
+
+    @Override
+    protected void onScrollChanged(final int l, final int t, final int oldl, final int oldt)
+    {
+        super.onScrollChanged(l, t, oldl, oldt);
+        e("SSSS " + l + " " + t);
+//        if(mOnScrollChangedCallback != null) mOnScrollChangedCallback.onScroll(l, t);
+    }
+
+    public OnScrollChangedCallback getOnScrollChangedCallback()
+    {
+        return mOnScrollChangedCallback;
+    }
+
+    public void setOnScrollChangedCallback(final OnScrollChangedCallback onScrollChangedCallback)
+    {
+        mOnScrollChangedCallback = onScrollChangedCallback;
+    }
+
+    /**
+     * Implement in the activity/fragment/view that you want to listen to the webview
+     */
+    public interface OnScrollChangedCallback
+    {
+        public void onScroll(int l, int t);
     }
 
 

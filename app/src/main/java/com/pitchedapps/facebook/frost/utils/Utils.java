@@ -161,6 +161,12 @@ public class Utils {
         return output.toByteArray();
     }
 
+    public static void t(Activity a, Object o) {
+        Log.e("FBFrost", o.toString());
+        Toast.makeText(a, o.toString(),
+                Toast.LENGTH_LONG).show();
+    }
+
     public static void e(Object o) {
         Log.e("FBFrost", o.toString());
     }
