@@ -5,7 +5,8 @@ package com.pitchedapps.facebook.frost.enums;
  */
 public enum FBURL {
 
-    FEED("https://touch.facebook.com/");
+    FEED("https://touch.facebook.com/"),
+    PROFILE("https://touch.facebook.com/me/");
 
     private String url;
 

@@ -44,7 +44,7 @@ import java.util.Locale;
 
 public class Utils {
 
-    private static int statusBarHeight = 0, navBarHeight = 0;
+    private static int statusBarHeight = 60, navBarHeight = 120;
 
     /**
      * Take screenshot of the activity including the action bar

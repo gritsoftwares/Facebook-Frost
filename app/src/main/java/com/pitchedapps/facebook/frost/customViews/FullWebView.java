@@ -2,14 +2,13 @@ package com.pitchedapps.facebook.frost.customViews;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.pitchedapps.facebook.frost.MainActivity;
 import com.pitchedapps.facebook.frost.R;
@@ -21,48 +20,50 @@ import com.pitchedapps.facebook.frost.utils.Utils;
 import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 import com.pitchedapps.facebook.frost.webHelpers.WebThemer;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-21.
  */
-public class WebView extends FrameLayout implements FrostWebView.Listener, OnBackPressListener {
+public class FullWebView extends FrameLayout implements FrostWebView.Listener, OnBackPressListener {
 
     private FrostWebView mWebView;
     private SwipeRefreshLayout mRefresh;
     private FBURL mURL;
     private boolean firstRun = true, reload = false;
     private Activity mActivity;
+    private FrostPreferences fPrefs;
 //    private Context mContext;
 
-    public WebView(Context c) {
+    public FullWebView(Context c) {
         super(c);
 //        mContext = c;
     }
 
-    public WebView(Context c, AttributeSet attrs) {
+    public FullWebView(Context c, AttributeSet attrs) {
         super(c, attrs);
 //        mContext = c;
     }
 
-    public WebView(Context c, AttributeSet attrs, int defStyle) {
+    public FullWebView(Context c, AttributeSet attrs, int defStyle) {
         super(c, attrs, defStyle);
 //        mContext = c;
     }
 
-    private void initializeViews(FBURL url, Activity activity) {
+    public void initializeViews(FBURL url, Activity activity) {
 //        fPrefs = new FrostPreferences(mContext);
         LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.webview_advanced, this);
 
+        fPrefs = new FrostPreferences(activity);
         mURL = url;
         mActivity = activity;
         mRefresh = (SwipeRefreshLayout) findViewById(R.id.webview_refresh);
         mWebView = (FrostWebView) findViewById(R.id.webview_container);
         mWebView.setListener(activity, this);
         mWebView.loadUrl(mURL.getLink());
-
+        mRefresh.setRefreshing(true);
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -72,12 +73,42 @@ public class WebView extends FrameLayout implements FrostWebView.Listener, OnBac
 //        mText.setTextColor(fPrefs.getTextColor());
     }
 
-    public void addBackListener() {
-        ((MainActivity) mActivity).addOnBackPressedListener(this);
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        mWebView.onActivityResult(requestCode, resultCode, intent);
     }
 
-    public void removeBackListener() {
+    public FrostWebView getFrostWebView() {
+        return mWebView;
+    }
+
+    public SwipeRefreshLayout getRefreshLayout() {
+        return mRefresh;
+    }
+
+    public void refreshOn() {
+        mRefresh.setRefreshing(true);
+    }
+
+    public void refreshOff() {
+        mRefresh.setRefreshing(false);
+    }
+
+    public void onResume() {
+        ((MainActivity) mActivity).addOnBackPressedListener(this);
+        mWebView.onResume();
+    }
+
+    public void onPause() {
         ((MainActivity) mActivity).removeOnBackPressedListener(this);
+        mWebView.onPause();
+    }
+
+    public void onStop() {
+        ((MainActivity) mActivity).removeOnBackPressedListener(this);
+    }
+
+    public void onDestroy() {
+        mWebView.onDestroy();
     }
 
     @Override
@@ -90,13 +121,16 @@ public class WebView extends FrameLayout implements FrostWebView.Listener, OnBac
     }
 
     private void reload() {
+        mRefresh.setRefreshing(true);
         AnimUtils.fadeOut(mActivity, mWebView, 0, 200);
         reload = true;
+        e("RELOADING");
         mWebView.reload();
     }
 
     @Override
     public void onLoadResource(String url) {
+//        mRefresh.setRefreshing(true);
         WebThemer.injectTheme(mActivity, mWebView);
 //        e("URL " + mWebView.getUrl() + " " + url);
     }
@@ -105,7 +139,7 @@ public class WebView extends FrameLayout implements FrostWebView.Listener, OnBac
     public void onPageStarted(String url, Bitmap favicon) {
 
         // http://stackoverflow.com/a/12039477/4407321
-        mWebView.setBackgroundColor(Color.TRANSPARENT);
+        mWebView.setBackgroundColor(fPrefs.getBackgroundColor());
 //        mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
     }
@@ -113,7 +147,7 @@ public class WebView extends FrameLayout implements FrostWebView.Listener, OnBac
 
     @Override
     public void onPageFinished(String url) {
-        if (mRefresh != null) mRefresh.setRefreshing(false);
+        mRefresh.setRefreshing(false);
 
 //        WebThemer.injectTheme(mActivity, mWebView);
 
@@ -125,7 +159,7 @@ public class WebView extends FrameLayout implements FrostWebView.Listener, OnBac
 //            handler.postDelayed(new Runnable() {
 //                @Override
 //                public void run() {
-                    AnimUtils.circleReveal(mActivity, mWebView, 0, 0, Utils.getScreenDiagonal(mActivity));
+            AnimUtils.circleReveal(mActivity, mWebView, 0, 0, Utils.getScreenDiagonal(mActivity));
 //                }
 //            }, 300); //TODO fix theme delay
         }
@@ -135,9 +169,7 @@ public class WebView extends FrameLayout implements FrostWebView.Listener, OnBac
 
     @Override
     public void onPageError(int errorCode, String description, String failingUrl) {
-
-        if (mRefresh != null) mRefresh.setRefreshing(false);
-
+        mRefresh.setRefreshing(false);
     }
 
     @Override

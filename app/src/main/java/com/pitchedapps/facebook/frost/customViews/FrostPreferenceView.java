@@ -34,6 +34,7 @@ public class FrostPreferenceView extends FrameLayout {
     private Activity mActivity;
     private View mViewGroup;
     private FrostPreferences fPrefs;
+    private static int statusBar, navigationBar;
 
     public FrostPreferenceView(Context c) {
         super(c);
@@ -86,23 +87,10 @@ public class FrostPreferenceView extends FrameLayout {
         cBG.setText(getResources().getString(R.string.background_color));
         cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR);
 
-        padContainer();
+        mViewGroup.setPadding(0, Utils.getStatusBarHeight(), 0, Utils.getNavBarHeight());
     }
 
     private int randomColor() {
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-    }
-
-    private void padContainer() {
-        ViewCompat.setOnApplyWindowInsetsListener(mViewGroup, new android.support.v4.view.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-                final int statusBar = insets.getSystemWindowInsetTop();
-                final int navigationBar = insets.getSystemWindowInsetBottom();
-                mViewGroup.setPadding(0, statusBar, 0, navigationBar);
-                e("PADDIN G " + statusBar + " " + navigationBar);
-                return insets;
-            }
-        });
     }
 }

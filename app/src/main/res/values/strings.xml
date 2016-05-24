@@ -5,6 +5,7 @@
     <string name="facebook_app_name">@string/app_name</string>
 
     <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
+    <string name="permission_not_granted_profile">Insufficient permissions granted for full app use; Profile tab will now display in webview.</string>
 
     <string name="test">TEST 123</string>
     <string name="demo_tab_1">TEST 1</string>

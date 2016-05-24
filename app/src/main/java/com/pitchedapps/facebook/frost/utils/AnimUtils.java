@@ -16,17 +16,14 @@ import com.pitchedapps.facebook.frost.enums.V;
 public class AnimUtils {
 
     public static void circleReveal(Context c, View v, int x, int y, double radius) {
-        // create the animator for this view (the start radius is zero)
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(v, x, y, 0, (int) radius).setDuration((long) (radius * 0.6 * FrostPreferences.getAnimationSpeedFactor(c)));
-
-        // make the view visible and start the animation
-        v.bringToFront();
-        v.setVisibility(View.VISIBLE);
-        anim.start();
+        circleReveal(c, v, x, y, radius, radius * 0.6 * FrostPreferences.getAnimationSpeedFactor(c));
     }
 
     public static void circleReveal(Context c, View v, int x, int y, double radius, double duration) {
+        if (!v.isAttachedToWindow()) {
+            v.setVisibility(View.VISIBLE);
+            return;
+        }
         duration *= FrostPreferences.getAnimationSpeedFactor(c);
         // create the animator for this view (the start radius is zero)
         Animator anim =
@@ -39,6 +36,10 @@ public class AnimUtils {
     }
 
     public static void circleHide(Context c, final View v, int x, int y, double radius, double duration) {
+        if (!v.isAttachedToWindow()) {
+            v.setVisibility(View.VISIBLE);
+            return;
+        }
         duration *= FrostPreferences.getAnimationSpeedFactor(c);
         Animator anim =
                 ViewAnimationUtils.createCircularReveal(v, x, y, (int) radius, 0).setDuration((long) duration);
@@ -94,13 +95,17 @@ public class AnimUtils {
 
     public static void fadeOut(Context c, View v, double offset, double duration) {
         v.setVisibility(View.GONE);
-        v.startAnimation(fadeOutAnimation(c, offset, duration));
+        if (v.isAttachedToWindow()) {
+            v.startAnimation(fadeOutAnimation(c, offset, duration));
+        }
     }
 
     public static void fadeIn(Context c, View v, double offset, double duration) {
         v.setVisibility(View.VISIBLE);
-        v.bringToFront();
-        v.startAnimation(AnimUtils.fadeInAnimation(c, offset, duration));
+        if (v.isAttachedToWindow()) {
+            v.bringToFront();
+            v.startAnimation(AnimUtils.fadeInAnimation(c, offset, duration));
+        }
     }
 
 

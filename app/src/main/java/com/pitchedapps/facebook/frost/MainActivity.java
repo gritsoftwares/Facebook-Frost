@@ -53,6 +53,7 @@ import com.sromku.simple.fb.utils.PictureAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
@@ -207,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.changelog:
 //                new Changelog(mContext).show();
                 new Changelog(mContext).showWithCircularReveal(lX, (int) (lY * 2.2 / 4.2));
+                Set<String> grantedPermissions = SimpleFacebook.getInstance().getGrantedPermissions();
+                e("PERMISSIONS " + grantedPermissions);
 //                new AlertDialogWithCircularReveal(mContext, R.layout.changelog_content).showDialog();
                 break;
             case R.id.settings:
@@ -401,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
                 final int statusBar = insets.getSystemWindowInsetTop();
                 final int navigationBar = insets.getSystemWindowInsetBottom();
                 mMainLayout.setPadding(0, statusBar, 0, navigationBar);
+                Utils.saveStatusBarHeight(statusBar);
                 Utils.saveNavBarHeight(navigationBar);
                 return insets;
             }

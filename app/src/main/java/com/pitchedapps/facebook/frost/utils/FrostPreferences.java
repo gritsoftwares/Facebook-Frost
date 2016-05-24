@@ -97,6 +97,6 @@ public class FrostPreferences {
     }
 
     public int getAnimationSpeedPosition() {
-        return getSharedPreferences().getInt(ANIMATION_DIALOG_CHECKED, 0);
+        return getSharedPreferences().getInt(ANIMATION_DIALOG_CHECKED, 1);
     }
 }

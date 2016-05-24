@@ -1,6 +1,7 @@
 package com.pitchedapps.facebook.frost.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -14,11 +15,14 @@ import android.view.ViewGroup;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.EmptyAdapter;
 import com.pitchedapps.facebook.frost.adapters.PostAdapter;
+import com.pitchedapps.facebook.frost.customViews.FullWebView;
+import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.enums.PostHeader;
 import com.pitchedapps.facebook.frost.exampleFragments.BaseFragment;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.SharedObjects;
 import com.pitchedapps.facebook.frost.utils.Utils;
+import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Post;
 import com.sromku.simple.fb.entities.Profile;
@@ -30,6 +34,7 @@ import com.sromku.simple.fb.utils.PictureAttributes;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.Set;
 
 import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
@@ -41,16 +46,30 @@ public class ProfileFragment extends BaseFragment {
     private SwipeRefreshLayout mRefresh;
     private RecyclerView mRV;
     private Context mContext;
+    private FullWebView mWebView;
     private Profile mProfile;
+    private ViewGroup mViewGroup;
     private boolean firstRun = true;
+    private boolean sdkVersion = true;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         mContext = getActivity();
+        Set<String> grantedPermissions = SimpleFacebook.getInstance().getGrantedPermissions();
         getViews(view);
-        getData();
+        if (grantedPermissions.contains(Permission.USER_POSTS.getValue()) && grantedPermissions.contains(Permission.USER_ABOUT_ME.getValue())) {
+            getData();
+        } else {
+            sdkVersion = false;
+            mViewGroup = (ViewGroup) view.findViewById(R.id.profile_viewGroup);
+            mWebView = new FullWebView(mContext);
+            mWebView.initializeViews(FBURL.PROFILE, getActivity());
+            mViewGroup.removeView(mRefresh);
+            mViewGroup.addView(mWebView);
+            Utils.showSimpleSnackbar(mContext, container, "Permissions not granted; using webview");
+        }
 
 
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
@@ -61,11 +80,35 @@ public class ProfileFragment extends BaseFragment {
         return view;
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().setTitle(EXAMPLE);
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!sdkVersion) mWebView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!sdkVersion) mWebView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (!sdkVersion) mWebView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (!sdkVersion) mWebView.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (!sdkVersion) mWebView.onActivityResult(requestCode, resultCode, intent);
+    }
 
     /*
      * Saves recyclerview scroll position
@@ -75,7 +118,7 @@ public class ProfileFragment extends BaseFragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && sdkVersion) {
             Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
             mRV.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
         }
@@ -84,7 +127,7 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mRV != null) {
+        if (mRV != null && sdkVersion) {
             outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mRV.getLayoutManager().onSaveInstanceState());
         }
     }

@@ -7,9 +7,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.customViews.WebView;
+import com.pitchedapps.facebook.frost.customViews.FullWebView;
 import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 
@@ -18,9 +19,7 @@ import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
  */
 public class NewsFeedFragment extends Fragment {
 
-    private FrostWebView mWebView;
-    private SwipeRefreshLayout mRefresh;
-    private WebView mWeb;
+    private FullWebView mWebView;
 
     public NewsFeedFragment() {
     }
@@ -28,17 +27,11 @@ public class NewsFeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.webview_advanced, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
 
-        mWebView = (FrostWebView) rootView.findViewById(R.id.webview_container);
-        mRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.webview_refresh);
+        mWebView = (FullWebView) rootView.findViewById(R.id.news_feed_webview);
+        mWebView.initializeViews(FBURL.FEED, getActivity());
 
-//        if (mWeb == null) {
-//        e("HERE");
-            mWeb = new WebView(mWebView, FBURL.FEED, getActivity());
-            mWeb.addRefresher(mRefresh);
-
-//        }
 
         return rootView;
     }
@@ -47,19 +40,18 @@ public class NewsFeedFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mWebView.onResume();
-        mWeb.addBackListener();
     }
 
     @Override
     public void onPause() {
-        mWebView.onPause();
         super.onPause();
+        mWebView.onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mWeb.removeBackListener();
+        mWebView.onStop();
     }
 
     @Override
