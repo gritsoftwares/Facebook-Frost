@@ -2,19 +2,14 @@ package com.pitchedapps.facebook.frost.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
-import com.github.clans.fab.FloatingActionButton;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.FullWebView;
 import com.pitchedapps.facebook.frost.enums.FBURL;
-import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 
 import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
@@ -24,7 +19,7 @@ import static com.pitchedapps.facebook.frost.utils.Utils.e;
 public class NewsFeedFragment extends Fragment implements FullWebView.OnScrollChangedCallback{
 
     private FullWebView mWebView;
-    private FloatingActionButton mFab;
+//    private FloatingActionButton mFab;
 
     public NewsFeedFragment() {
     }
@@ -36,7 +31,7 @@ public class NewsFeedFragment extends Fragment implements FullWebView.OnScrollCh
 
         mWebView = (FullWebView) rootView.findViewById(R.id.news_feed_webview);
         mWebView.initializeViews(FBURL.FEED, getActivity());
-        mFab = (FloatingActionButton) rootView.findViewById(R.id.news_feed_fab);
+//        mFab = (FloatingActionButton) rootView.findViewById(R.id.news_feed_fab);
 //        mFab.hide(false);
         mWebView.setOnScrollChangedCallback(new FullWebView.OnScrollChangedCallback() {
             @Override

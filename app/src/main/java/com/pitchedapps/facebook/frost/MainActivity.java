@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.OnApplyWindowInsetsListener;
@@ -64,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mButtonLogin;
     private TextView mTextStatus;
-    private RelativeLayout mStartLayout, mMainLayout, mFullLayout;
+    private RelativeLayout mStartLayout, mFullLayout;
+    private CoordinatorLayout mMainLayout;
     private ViewPager mViewPager;
     private SmartTabLayout mViewPagerTab;
     private Context mContext;
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_full);
 
         mFullLayout = (RelativeLayout) findViewById(R.id.full_layout);
-        mMainLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        mMainLayout = (CoordinatorLayout) findViewById(R.id.main_layout);
         mStartLayout = (RelativeLayout) findViewById(R.id.startup_layout);
         mButtonLogin = (Button) findViewById(R.id.button_login_splash);
         mTextStatus = (TextView) findViewById(R.id.text_status_splash);
@@ -121,10 +123,10 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        getWindow().setStatusBarColor(ContextCompat.getColor(mContext, R.color.facebook_blue_dark)); //TODO fix this
+//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+//        getWindow().setStatusBarColor(ContextCompat.getColor(mContext, R.color.facebook_blue_dark)); //TODO fix this
 
-        padMain();
+//        padMain();
         addTabbedContent();
         setUIState();
         setLogin();
