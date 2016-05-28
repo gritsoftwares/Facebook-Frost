@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.enums.Themes;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 
@@ -30,25 +31,19 @@ public class FrostPreferenceView extends FrameLayout {
 
     private Random rnd;
     private FragmentManager fManager;
-    private Context mContext;
     private Activity mActivity;
-    private View mViewGroup;
-    private FrostPreferences fPrefs;
     private static int statusBar, navigationBar;
 
     public FrostPreferenceView(Context c) {
         super(c);
-        mContext = c;
     }
 
     public FrostPreferenceView(Context c, AttributeSet attrs) {
         super(c, attrs);
-        mContext = c;
     }
 
     public FrostPreferenceView(Context c, AttributeSet attrs, int defStyle) {
         super(c, attrs, defStyle);
-        mContext = c;
     }
 
     public void initialize(FragmentManager f, Activity a) {
@@ -59,38 +54,65 @@ public class FrostPreferenceView extends FrameLayout {
 
     private void initializeViews() {
         rnd = new Random();
-        fPrefs = new FrostPreferences(mContext);
-        LayoutInflater inflater = (LayoutInflater) mContext
+        FrostPreferences fPrefs = new FrostPreferences(mActivity);
+        LayoutInflater inflater = (LayoutInflater) mActivity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.preferences_frost, this);
 
-        mViewGroup = findViewById(R.id.preferences_frame);
+        View mViewGroup = findViewById(R.id.preferences_frame);
         mViewGroup.setBackgroundColor(fPrefs.getBackgroundColor());
-        TextView t = (TextView) findViewById(R.id.preferences_theme_picker);
-        t.setText(getResources().getString(R.string.animation_speed));
-        t.setTextColor(fPrefs.getTextColor());
-        t.setOnClickListener(new OnClickListener() {
+
+        PreferenceText cAnimations = (PreferenceText) findViewById(R.id.preferences_anim);
+        cAnimations.initialize(s(R.string.animation_speed));
+        final TextView animValue = cAnimations.getValueTextView();
+        animValue.setText(s(fPrefs.getAnimationSpeedStringID()));
+        animValue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWithSingleChoiceItems(mContext, mContext.getResources().getString(R.string.animation_speed)).addAnimSpeedOptions();
+                new AlertDialogWithSingleChoiceItems(mActivity, animValue).addAnimSpeedOptions();
             }
         });
+
+        PreferenceText cThemes = (PreferenceText) findViewById(R.id.preferences_theme);
+        cThemes.initialize(s(R.string.theme));
+        final TextView themeValue = cThemes.getValueTextView();
+        themeValue.setText(s(fPrefs.getThemeStringID()));
+        themeValue.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWithSingleChoiceItems(mActivity, themeValue).addThemeOptions();
+            }
+        });
+
+
 //        t.setBackgroundColor(randomColor());
 
         ColorPicker cText = (ColorPicker) findViewById(R.id.preferences_text_color);
-        cText.initialize(fManager, mActivity);
-        cText.setText(getResources().getString(R.string.text_color));
-        cText.setPrefKey(FrostPreferences.TEXT_COLOR);
+        if (fPrefs.getThemeStringID() != Themes.CUSTOM.getStringID()) {
+            cText.setVisibility(GONE);
+        } else {
+            cText.initialize(fManager, mActivity);
+            cText.setText(getResources().getString(R.string.text_color));
+            cText.setPrefKey(FrostPreferences.TEXT_COLOR_CP);
+        }
 
         ColorPicker cBG = (ColorPicker) findViewById(R.id.preferences_background_color);
-        cBG.initialize(fManager, mActivity);
-        cBG.setText(getResources().getString(R.string.background_color));
-        cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR);
+        if (fPrefs.getThemeStringID() != Themes.CUSTOM.getStringID()) {
+            cBG.setVisibility(GONE);
+        } else {
+            cBG.initialize(fManager, mActivity);
+            cBG.setText(getResources().getString(R.string.background_color));
+            cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR_CP);
+        }
 
         mViewGroup.setPadding(0, Utils.getStatusBarHeight(), 0, Utils.getNavBarHeight());
     }
 
     private int randomColor() {
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
+
+    private String s(int id) {
+        return getResources().getString(id);
     }
 }

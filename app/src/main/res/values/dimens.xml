@@ -26,5 +26,8 @@
     <dimen name="frost_preference_padding">24dp</dimen>
     <dimen name="color_picker_preview_size">40dip</dimen>
 
+    <!--fab-->
+    <dimen name="fab_margin">16dp</dimen>
+
 
 </resources>

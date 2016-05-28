@@ -90,9 +90,17 @@ public class ColorPicker extends LinearLayout {
                         .onColorSelected(new OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(int newColor) {
-                                fPrefs.setInt(mKey, newColor);
-                                if (mKey.equals(FrostPreferences.BACKGROUND_COLOR))
-                                    fPrefs.setIsDark(ColorUtils.isColorDark(newColor));
+                                switch (mKey) {
+                                    case FrostPreferences.BACKGROUND_COLOR_CP:
+                                        fPrefs.setBackgroundColorCP(newColor);
+                                        break;
+                                    case FrostPreferences.TEXT_COLOR_CP:
+                                        fPrefs.setTextColorCP(newColor);
+                                        break;
+                                    default:
+                                        fPrefs.setInt(mKey, newColor);
+                                        break;
+                                }
                                 if (color != newColor)
                                     ((SettingsActivity) mActivity).colorChanged();
 

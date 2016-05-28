@@ -40,6 +40,17 @@ public class ColorUtils {
         return Color.argb((int) a, (int) r, (int) g, (int) b);
     }
 
+    public int getTintedHeaderBackground(float ratio) {
+        int background = new FrostPreferences(mContext).getHeaderBackgroundColor();
+        int tint = isColorDark(background) ? 0xffffffff : 0xff000000;
+        final float inverseRation = 1f - ratio;
+        float a = (Color.alpha(tint));
+        float r = (Color.red(tint) * ratio) + (Color.red(background) * inverseRation);
+        float g = (Color.green(tint) * ratio) + (Color.green(background) * inverseRation);
+        float b = (Color.blue(tint) * ratio) + (Color.blue(background) * inverseRation);
+        return Color.argb((int) a, (int) r, (int) g, (int) b);
+    }
+
     public String getTintedBackgroundString(float ratio) {
         int background = new FrostPreferences(mContext).getBackgroundColor();
         int tint = isColorDark(background) ? 0xffffffff : 0xff000000;

@@ -60,6 +60,10 @@ public class SettingsActivity extends AppCompatActivity {
         mFPVanimation(newPreferenceView()); //replicate view with new colors
     }
 
+    public void reload() {
+        mFPVanimation(newPreferenceView()); //layout change; reload
+    }
+
     @Override
     public void onBackPressed() {
         if (colorChanged) {

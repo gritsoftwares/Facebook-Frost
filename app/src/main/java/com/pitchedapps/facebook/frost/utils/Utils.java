@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
@@ -207,8 +208,8 @@ public class Utils {
 
             ViewGroup viewgroup = (ViewGroup) snackbar.getView();
             viewgroup.setBackgroundColor(ContextCompat.getColor(context, R.color.facebook_blue));
-            viewgroup.setPadding(viewgroup.getPaddingLeft(), viewgroup.getPaddingTop(),
-                    viewgroup.getPaddingRight(), viewgroup.getPaddingBottom() + navBarHeight); //Add padding to match top of navbar
+//            viewgroup.setPadding(viewgroup.getPaddingLeft(), viewgroup.getPaddingTop(),
+//                    viewgroup.getPaddingRight(), viewgroup.getPaddingBottom() + navBarHeight); //Add padding to match top of navbar
             snackbar.show();
         } catch (Exception e) {
             Toast.makeText(context, text,
@@ -316,5 +317,14 @@ public class Utils {
         int[] posXY = new int[2];
         v.getLocationInWindow(posXY);
         return new Point(posXY[0] + v.getWidth()/2, posXY[1] + v.getHeight()/2);
+    }
+
+    public static int getToolbarHeight(Context context) {
+        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
+                new int[]{R.attr.actionBarSize});
+        int toolbarHeight = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+
+        return toolbarHeight;
     }
 }

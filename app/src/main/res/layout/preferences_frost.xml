@@ -8,9 +8,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/preferences_theme_picker"
-            android:padding="@dimen/frost_preference_padding"
+        <com.pitchedapps.facebook.frost.customViews.PreferenceText
+            android:id="@+id/preferences_anim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.pitchedapps.facebook.frost.customViews.PreferenceText
+            android:id="@+id/preferences_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

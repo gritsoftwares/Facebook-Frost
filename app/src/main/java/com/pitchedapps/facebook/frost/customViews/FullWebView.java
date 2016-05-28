@@ -34,7 +34,7 @@ public class FullWebView extends FrameLayout implements FrostWebView.Listener, O
     private boolean firstRun = true, reload = false;
     private Activity mActivity;
     private FrostPreferences fPrefs;
-    private OnScrollChangedCallback mOnScrollChangedCallback;
+//    private OnScrollChangedCallback mOnScrollChangedCallback;
 //    private Context mContext;
 
     public FullWebView(Context c) {
@@ -189,31 +189,31 @@ public class FullWebView extends FrameLayout implements FrostWebView.Listener, O
      * http://stackoverflow.com/a/14753235/4407321
      */
 
-    @Override
-    protected void onScrollChanged(final int l, final int t, final int oldl, final int oldt)
-    {
-        super.onScrollChanged(l, t, oldl, oldt);
-        e("SSSS " + l + " " + t);
+//    @Override
+//    protected void onScrollChanged(final int l, final int t, final int oldl, final int oldt)
+//    {
+//        super.onScrollChanged(l, t, oldl, oldt);
+//        e("SSSS " + l + " " + t);
 //        if(mOnScrollChangedCallback != null) mOnScrollChangedCallback.onScroll(l, t);
-    }
-
-    public OnScrollChangedCallback getOnScrollChangedCallback()
-    {
-        return mOnScrollChangedCallback;
-    }
-
-    public void setOnScrollChangedCallback(final OnScrollChangedCallback onScrollChangedCallback)
-    {
-        mOnScrollChangedCallback = onScrollChangedCallback;
-    }
-
-    /**
-     * Implement in the activity/fragment/view that you want to listen to the webview
-     */
-    public interface OnScrollChangedCallback
-    {
-        public void onScroll(int l, int t);
-    }
+//    }
+//
+//    public OnScrollChangedCallback getOnScrollChangedCallback()
+//    {
+//        return mOnScrollChangedCallback;
+//    }
+//
+//    public void setOnScrollChangedCallback(final OnScrollChangedCallback onScrollChangedCallback)
+//    {
+//        mOnScrollChangedCallback = onScrollChangedCallback;
+//    }
+//
+//    /**
+//     * Implement in the activity/fragment/view that you want to listen to the webview
+//     */
+//    public interface OnScrollChangedCallback
+//    {
+//        public void onScroll(int l, int t);
+//    }
 
 
 }

@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Frost.Theme"
-    android:fitsSystemWindows="true"
     android:visibility="gone">
+
+    <!--android:fitsSystemWindows="true"-->
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -13,26 +14,14 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/Frost.Popup"
-                app:theme="@style/Frost.ActionBar" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:popupTheme="@style/Frost.Popup"
+            app:theme="@style/Frost.ActionBar" />
 
         <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/viewpagertab"
@@ -50,28 +39,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/activity_main_nestedscrollview"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/appBarLayout"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <LinearLayout
-            android:id="@+id/lin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_behavior="com.pitchedapps.facebook.frost.behaviours.FABBehaviour"/>
 
 </android.support.design.widget.CoordinatorLayout>

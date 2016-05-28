@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -30,12 +32,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionButton;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.pitchedapps.facebook.frost.behaviours.FABBehaviour;
 import com.pitchedapps.facebook.frost.customViews.Changelog;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
@@ -74,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
     private List<OnBackPressListener> mBackPressedListeners = new ArrayList<>();
     private Toolbar mToolbar;
     private FrostPreferences fPrefs;
+    private FloatingActionButton mFAB;
+    private Drawable fCreate, fRefresh;
 
     private SimpleFacebook mSimpleFacebook;
 
@@ -121,10 +129,33 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        mFAB = (FloatingActionButton) findViewById(R.id.fab);
+        mFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.showSimpleSnackbar(mContext, mMainLayout, "TEST");
+            }
+        });
+
+        mFAB.setColorNormal(fPrefs.getHeaderBackgroundColor());
+        mFAB.setColorPressed(new ColorUtils(mContext).getTintedHeaderBackground(0.2f));
+        fCreate = new IconicsDrawable(mContext)
+                .icon(GoogleMaterial.Icon.gmd_create)
+                .color(fPrefs.getHeaderTextColor())
+                .sizeDp(24);
+        fRefresh = new IconicsDrawable(mContext)
+                .icon(GoogleMaterial.Icon.gmd_refresh)
+                .color(fPrefs.getHeaderTextColor())
+                .sizeDp(24);
+
+        mFAB.setImageDrawable(fCreate);
+
         setSupportActionBar(mToolbar);
 
 //        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-//        getWindow().setStatusBarColor(ContextCompat.getColor(mContext, R.color.facebook_blue_dark)); //TODO fix this
+        getWindow().setStatusBarColor(fPrefs.getHeaderBackgroundColor()); //TODO fix this
+        getWindow().setNavigationBarColor(fPrefs.getBackgroundColor()); //TODO fix this
 
 //        padMain();
         addTabbedContent();
@@ -208,11 +239,9 @@ public class MainActivity extends AppCompatActivity {
                 Utils.sendEmailWithDeviceInfo(mContext);
                 break;
             case R.id.changelog:
-//                new Changelog(mContext).show();
                 new Changelog(mContext).showWithCircularReveal(lX, (int) (lY * 2.2 / 4.2));
                 Set<String> grantedPermissions = SimpleFacebook.getInstance().getGrantedPermissions();
-                e("PERMISSIONS " + grantedPermissions);
-//                new AlertDialogWithCircularReveal(mContext, R.layout.changelog_content).showDialog();
+//                e("PERMISSIONS " + grantedPermissions);
                 break;
             case R.id.settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -405,7 +434,8 @@ public class MainActivity extends AppCompatActivity {
             public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
                 final int statusBar = insets.getSystemWindowInsetTop();
                 final int navigationBar = insets.getSystemWindowInsetBottom();
-                mMainLayout.setPadding(0, statusBar, 0, navigationBar);
+                mMainLayout.setPadding(0, 0, 0, navigationBar);
+                mToolbar.setPadding(mToolbar.getPaddingLeft(), mToolbar.getPaddingTop() + statusBar, mToolbar.getPaddingRight(), mToolbar.getPaddingBottom());
                 Utils.saveStatusBarHeight(statusBar);
                 Utils.saveNavBarHeight(navigationBar);
                 return insets;
@@ -428,6 +458,35 @@ public class MainActivity extends AppCompatActivity {
                 return icon;
             }
         });
+
+        mViewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        mFAB.setImageDrawable(fCreate);
+                        mFAB.show(true);
+                        break;
+                    case 1:
+                        mFAB.setImageDrawable(fRefresh);
+                        mFAB.show(true);
+                        break;
+                    default:
+                        mFAB.hide(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
 
         FragmentPagerItems pages = new FragmentPagerItems(mContext);
 

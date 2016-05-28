@@ -16,7 +16,7 @@ import static com.pitchedapps.facebook.frost.utils.Utils.e;
 /**
  * Created by Allan Wang on 2016-05-21.
  */
-public class NewsFeedFragment extends Fragment implements FullWebView.OnScrollChangedCallback{
+public class NewsFeedFragment extends Fragment {
 
     private FullWebView mWebView;
 //    private FloatingActionButton mFab;
@@ -33,12 +33,12 @@ public class NewsFeedFragment extends Fragment implements FullWebView.OnScrollCh
         mWebView.initializeViews(FBURL.FEED, getActivity());
 //        mFab = (FloatingActionButton) rootView.findViewById(R.id.news_feed_fab);
 //        mFab.hide(false);
-        mWebView.setOnScrollChangedCallback(new FullWebView.OnScrollChangedCallback() {
-            @Override
-            public void onScroll(int l, int t) {
-                e("scroll " + l + " " + t);
-            }
-        });
+//        mWebView.setOnScrollChangedCallback(new FullWebView.OnScrollChangedCallback() {
+//            @Override
+//            public void onScroll(int l, int t) {
+//                e("scroll " + l + " " + t);
+//            }
+//        });
 
         return rootView;
     }
@@ -78,9 +78,9 @@ public class NewsFeedFragment extends Fragment implements FullWebView.OnScrollCh
         mWebView.onActivityResult(requestCode, resultCode, intent);
     }
 
-    @Override
-    public void onScroll(int l, int t) {
-        e("scroll " + l + " " + t);
-
-    }
+//    @Override
+//    public void onScroll(int l, int t) {
+//        e("scroll " + l + " " + t);
+//
+//    }
 }

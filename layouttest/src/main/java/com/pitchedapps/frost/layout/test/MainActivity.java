@@ -16,6 +16,8 @@
 
 package com.pitchedapps.frost.layout.test;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +27,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +35,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +54,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mContext = this;
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
@@ -84,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(R.drawable.ic_accessibility_black_24dp);
+        }
     }
 
     @Override
@@ -143,9 +154,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new WebFragment(), "Category 1");
-        adapter.addFragment(new CheeseListFragment(), "Category 2");
-        adapter.addFragment(new CheeseListFragment(), "Category 3");
+
+        Drawable image = ContextCompat.getDrawable(mContext, R.drawable.ic_accessibility_black_24dp);
+        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+        SpannableString sb = new SpannableString(" ");
+        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        adapter.addFragment(new WebFragment(), null);
+        adapter.addFragment(new CheeseListFragment(), null);
+        adapter.addFragment(new CheeseListFragment(), null);
         viewPager.setAdapter(adapter);
     }
 
@@ -171,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void addFragment(Fragment fragment, String title) {
             mFragments.add(fragment);
-            mFragmentTitles.add(title);
+//            mFragmentTitles.add(title);
         }
 
         @Override
