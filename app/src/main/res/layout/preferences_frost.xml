@@ -8,6 +8,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/preference_toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:minHeight="?attr/actionBarSize" />-->
+
+        <TextView
+            android:id="@+id/preferences_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|start"
+            android:paddingStart="@dimen/frost_preference_padding"
+            android:paddingEnd="@dimen/frost_preference_padding"
+            android:paddingTop="16dip"
+            android:paddingBottom="16dip"
+            android:text="@string/settings"
+            android:textSize="18sp" />
+
         <com.pitchedapps.facebook.frost.customViews.PreferenceText
             android:id="@+id/preferences_anim"
             android:layout_width="match_parent"
@@ -25,6 +43,21 @@
 
         <com.pitchedapps.facebook.frost.customViews.ColorPicker
             android:id="@+id/preferences_background_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.pitchedapps.facebook.frost.customViews.PreferenceText
+            android:id="@+id/preferences_header_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.pitchedapps.facebook.frost.customViews.ColorPicker
+            android:id="@+id/preferences_header_text_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.pitchedapps.facebook.frost.customViews.ColorPicker
+            android:id="@+id/preferences_header_background_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

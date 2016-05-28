@@ -4,12 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.PagerAdapter;
@@ -36,12 +34,10 @@ import com.github.clans.fab.FloatingActionButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
-import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.pitchedapps.facebook.frost.behaviours.FABBehaviour;
 import com.pitchedapps.facebook.frost.customViews.Changelog;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
@@ -112,12 +108,6 @@ public class MainActivity extends AppCompatActivity {
         mViewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
         mAvatar = (ImageView) findViewById(R.id.profilePicture_splash);
 
-        if (fPrefs.isDark()) {
-            mFullLayout.setBackgroundColor(fPrefs.getBackgroundColor());
-        } else {
-            mFullLayout.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
-        }
-
         mStartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,8 +128,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mFAB.setColorNormal(fPrefs.getHeaderBackgroundColor());
-        mFAB.setColorPressed(new ColorUtils(mContext).getTintedHeaderBackground(0.2f));
+
         fCreate = new IconicsDrawable(mContext)
                 .icon(GoogleMaterial.Icon.gmd_create)
                 .color(fPrefs.getHeaderTextColor())
@@ -153,14 +142,35 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
 
-//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        getWindow().setStatusBarColor(fPrefs.getHeaderBackgroundColor()); //TODO fix this
-        getWindow().setNavigationBarColor(fPrefs.getBackgroundColor()); //TODO fix this
 
 //        padMain();
         addTabbedContent();
         setUIState();
+        setUIColors();
         setLogin();
+    }
+
+    private void setUIColors() {
+        mToolbar.setBackgroundColor(fPrefs.getHeaderBackgroundColor());
+        mToolbar.setTitleTextColor(fPrefs.getHeaderTextColor());
+
+        mViewPagerTab.setBackgroundColor(fPrefs.getHeaderBackgroundColor());
+        mViewPagerTab.setDefaultTabTextColor(fPrefs.getHeaderTextColor());
+
+        if (fPrefs.isDark()) {
+            mFullLayout.setBackgroundColor(fPrefs.getBackgroundColor());
+        } else {
+            mFullLayout.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+        }
+
+//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        getWindow().setStatusBarColor(fPrefs.getHeaderBackgroundColor()); //TODO fix this
+        getWindow().setNavigationBarColor(fPrefs.getBackgroundColor()); //TODO fix this
+
+        mFAB.setColorNormal(fPrefs.getHeaderBackgroundColor());
+        mFAB.setColorPressed(new ColorUtils(mContext).getTintedHeaderBackground(0.2f));
+
+
     }
 
     @Override

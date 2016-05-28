@@ -7,6 +7,8 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.enums.AnimSpeed;
 import com.pitchedapps.facebook.frost.enums.Themes;
 
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
+
 /**
  * Created by Allan Wang on 2016-05-21.
  */
@@ -23,6 +25,10 @@ public class FrostPreferences {
             BACKGROUND_COLOR_CP = "bg_color_cp",
             HEADER_TEXT_COLOR = "header_text_color",
             HEADER_BACKGROUND_COLOR = "header_bg_color",
+            HEADER_TEXT_COLOR_CP = "header_text_color_cp",
+            HEADER_BACKGROUND_COLOR_CP = "header_bg_color_cp",
+            HEADER_THEME_STYLE = "header_theme_style",
+            HEADER_THEME_STYLE_STRING_ID = "header_theme_style_theme_id",
             THEME_STYLE = "theme_style",
             THEME_STYLE_STRING_ID = "theme_style_theme_id",
             ANIMATION_SPEED = "animation_speed",
@@ -108,11 +114,64 @@ public class FrostPreferences {
 
     public void setHeaderBackgroundColor(int i) {
         getSharedPreferences().edit().putInt(HEADER_BACKGROUND_COLOR, i).apply();
-        setIsDark(ColorUtils.isColorDark(i));
     }
 
     public int getHeaderBackgroundColor() {
-        return getSharedPreferences().getInt(HEADER_BACKGROUND_COLOR, 0xFF3B5998);
+        return getSharedPreferences().getInt(HEADER_BACKGROUND_COLOR, ColorUtils.cFACEBOOK);
+    }
+
+    public void setHeaderTextColorCP(int i) {
+        getSharedPreferences().edit().putInt(HEADER_TEXT_COLOR_CP, i).apply();
+        setHeaderTextColor(i);
+    }
+
+    public int getHeaderTextColorCP() {
+        return getSharedPreferences().getInt(HEADER_TEXT_COLOR_CP, 0xffffffff);
+    }
+
+    public void setHeaderBackgroundColorCP(int i) {
+        getSharedPreferences().edit().putInt(HEADER_BACKGROUND_COLOR_CP, i).apply();
+        setHeaderBackgroundColor(i);
+    }
+
+    public int getHeaderBackgroundColorCP() {
+        return getSharedPreferences().getInt(HEADER_BACKGROUND_COLOR_CP, ColorUtils.cFACEBOOK);
+    }
+
+    public void setHeaderTheme(int i) {
+        getSharedPreferences().edit().putInt(HEADER_THEME_STYLE, i).apply();
+    }
+
+    public int getHeaderTheme() {
+        return getSharedPreferences().getInt(HEADER_THEME_STYLE, 2);
+    }
+
+    public void setHeaderThemeStringID(Themes t) {
+        getSharedPreferences().edit().putInt(HEADER_THEME_STYLE_STRING_ID, t.getStringID()).apply();
+        switch (t) {
+            case LIGHT:
+                setHeaderTextColor(0xff000000);
+                setHeaderBackgroundColor(0xffeeeeee);
+                break;
+            case DARK:
+                setHeaderTextColor(0xffffffff);
+                setHeaderBackgroundColor(0xff121212);
+                break;
+            case FACEBOOK:
+                setHeaderTextColor(0xffffffff);
+                setHeaderBackgroundColor(ColorUtils.cFACEBOOK);
+                break;
+            case CUSTOM:
+                setHeaderTextColor(getHeaderTextColorCP());
+                setHeaderBackgroundColor(getHeaderBackgroundColorCP());
+                break;
+            default:
+                break;
+        }
+    }
+
+    public int getHeaderThemeStringID() {
+        return getSharedPreferences().getInt(HEADER_THEME_STYLE_STRING_ID, R.string.facebook_blue);
     }
 
     public void setTheme(int i) {
@@ -125,6 +184,26 @@ public class FrostPreferences {
 
     public void setThemeStringID(Themes t) {
         getSharedPreferences().edit().putInt(THEME_STYLE_STRING_ID, t.getStringID()).apply();
+        switch (t) {
+            case LIGHT:
+                setTextColor(0xff000000);
+                setBackgroundColor(0xffeeeeee);
+                break;
+            case DARK:
+                setTextColor(0xffffffff);
+                setBackgroundColor(0xff121212);
+                break;
+            case FACEBOOK:
+                setTextColor(0xffffffff);
+                setBackgroundColor(ColorUtils.cFACEBOOK);
+                break;
+            case CUSTOM:
+                setTextColor(getTextColorCP());
+                setBackgroundColor(getBackgroundColorCP());
+                break;
+            default:
+                break;
+        }
     }
 
     public int getThemeStringID() {

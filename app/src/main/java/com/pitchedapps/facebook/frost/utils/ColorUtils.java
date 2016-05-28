@@ -3,12 +3,15 @@ package com.pitchedapps.facebook.frost.utils;
 import android.content.Context;
 import android.graphics.Color;
 
+import java.util.Random;
+
 /**
  * Created by Allan Wang on 2016-05-22.
  */
 public class ColorUtils {
 
     private Context mContext;
+    public static int cFACEBOOK = 0xff3b5998;
 
     public static boolean isColorDark(int color) {
         double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
@@ -60,5 +63,24 @@ public class ColorUtils {
         int g = (int)((Color.green(tint) * ratio) + (Color.green(background) * inverseRation));
         int b = (int)((Color.blue(tint) * ratio) + (Color.blue(background) * inverseRation));
         return "rgba(" + r + ", " + g + ", " + b + ", " + (int) (a * 255) + ")";
+    }
+
+    public int getDisabledHeaderTextColor() {
+        FrostPreferences fPrefs = new FrostPreferences(mContext);
+        int textColor = fPrefs.getHeaderTextColor();
+        int bgColor = fPrefs.getHeaderBackgroundColor();
+
+        final float ratio = 0.4f;
+        final float inverseRation = 1f - ratio;
+
+        float r = (Color.red(textColor) * ratio) + (Color.red(bgColor) * inverseRation);
+        float g = (Color.green(textColor) * ratio) + (Color.green(bgColor) * inverseRation);
+        float b = (Color.blue(textColor) * ratio) + (Color.blue(bgColor) * inverseRation);
+        return Color.rgb((int) r, (int) g, (int) b);
+    }
+
+    public static int randomColor() {
+        Random rnd = new Random();
+        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
     }
 }

@@ -5,18 +5,31 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.OnApplyWindowInsetsListener;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.WindowInsetsCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.mikepenz.iconics.IconicsDrawable;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.SettingsActivity;
 import com.pitchedapps.facebook.frost.enums.Themes;
+import com.pitchedapps.facebook.frost.utils.FragmentUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 
@@ -27,12 +40,10 @@ import static com.pitchedapps.facebook.frost.utils.Utils.e;
 /**
  * Created by Allan Wang on 2016-05-22.
  */
-public class FrostPreferenceView extends FrameLayout {
+public class FrostPreferenceView extends RelativeLayout {
 
-    private Random rnd;
     private FragmentManager fManager;
     private Activity mActivity;
-    private static int statusBar, navigationBar;
 
     public FrostPreferenceView(Context c) {
         super(c);
@@ -53,7 +64,6 @@ public class FrostPreferenceView extends FrameLayout {
     }
 
     private void initializeViews() {
-        rnd = new Random();
         FrostPreferences fPrefs = new FrostPreferences(mActivity);
         LayoutInflater inflater = (LayoutInflater) mActivity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,9 +72,20 @@ public class FrostPreferenceView extends FrameLayout {
         View mViewGroup = findViewById(R.id.preferences_frame);
         mViewGroup.setBackgroundColor(fPrefs.getBackgroundColor());
 
+//        Toolbar mToolbar = (Toolbar) findViewById(R.id.preference_toolbar);
+//        mToolbar.setTitle("TEST");
+//        mToolbar.setTitleTextColor(fPrefs.getHeaderTextColor());
+//        mToolbar.setBackgroundColor(fPrefs.getHeaderBackgroundColor());
+//        mToolbar.setPadding(mToolbar.getPaddingLeft(), mToolbar.getPaddingTop() + Utils.getStatusBarHeight(), mToolbar.getPaddingRight(), mToolbar.getPaddingBottom());
+        TextView tHeader = (TextView) findViewById(R.id.preferences_header);
+        tHeader.setTextColor(fPrefs.getHeaderTextColor());
+        tHeader.setBackgroundColor(fPrefs.getHeaderBackgroundColor());
+        tHeader.setPadding(tHeader.getPaddingLeft(), tHeader.getPaddingTop() + Utils.getStatusBarHeight(), tHeader.getPaddingRight(), tHeader.getPaddingBottom());
+//        tHeader.setHeight(Utils.getStatusBarHeight() + tHeader.getHeight());
+
         PreferenceText cAnimations = (PreferenceText) findViewById(R.id.preferences_anim);
         cAnimations.initialize(s(R.string.animation_speed));
-        final TextView animValue = cAnimations.getValueTextView();
+        final Button animValue = cAnimations.getValueTextView();
         animValue.setText(s(fPrefs.getAnimationSpeedStringID()));
         animValue.setOnClickListener(new OnClickListener() {
             @Override
@@ -75,7 +96,7 @@ public class FrostPreferenceView extends FrameLayout {
 
         PreferenceText cThemes = (PreferenceText) findViewById(R.id.preferences_theme);
         cThemes.initialize(s(R.string.theme));
-        final TextView themeValue = cThemes.getValueTextView();
+        final Button themeValue = cThemes.getValueTextView();
         themeValue.setText(s(fPrefs.getThemeStringID()));
         themeValue.setOnClickListener(new OnClickListener() {
             @Override
@@ -88,29 +109,54 @@ public class FrostPreferenceView extends FrameLayout {
 //        t.setBackgroundColor(randomColor());
 
         ColorPicker cText = (ColorPicker) findViewById(R.id.preferences_text_color);
+        ColorPicker cBG = (ColorPicker) findViewById(R.id.preferences_background_color);
         if (fPrefs.getThemeStringID() != Themes.CUSTOM.getStringID()) {
             cText.setVisibility(GONE);
+
+            cBG.setVisibility(GONE);
         } else {
             cText.initialize(fManager, mActivity);
             cText.setText(getResources().getString(R.string.text_color));
             cText.setPrefKey(FrostPreferences.TEXT_COLOR_CP);
-        }
 
-        ColorPicker cBG = (ColorPicker) findViewById(R.id.preferences_background_color);
-        if (fPrefs.getThemeStringID() != Themes.CUSTOM.getStringID()) {
-            cBG.setVisibility(GONE);
-        } else {
             cBG.initialize(fManager, mActivity);
             cBG.setText(getResources().getString(R.string.background_color));
             cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR_CP);
         }
 
-        mViewGroup.setPadding(0, Utils.getStatusBarHeight(), 0, Utils.getNavBarHeight());
+        PreferenceText cHeaderThemes = (PreferenceText) findViewById(R.id.preferences_header_theme);
+        cHeaderThemes.initialize(s(R.string.header_theme));
+        final TextView headerThemeValue = cHeaderThemes.getValueTextView();
+        headerThemeValue.setText(s(fPrefs.getHeaderThemeStringID()));
+        headerThemeValue.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWithSingleChoiceItems(mActivity, headerThemeValue).addHeaderThemeOptions();
+            }
+        });
+
+
+//        t.setBackgroundColor(randomColor());
+
+        ColorPicker cHeaderText = (ColorPicker) findViewById(R.id.preferences_header_text_color);
+        ColorPicker cHeaderBG = (ColorPicker) findViewById(R.id.preferences_header_background_color);
+
+        if (fPrefs.getHeaderThemeStringID() != Themes.CUSTOM.getStringID()) {
+            cHeaderText.setVisibility(GONE);
+
+            cHeaderBG.setVisibility(GONE);
+        } else {
+            cHeaderText.initialize(fManager, mActivity);
+            cHeaderText.setText(getResources().getString(R.string.header_text_color));
+            cHeaderText.setPrefKey(FrostPreferences.HEADER_TEXT_COLOR_CP);
+
+            cHeaderBG.initialize(fManager, mActivity);
+            cHeaderBG.setText(getResources().getString(R.string.header_background_color));
+            cHeaderBG.setPrefKey(FrostPreferences.HEADER_BACKGROUND_COLOR_CP);
+        }
+//        mViewGroup.setPadding(0, Utils.getStatusBarHeight(), 0, Utils.getNavBarHeight());
     }
 
-    private int randomColor() {
-        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-    }
 
     private String s(int id) {
         return getResources().getString(id);

@@ -21,6 +21,8 @@ import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
+
 /**
  * Created by Allan Wang on 2016-05-22.
  */
@@ -85,7 +87,7 @@ public class ColorPicker extends LinearLayout {
             public void onClick(View v) {
                 new ChromaDialog.Builder()
                         .initialColor(color)
-                        .colorMode((mKey.equals(FrostPreferences.TEXT_COLOR)) ? ColorMode.RGB : ColorMode.ARGB)
+                        .colorMode((mKey.equals(FrostPreferences.TEXT_COLOR_CP) || (mKey.equals(FrostPreferences.HEADER_TEXT_COLOR_CP))) ? ColorMode.RGB : ColorMode.ARGB)
                         .indicatorMode(IndicatorMode.DECIMAL) //HEX or DECIMAL;
                         .onColorSelected(new OnColorSelectedListener() {
                             @Override
@@ -94,10 +96,17 @@ public class ColorPicker extends LinearLayout {
                                     case FrostPreferences.BACKGROUND_COLOR_CP:
                                         fPrefs.setBackgroundColorCP(newColor);
                                         break;
+                                    case FrostPreferences.HEADER_BACKGROUND_COLOR_CP:
+                                        fPrefs.setHeaderBackgroundColorCP(newColor);
+                                        break;
                                     case FrostPreferences.TEXT_COLOR_CP:
                                         fPrefs.setTextColorCP(newColor);
                                         break;
+                                    case FrostPreferences.HEADER_TEXT_COLOR_CP:
+                                        fPrefs.setHeaderTextColorCP(newColor);
+                                        break;
                                     default:
+                                        e("Invalid key: " + mKey);
                                         fPrefs.setInt(mKey, newColor);
                                         break;
                                 }

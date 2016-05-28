@@ -1,25 +1,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/color_picker"
     android:layout_width="match_parent"
-    android:padding="@dimen/frost_preference_padding"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/frost_preference_padding_horizontal"
+    android:paddingEnd="@dimen/frost_preference_padding_horizontal"
+    android:paddingTop="@dimen/frost_preference_padding_vertical"
+    android:paddingBottom="@dimen/frost_preference_padding_vertical">
 
     <TextView
         android:id="@+id/color_picker_text"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_height="wrap_content" />
+        android:fontFamily="@string/preferences_font_family"
+        android:textSize="@dimen/preferences_text_size" />
 
     <Space
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_weight="1" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/color_picker_color"
-        android:layout_width="@dimen/color_picker_preview_size"
-        android:layout_height="@dimen/color_picker_preview_size"/>
+    <LinearLayout
+        android:layout_width="@dimen/frost_preference_width"
+        android:layout_height="@dimen/frost_preference_height"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/color_picker_color"
+            android:layout_width="@dimen/color_picker_preview_size"
+            android:layout_height="@dimen/color_picker_preview_size" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

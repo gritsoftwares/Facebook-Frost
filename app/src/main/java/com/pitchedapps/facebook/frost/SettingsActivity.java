@@ -102,7 +102,7 @@ public class SettingsActivity extends AppCompatActivity {
                 super.onAnimationEnd(animation);
                 mFrame.removeView(mCurrent);
                 mCurrent = mFPV;
-                updateStatusBar();
+//                updateStatusBar();
             }
         });
         mFPV.setVisibility(View.VISIBLE);
@@ -110,11 +110,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void updateStatusBar() {
-            if (ColorUtils.isColorBright(fPrefs.getBackgroundColor())) {
-                getWindow().setStatusBarColor(0x80000000);
-            } else {
-                getWindow().setStatusBarColor(Color.TRANSPARENT);
-            }
+//            if (ColorUtils.isColorBright(fPrefs.getBackgroundColor())) {
+                getWindow().setStatusBarColor(0x30000000);
+//            } else {
+//                getWindow().setStatusBarColor(Color.TRANSPARENT);
+//            }
 //        }
     }
 }

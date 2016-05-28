@@ -21,8 +21,11 @@ public class AlertDialogWithSingleChoiceItems {
     private Activity mActivity;
     private FrostPreferences fPrefs;
     private TextView mTextView;
+
+    //beware of changes here; default positions are added in the preferences; change accordingly
     public static AnimSpeed[] animSpeedValues = {AnimSpeed.RELAXED, AnimSpeed.NORMAL, AnimSpeed.FAST, AnimSpeed.LIGHTNING};
-    public static Themes[] themeValues = {Themes.LIGHT, Themes.DARK, Themes.CUSTOM};
+    public static Themes[] themeValues = {Themes.LIGHT, Themes.DARK, Themes.FACEBOOK, Themes.CUSTOM};
+//    public static Themes[] headerThemeValues = {Themes.LIGHT, Themes.DARK, Themes.CUSTOM};
 
     public AlertDialogWithSingleChoiceItems(Activity a, TextView tv) {
         mActivity = a;
@@ -48,7 +51,7 @@ public class AlertDialogWithSingleChoiceItems {
         });
 
         AlertDialog mDialog = builder.create();
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         mDialog.show();
     }
 
@@ -58,21 +61,45 @@ public class AlertDialogWithSingleChoiceItems {
             themeOptions[i] = s(themeValues[i].getStringID());
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.Frost_AlertDialog);
-        builder.setTitle(s(R.string.animation_speed));
-        builder.setSingleChoiceItems(themeOptions, fPrefs.getAnimationSpeedPosition(), new DialogInterface.OnClickListener() {
+        builder.setTitle(s(R.string.theme));
+        builder.setSingleChoiceItems(themeOptions, fPrefs.getTheme(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int origID = fPrefs.getThemeStringID();
                 fPrefs.setTheme(which);
                 fPrefs.setThemeStringID(themeValues[which]);
                 mTextView.setText(s(themeValues[which].getStringID()));
-                if (origID != themeValues[which].getStringID()) ((SettingsActivity)mActivity).reload();
+                if (origID != themeValues[which].getStringID()) ((SettingsActivity)mActivity).colorChanged();
                 dialog.cancel();
             }
         });
 
         AlertDialog mDialog = builder.create();
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mDialog.show();
+    }
+
+    public void addHeaderThemeOptions() {
+        CharSequence[] themeOptions = new CharSequence[themeValues.length];
+        for (int i = 0; i < themeValues.length; i++) {
+            themeOptions[i] = s(themeValues[i].getStringID());
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.Frost_AlertDialog);
+        builder.setTitle(s(R.string.header_theme));
+        builder.setSingleChoiceItems(themeOptions, fPrefs.getHeaderTheme(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int origID = fPrefs.getHeaderThemeStringID();
+                fPrefs.setHeaderTheme(which);
+                fPrefs.setHeaderThemeStringID(themeValues[which]);
+                mTextView.setText(s(themeValues[which].getStringID()));
+                if (origID != themeValues[which].getStringID()) ((SettingsActivity)mActivity).colorChanged();
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog mDialog = builder.create();
+//        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         mDialog.show();
     }
 

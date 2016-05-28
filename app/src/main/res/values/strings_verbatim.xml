@@ -37,12 +37,15 @@
 
     <!--Theme Settings-->
     <string name="theme">Theme</string>
+    <string name="header_theme">Header Theme</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="facebook_blue">Facebook Blue</string>
     <string name="custom">Custom</string>
     <string name="text_color">Text Color</string>
+    <string name="header_text_color">Header Text Color</string>
     <string name="background_color">Background Color</string>
+    <string name="header_background_color">Header Background Color</string>
 
     <!--Animation Speeds-->
     <string name="animation_speed">Animation Speed</string>

@@ -1,23 +1,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/frost_preference_padding_horizontal"
+    android:paddingEnd="@dimen/frost_preference_padding_horizontal"
+    android:paddingTop="@dimen/frost_preference_padding_vertical"
+    android:paddingBottom="@dimen/frost_preference_padding_vertical">
 
     <TextView
         android:id="@+id/preferences_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/frost_preference_padding" />
+        android:layout_gravity="center_vertical"
+        android:fontFamily="@string/preferences_font_family"
+        android:textSize="@dimen/preferences_text_size" />
 
     <Space
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_weight="1" />
 
-    <TextView
-        android:id="@+id/preferences_text_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/frost_preference_padding" />
+    <LinearLayout
+        android:layout_width="@dimen/frost_preference_width"
+        android:layout_height="@dimen/frost_preference_height"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/preferences_text_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAllCaps="false"
+            android:fontFamily="@string/preferences_font_family"
+            android:textSize="@dimen/preferences_text_size" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

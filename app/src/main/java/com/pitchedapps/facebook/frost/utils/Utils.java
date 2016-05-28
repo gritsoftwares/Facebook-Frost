@@ -207,7 +207,7 @@ public class Utils {
                     Snackbar.LENGTH_LONG);
 
             ViewGroup viewgroup = (ViewGroup) snackbar.getView();
-            viewgroup.setBackgroundColor(ContextCompat.getColor(context, R.color.facebook_blue));
+            viewgroup.setBackgroundColor(new ColorUtils(context).getTintedBackground(0.2f));
 //            viewgroup.setPadding(viewgroup.getPaddingLeft(), viewgroup.getPaddingTop(),
 //                    viewgroup.getPaddingRight(), viewgroup.getPaddingBottom() + navBarHeight); //Add padding to match top of navbar
             snackbar.show();

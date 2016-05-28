@@ -3,6 +3,7 @@ package com.pitchedapps.facebook.frost.customViews;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,7 +18,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PreferenceText extends LinearLayout {
 
     private Context mContext;
-    private TextView titleText, valueText;
+    private TextView titleText;
+    private Button valueText;
     private String mTitle, mKey;
 
     public PreferenceText(Context context) {
@@ -48,13 +50,14 @@ public class PreferenceText extends LinearLayout {
         inflater.inflate(R.layout.preferences_text, this);
 
         titleText = (TextView) findViewById(R.id.preferences_text_title);
-        valueText = (TextView) findViewById(R.id.preferences_text_value);
+        valueText = (Button) findViewById(R.id.preferences_text_value);
         titleText.setTextColor(textColor);
         valueText.setTextColor(textColor);
         titleText.setText(title);
+        valueText.setBackground(null);
     }
 
-    public TextView getValueTextView() {
+    public Button getValueTextView() {
         return valueText;
     }
 
