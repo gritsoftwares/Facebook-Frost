@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
+import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
 
 /**
@@ -27,7 +28,7 @@ public class AlertDialogWithCircularReveal {
     public AlertDialogWithCircularReveal(Context c, int layoutID) {
         mContext = c;
         mView = View.inflate(mContext, layoutID, null);
-
+        mView.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.2f));
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setView(mView);
 
@@ -35,7 +36,7 @@ public class AlertDialogWithCircularReveal {
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         WindowManager.LayoutParams lp = mDialog.getWindow().getAttributes();
-        lp.dimAmount=0.2f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
+        lp.dimAmount = 0.2f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
     }
 
     public void showDialog() {
@@ -87,8 +88,8 @@ public class AlertDialogWithCircularReveal {
             y = startY - height / 2 + h / 2;
 
         } else { //no starting click, center position
-            x = w/2;
-            y = h/2;
+            x = w / 2;
+            y = h / 2;
             maxRadius /= 2;
         }
 

@@ -2,7 +2,6 @@
     android:id="@+id/reveal_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/facebook_blue"
     android:orientation="vertical"
     android:padding="16dip">
 

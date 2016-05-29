@@ -23,7 +23,7 @@
     <dimen name="dialog_margin">24dp</dimen>
     <dimen name="dialog_margin_bottom">16dp</dimen>
 
-    <dimen name="preferences_text_size">12sp</dimen>
+    <dimen name="preferences_text_size">14sp</dimen>
     <dimen name="frost_preference_padding_horizontal">24dp</dimen>
     <dimen name="frost_preference_padding_vertical">10dp</dimen>
     <dimen name="frost_preference_height">@dimen/color_picker_preview_size</dimen>

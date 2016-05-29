@@ -23,6 +23,9 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private FrostPreferences fPrefs;
     private FloatingActionButton mFAB;
     private Drawable fCreate, fRefresh;
+    private FragmentPagerItemAdapter mFPIAdapter;
 
     private SimpleFacebook mSimpleFacebook;
 
@@ -239,6 +243,14 @@ public class MainActivity extends AppCompatActivity {
                 // change the state of the button or do whatever you want
                 mButtonLogin.setVisibility(View.VISIBLE);
                 mTextStatus.setText(s(R.string.logged_out));
+
+                android.webkit.CookieManager cookieManager = CookieManager.getInstance();
+                cookieManager.removeAllCookies(null);
+//                WebView w = new WebView(mContext);
+//                w.clearCache(true);
+//                w.clearFormData();
+//                w.clearHistory();
+
                 revealSplashLayout();
             }
         };
@@ -299,6 +311,9 @@ public class MainActivity extends AppCompatActivity {
                         .add(Profile.Properties.FIRST_NAME)
                         .add(Profile.Properties.LAST_NAME)
                         .build();
+
+                //reload viewpager
+                mViewPager.setAdapter(mFPIAdapter);
 
                 SimpleFacebook.getInstance().getProfile(properties, new OnProfileListener() {
 
@@ -504,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
             pages.add(FragmentPagerItem.of(s(FragmentUtils.getFrostFragment(i).getTabNameID()), FragmentUtils.getFrostFragment(i).getFragment()));
         }
 
-        FragmentPagerItemAdapter mFPIAdapter = new FragmentPagerItemAdapter(
+        mFPIAdapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), pages);
 
         mViewPager.setAdapter(mFPIAdapter);
