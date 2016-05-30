@@ -123,7 +123,6 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 AlertDialogWithCircularReveal d = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-                d.setDuration(2000);
                 d.setRippleStart(Utils.getLocation(mbGender));
                 TextView t = (TextView) d.getChildView(R.id.overlay_dialog_title);
                 t.setText(String.format(mContext.getResources().getString(R.string.about_user), sProfile.getFirstName()));
@@ -164,7 +163,6 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 AlertDialogWithCircularReveal d = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-                d.setDuration(2000);
                 d.setRippleStart(Utils.getLocation(mbBirthday));
                 TextView t = (TextView) d.getChildView(R.id.overlay_dialog_title);
                 t.setText(String.format(mContext.getResources().getString(R.string.about_user), sProfile.getFirstName()));

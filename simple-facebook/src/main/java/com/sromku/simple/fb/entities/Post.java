@@ -249,7 +249,9 @@ public class Post {
     }
 
     public Integer getCommentCount() {
-        return mCommentData.summary.total_count;
+        if (mCommentData == null) return 0;
+        if (mCommentData.summary == null) return 0;
+        return mCommentData.summary.total_count != null ? mCommentData.summary.total_count : 0;
     }
 
     /**
@@ -260,7 +262,9 @@ public class Post {
     }
 
     public Integer getLikeCount() {
-        return mLikeData.summary.total_count;
+        if (mLikeData == null) return 0;
+        if (mLikeData.summary == null) return 0;
+        return mLikeData.summary.total_count != null ? mLikeData.summary.total_count : 0;
     }
 
     /**

@@ -122,6 +122,19 @@ public class ActionButtons extends LinearLayout {
                     });
                 }
                 e("liked??? " + postLiked);
+            }
+        });
+
+        lComment.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        lShare.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });

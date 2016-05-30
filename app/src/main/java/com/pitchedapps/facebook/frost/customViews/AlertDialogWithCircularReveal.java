@@ -21,7 +21,7 @@ public class AlertDialogWithCircularReveal {
     private Context mContext;
     private View mView;
     private int startX = 0, startY = 0;
-    private double duration = 600;
+    private double duration = 800;
     private boolean rippleStartSet = false;
 
     //v should be View.inflate(c, v, null);

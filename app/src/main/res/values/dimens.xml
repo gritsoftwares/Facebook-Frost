@@ -12,6 +12,11 @@
     <dimen name="big_text">20sp</dimen>
     <dimen name="icon_button_size">48dip</dimen>
     <dimen name="icon_button_padding">12dip</dimen>
+    <dimen name="padding_micro_micro">4dip</dimen>
+    <dimen name="padding_micro">6dip</dimen>
+    <dimen name="padding_small">12dip</dimen>
+    <dimen name="padding_small_medium">18dip</dimen>
+    <dimen name="padding_small_medium_medium">20dip</dimen>
     <dimen name="padding_medium">24dip</dimen>
     <dimen name="padding_large">64dip</dimen>
 

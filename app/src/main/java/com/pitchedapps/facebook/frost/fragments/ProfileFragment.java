@@ -16,6 +16,8 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.EmptyAdapter;
 import com.pitchedapps.facebook.frost.adapters.PostAdapter;
 import com.pitchedapps.facebook.frost.customViews.FullWebView;
+import com.pitchedapps.facebook.frost.customViews.HeaderProfile;
+import com.pitchedapps.facebook.frost.customViews.PostCard;
 import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.enums.PostHeader;
 import com.pitchedapps.facebook.frost.exampleFragments.BaseFragment;
@@ -24,6 +26,7 @@ import com.pitchedapps.facebook.frost.utils.SharedObjects;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.actions.Cursor;
 import com.sromku.simple.fb.entities.Post;
 import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnPostsListener;
@@ -53,6 +56,10 @@ public class ProfileFragment extends BaseFragment {
     private ViewGroup mViewGroup;
     private boolean firstRun = true;
     private boolean sdkVersion = true;
+    private Cursor<List<Post>> mCursor;
+    private List<Post> mResponse;
+    private PostAdapter mAdapter;
+    private LinearLayoutManager mLLM;
 
 
     @Override
@@ -138,7 +145,7 @@ public class ProfileFragment extends BaseFragment {
 
         mRefresh = (SwipeRefreshLayout) view.findViewById(R.id.profile_refresh);
         mRV = (RecyclerView) view.findViewById(R.id.profile_rv);
-        LinearLayoutManager mLLM = new LinearLayoutManager(mContext);
+        mLLM = new LinearLayoutManager(mContext);
         mLLM.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(mLLM);
         mRV.setAdapter(new EmptyAdapter()); //Set empty adapter so error does not occur
@@ -256,15 +263,39 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onComplete(List<Post> response) {
                 mRefresh.setRefreshing(false);
+                mCursor = getCursor();
                 updatePostContent(response);
             }
         });
     }
 
     private void updatePostContent(List<Post> response) {
+        if (mResponse == null) {
+            mResponse = response;
+            mAdapter = new PostAdapter(mContext, mResponse, PostHeader.PROFILE, mProfile, mCursor);
+        } else {
+//            int prevLastPost = mAdapter.getItemCount()-1;
 
-        PostAdapter mAdapter = new PostAdapter(mContext, response, PostHeader.PROFILE, mProfile);
+//            LinearLayoutManager manager = (LinearLayoutManager) mRecycler.getLayoutManager();
+            Parcelable p = mLLM.onSaveInstanceState();
+//            int firstItem = mLLM.findFirstVisibleItemPosition();
+//            View firstItemView = mLLM.findViewByPosition(firstItem);
+//            float topOffset = firstItemView.getTop();
+//
+//            outState.putInt(ARGS_SCROLL_POS, firstItem);
+//            outState.putFloat(ARGS_SCROLL_OFFSET, topOffset);
+
+
+            mAdapter.addPosts(response);
+
+            mLLM.onRestoreInstanceState(p);
+//            mLLM.scrollToPosition(prevLastPost);
+//            mLLM.scrollToPositionWithOffset(prevLastPost, 100);
+
+//            mResponse.addAll(response);
+        }
         mRV.setAdapter(mAdapter);
+
         if (firstRun) {
 //            AnimUtils.fadeIn(mContext, mRV, 0, 1000);
             AnimUtils.circleReveal(mContext, mRV, 0, 0, Utils.getScreenDiagonal(mContext));
@@ -307,4 +338,14 @@ public class ProfileFragment extends BaseFragment {
             //do nothing
         }
     }
+
+    public void scrollToTop() {
+        e("GGG");
+        if (mLLM == null) return;
+        e("HHH");
+        mLLM.scrollToPosition(0);
+//        mLLM.smoothScrollToPosition(mRV, RecyclerView.State, 0);
+    }
+
+
 }

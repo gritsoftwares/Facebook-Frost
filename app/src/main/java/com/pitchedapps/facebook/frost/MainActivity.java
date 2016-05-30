@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.PagerAdapter;
@@ -41,7 +42,9 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentStatePagerItemAdapter;
 import com.pitchedapps.facebook.frost.customViews.Changelog;
+import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         getWindow().setStatusBarColor(fPrefs.getHeaderBackgroundColor()); //TODO fix this
-        getWindow().setNavigationBarColor(fPrefs.getBackgroundColor()); //TODO fix this
+//        getWindow().setNavigationBarColor(fPrefs.getBackgroundColor()); //TODO fix this
 
         mFAB.setColorNormal(fPrefs.getHeaderBackgroundColor());
         mFAB.setColorPressed(new ColorUtils(mContext).getTintedHeaderBackground(0.2f));
@@ -188,9 +191,11 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         mSimpleFacebook.onActivityResult(requestCode, resultCode, data);
 
-        if (data.getExtras().containsKey("colorChange")) {
-            e("RECREATE");
-            if (data.getBooleanExtra("colorChange", false)) this.recreate();
+        if (data != null) {
+            if (data.getExtras().containsKey("colorChange")) {
+                e("RECREATE");
+                if (data.getBooleanExtra("colorChange", false)) this.recreate();
+            }
         }
     }
 
@@ -408,6 +413,8 @@ public class MainActivity extends AppCompatActivity {
         if (mSimpleFacebook.isLogin()) { //direct reveal without animations
             mStartLayout.setVisibility(View.GONE);
             mMainLayout.setVisibility(View.VISIBLE);
+        } else {
+            getWindow().setNavigationBarColor(fPrefs.getHeaderBackgroundColor());
         }
     }
 
@@ -418,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 revealMain();
+                getWindow().setNavigationBarColor(fPrefs.getBackgroundColor());
             }
         }, 2000); // afterDelay will be executed after (secs*1000) milliseconds.
     }
@@ -481,6 +489,26 @@ public class MainActivity extends AppCompatActivity {
                         .icon(FragmentUtils.getFrostFragment(position).getTabIcon())
                         .sizeDp(24));
                 return icon;
+            }
+        });
+
+        mViewPagerTab.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
+            @Override
+            public void onTabClicked(int position) {
+                if (position == mViewPager.getCurrentItem()) {
+                    Fragment fr = mFPIAdapter.getItem(position);
+                    if (fr instanceof ProfileFragment) {
+//                        fr.refresh();
+                        ((ProfileFragment)fr).scrollToTop();
+                    }
+//                    FragmentStatePagerItemAdapter fSPIA = new FragmentStatePagerItemAdapter(thi)
+//                    switch (position) {
+//                        case 1:
+//                            break;
+//                        default:
+//                            break;
+//                    }
+                }
             }
         });
 

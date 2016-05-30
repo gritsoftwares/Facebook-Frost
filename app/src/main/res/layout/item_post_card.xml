@@ -57,11 +57,40 @@
             android:visibility="gone"
             tools:ignore="ContentDescription" />
 
+        <LinearLayout
+            android:id="@+id/item_post_like_comment_counts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_post_picture"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/padding_small_medium_medium"
+            android:paddingEnd="@dimen/padding_small_medium_medium"
+            android:paddingTop="@dimen/padding_micro"
+            android:paddingBottom="@dimen/padding_micro">
+
+            <TextView
+                android:id="@+id/item_post_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/action_button_font_family"
+                android:padding="@dimen/padding_micro_micro"
+                android:textSize="@dimen/action_button_text_size" />
+
+            <TextView
+                android:id="@+id/item_post_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/action_button_font_family"
+                android:padding="@dimen/padding_micro_micro"
+                android:textSize="@dimen/action_button_text_size" />
+
+        </LinearLayout>
+
         <com.pitchedapps.facebook.frost.customViews.ActionButtons
             android:id="@+id/item_post_action_buttons"
-            android:layout_below="@id/item_post_picture"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_post_like_comment_counts" />
 
     </RelativeLayout>
 
