@@ -18,6 +18,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 
 import com.pitchedapps.facebook.frost.customViews.FrostPreferenceView;
+import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
@@ -94,19 +95,28 @@ public class SettingsActivity extends AppCompatActivity {
         mFPV.bringToFront();
         mFPV.setVisibility(View.INVISIBLE);
         Point p = Utils.getScreenSize(mContext);
-        final Animator anim =
-                ViewAnimationUtils.createCircularReveal(mFPV, p.x / 2, p.y / 2, 0, (float) Utils.getScreenDiagonal(mContext) / 2).setDuration((long) (Utils.getScreenDiagonal(mContext) / 2 * FrostPreferences.getAnimationSpeedFactor(mContext)));
-        anim.addListener(new AnimatorListenerAdapter() {
+
+        AnimUtils.circleReveal(mContext, mFPV, p.x / 2, p.y / 2, Utils.getScreenDiagonal(mContext) / 2, new AnimUtils.AnimUtilsInterface() {
             @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
+            public void onAnimationEnd() {
                 mFrame.removeView(mCurrent);
                 mCurrent = mFPV;
-//                updateStatusBar();
             }
         });
-        mFPV.setVisibility(View.VISIBLE);
-        anim.start();
+//
+//        final Animator anim =
+//                ViewAnimationUtils.createCircularReveal(mFPV, p.x / 2, p.y / 2, 0, (float) Utils.getScreenDiagonal(mContext) / 2).setDuration((long) (Utils.getScreenDiagonal(mContext) / 2 * FrostPreferences.getAnimationSpeedFactor(mContext)));
+//        anim.addListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                super.onAnimationEnd(animation);
+//                mFrame.removeView(mCurrent);
+//                mCurrent = mFPV;
+////                updateStatusBar();
+//            }
+//        });
+//        mFPV.setVisibility(View.VISIBLE);
+//        anim.start();
     }
 
     private void updateStatusBar() {

@@ -159,6 +159,7 @@ public class ProfileFragment extends BaseFragment {
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mResponse = null;
                 getData();
             }
         });

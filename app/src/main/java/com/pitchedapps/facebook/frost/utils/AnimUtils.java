@@ -15,6 +15,10 @@ import com.pitchedapps.facebook.frost.enums.V;
  */
 public class AnimUtils {
 
+    public interface AnimUtilsInterface {
+        public void onAnimationEnd();
+    }
+
     public static void circleReveal(Context c, View v, int x, int y, double radius) {
         circleReveal(c, v, x, y, radius, radius * 0.6 * FrostPreferences.getAnimationSpeedFactor(c));
     }
@@ -35,6 +39,35 @@ public class AnimUtils {
         anim.start();
     }
 
+    public static void circleReveal(Context c, View v, int x, int y, double radius, AnimUtilsInterface animInterface) {
+        circleReveal(c, v, x, y, radius, radius * 0.6 * FrostPreferences.getAnimationSpeedFactor(c), animInterface);
+    }
+
+    public static void circleReveal(Context c, View v, int x, int y, double radius, double duration, final AnimUtilsInterface animInterface) {
+        if (!v.isAttachedToWindow()) {
+            v.setVisibility(View.VISIBLE);
+            return;
+        }
+        duration *= FrostPreferences.getAnimationSpeedFactor(c);
+        // create the animator for this view (the start radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(v, x, y, 0, (int) radius).setDuration((long) duration);
+
+        // make the view visible and start the animation
+        v.bringToFront();
+        v.setVisibility(View.VISIBLE);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (animInterface != null) {
+                    animInterface.onAnimationEnd();
+                }
+            }
+        });
+        anim.start();
+    }
+
     public static void circleHide(Context c, final View v, int x, int y, double radius, double duration) {
         if (!v.isAttachedToWindow()) {
             v.setVisibility(View.VISIBLE);
@@ -50,6 +83,29 @@ public class AnimUtils {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 v.setVisibility(View.GONE);
+            }
+        });
+        anim.start();
+    }
+
+    public static void circleHide(Context c, final View v, int x, int y, double radius, double duration, final AnimUtilsInterface animInterface) {
+        if (!v.isAttachedToWindow()) {
+            v.setVisibility(View.VISIBLE);
+            return;
+        }
+        duration *= FrostPreferences.getAnimationSpeedFactor(c);
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(v, x, y, (int) radius, 0).setDuration((long) duration);
+
+        // make the view invisible when the animation is done
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                v.setVisibility(View.GONE);
+                if (animInterface != null) {
+                    animInterface.onAnimationEnd();
+                }
             }
         });
         anim.start();

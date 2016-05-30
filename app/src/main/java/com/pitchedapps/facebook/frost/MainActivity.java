@@ -346,8 +346,7 @@ public class MainActivity extends AppCompatActivity {
                                 Animation fadeText = AnimUtils.fadeOutAnimation(mContext, 0, fadeUnfade);
                                 fadeText.setAnimationListener(new Animation.AnimationListener() {
                                     @Override
-                                    public void onAnimationStart(Animation animation) {
-                                    }
+                                    public void onAnimationStart(Animation animation) { }
 
                                     @Override
                                     public void onAnimationEnd(Animation animation) {
@@ -358,8 +357,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onAnimationRepeat(Animation animation) {
-                                    }
+                                    public void onAnimationRepeat(Animation animation) { }
                                 });
 
                                 mTextStatus.setVisibility(View.INVISIBLE);
@@ -390,9 +388,7 @@ public class MainActivity extends AppCompatActivity {
         Animation fadeText = AnimUtils.fadeOutAnimation(mContext, 0, fadeUnfade);
         fadeText.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
+            public void onAnimationStart(Animation animation) { }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -401,8 +397,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
+            public void onAnimationRepeat(Animation animation) { }
         });
 
         mTextStatus.setVisibility(View.INVISIBLE);
@@ -446,19 +441,12 @@ public class MainActivity extends AppCompatActivity {
         AnimUtils.fadeIn(mContext, mMainLayout, finalRadius * 0.3, finalRadius * 0.3);
 
         // create the animator for this view (the start radius is zero)
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(mStartLayout, x, y, (int) finalRadius, 0).setDuration((long) (finalRadius * 0.72 * FrostPreferences.getAnimationSpeedFactor(mContext)));
-
-        // make the view invisible when the animation is done
-        anim.addListener(new AnimatorListenerAdapter() {
+        AnimUtils.circleHide(mContext, mStartLayout, x, y, finalRadius, finalRadius * 0.72, new AnimUtils.AnimUtilsInterface() {
             @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                mStartLayout.setVisibility(View.GONE);
+            public void onAnimationEnd() {
                 checkBlockedBackPress();
             }
         });
-        anim.start();
     }
 
     private void padMain() {

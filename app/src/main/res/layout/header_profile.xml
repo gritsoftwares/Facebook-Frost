@@ -38,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/header_profile_header"
+        android:paddingBottom="@dimen/padding_small"
         android:orientation="horizontal">
 
         <Space

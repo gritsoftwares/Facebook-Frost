@@ -267,6 +267,18 @@ public class Post {
         return mLikeData.summary.total_count != null ? mLikeData.summary.total_count : 0;
     }
 
+    public boolean canLike() {
+        if (mLikeData == null) return false;
+        if (mLikeData.summary == null) return false;
+        return mLikeData.summary.can_like;
+    }
+
+    public boolean hasLiked() {
+        if (mLikeData == null) return false;
+        if (mLikeData.summary == null) return false;
+        return mLikeData.summary.has_liked;
+    }
+
     /**
      * The time the post was initially published.
      */

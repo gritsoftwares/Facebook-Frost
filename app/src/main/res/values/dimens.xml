@@ -22,6 +22,7 @@
 
     <!--action buttons-->
     <dimen name="action_button_padding">8dip</dimen>
+    <dimen name="action_button_image_size">16dip</dimen>
     <dimen name="action_button_text_size">12sp</dimen>
 
 

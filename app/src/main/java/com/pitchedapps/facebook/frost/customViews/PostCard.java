@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ public class PostCard extends RecyclerView.ViewHolder {
     private Context mContext;
     private FrostPreferences fPrefs;
     private ActionButtons mAB;
+    private TextView tLikeCount, tCommentCount;
 
     public PostCard(Context c, View itemView, Post p) {
         super(itemView);
@@ -60,7 +60,7 @@ public class PostCard extends RecyclerView.ViewHolder {
         tFrom.setText(sPost.getFrom().getName());
         tFrom.setTextColor(fPrefs.getTextColor());
 
-        TextView tLikeCount = (TextView) itemView.findViewById(R.id.item_post_like_count);
+        tLikeCount = (TextView) itemView.findViewById(R.id.item_post_like_count);
 //        tLikeCount.setBackground(null);
         tLikeCount.setTextColor(fPrefs.getTextColor());
         Integer likeCount = sPost.getLikeCount();
@@ -77,7 +77,7 @@ public class PostCard extends RecyclerView.ViewHolder {
             tLikeCount.setVisibility(View.GONE);
         }
 
-        TextView tCommentCount = (TextView) itemView.findViewById(R.id.item_post_comment_count);
+        tCommentCount = (TextView) itemView.findViewById(R.id.item_post_comment_count);
 //        tCommentCount.setBackground(null);
         tCommentCount.setTextColor(fPrefs.getTextColor());
         Integer commentCount = sPost.getCommentCount();
@@ -95,7 +95,7 @@ public class PostCard extends RecyclerView.ViewHolder {
         }
 
         mAB = (ActionButtons) itemView.findViewById(R.id.item_post_action_buttons);
-        mAB.initialize(sPost);
+        mAB.initialize(this);
 
         if (sPost.getFrom() != null) {
             ImageView avatar = (ImageView) itemView.findViewById(R.id.item_post_avatar);
@@ -138,5 +138,39 @@ public class PostCard extends RecyclerView.ViewHolder {
         tDialog.setText(s.toString());
         tDialog.setTextColor(fPrefs.getTextColor());
         p.showDialog();
+    }
+
+    public Post getPost() {
+        return sPost;
+    }
+
+    public void updateLikeCommentCount() {
+        Integer likeCount = sPost.getLikeCount();
+        if (likeCount != 0) {
+            StringBuilder sLikeCount = new StringBuilder();
+            sLikeCount.append(likeCount);
+            if (likeCount == 1) {
+                sLikeCount.append(" Like");
+            } else {
+                sLikeCount.append(" Likes");
+            }
+            tLikeCount.setText(sLikeCount);
+        } else {
+            tLikeCount.setVisibility(View.GONE);
+        }
+
+        Integer commentCount = sPost.getCommentCount();
+        if (commentCount != 0) {
+            StringBuilder sCommentCount = new StringBuilder();
+            sCommentCount.append(commentCount);
+            if (commentCount == 1) {
+                sCommentCount.append(" Comment");
+            } else {
+                sCommentCount.append(" Comments");
+            }
+            tCommentCount.setText(sCommentCount);
+        } else {
+            tCommentCount.setVisibility(View.GONE);
+        }
     }
 }
