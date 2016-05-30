@@ -2,6 +2,7 @@ package com.sromku.simple.fb.entities;
 
 import android.os.Bundle;
 
+import com.google.gson.annotations.SerializedName;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.utils.GraphPath;
 

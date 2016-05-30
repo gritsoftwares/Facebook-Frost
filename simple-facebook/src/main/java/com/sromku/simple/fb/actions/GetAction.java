@@ -28,6 +28,7 @@ public class GetAction<T> extends AbstractAction {
     private OnActionListener<T> mOnActionListener = null;
     private Cursor<T> mCursor = null;
     private String mExtraField = null;
+    private int mLimit = 0;
 
     private GraphRequest.Callback mCallback = new GraphRequest.Callback() {
         @Override
@@ -81,6 +82,10 @@ public class GetAction<T> extends AbstractAction {
         mExtraField = s;
     }
 
+    public void addLimit(int i) {
+        mLimit = i;
+    }
+
     @Override
     protected void executeImpl() {
         OnActionListener<T> actionListener = getActionListener();
@@ -90,6 +95,10 @@ public class GetAction<T> extends AbstractAction {
             if (mExtraField != null) {
                 if (bundle == null) bundle = new Bundle();
                 bundle.putString("fields", mExtraField);
+            }
+            if (mLimit != 0) {
+                if (bundle == null) bundle = new Bundle();
+                bundle.putString("limit", Integer.toString(mLimit));
             }
             GraphRequest request = new GraphRequest(accessToken, getGraphPath(), bundle, HttpMethod.GET);
             request.setVersion(configuration.getGraphVersion());

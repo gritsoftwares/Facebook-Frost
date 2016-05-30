@@ -15,6 +15,10 @@
     <dimen name="padding_medium">24dip</dimen>
     <dimen name="padding_large">64dip</dimen>
 
+    <!--action buttons-->
+    <dimen name="action_button_padding">8dip</dimen>
+    <dimen name="action_button_text_size">12sp</dimen>
+
 
     <dimen name="item_post_avatar_size">48dip</dimen>
     <dimen name="item_post_image_size">200dip</dimen>

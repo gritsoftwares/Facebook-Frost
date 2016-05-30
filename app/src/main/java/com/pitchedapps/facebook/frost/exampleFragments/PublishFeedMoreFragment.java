@@ -20,12 +20,6 @@ public class PublishFeedMoreFragment extends BaseFragment {
     private Button mButton;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().setTitle(EXAMPLE);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_example_action, container, false);
         mResult = (TextView) view.findViewById(R.id.result);

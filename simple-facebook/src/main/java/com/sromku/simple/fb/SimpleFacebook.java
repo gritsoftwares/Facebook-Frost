@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
+import com.facebook.login.DefaultAudience;
 import com.sromku.simple.fb.actions.ConnectDeviceAction;
 import com.sromku.simple.fb.actions.DeleteRequestAction;
 import com.sromku.simple.fb.actions.GetAccountsAction;
@@ -36,6 +37,7 @@ import com.sromku.simple.fb.actions.GetTaggedPlacesAction;
 import com.sromku.simple.fb.actions.GetVideosAction;
 import com.sromku.simple.fb.actions.InviteAction;
 import com.sromku.simple.fb.actions.PollDeviceAuthorizationAction;
+import com.sromku.simple.fb.actions.PostRequestAction;
 import com.sromku.simple.fb.actions.PublishAction;
 import com.sromku.simple.fb.actions.PublishFeedDialogAction;
 import com.sromku.simple.fb.actions.PublishPhotoDialogAction;
@@ -85,6 +87,7 @@ import com.sromku.simple.fb.listeners.OnPageListener;
 import com.sromku.simple.fb.listeners.OnPagesListener;
 import com.sromku.simple.fb.listeners.OnPhotoListener;
 import com.sromku.simple.fb.listeners.OnPhotosListener;
+import com.sromku.simple.fb.listeners.OnPostListener;
 import com.sromku.simple.fb.listeners.OnPostsListener;
 import com.sromku.simple.fb.listeners.OnProfileListener;
 import com.sromku.simple.fb.listeners.OnPublishListener;
@@ -159,6 +162,13 @@ public class SimpleFacebook {
         }
         mSessionManager.setActivity(activity);
         return mInstance;
+    }
+
+    /*
+     * Allan Wang 2016/05/29
+     */
+    public void setDefaultAudience(DefaultAudience defaultAudience) {
+        mConfiguration.setDefaultAudience(defaultAudience);
     }
 
     /**
@@ -1178,6 +1188,15 @@ public class SimpleFacebook {
         getPostsAction.execute();
     }
 
+    public void getPosts(PostType postType, String extraFields, int limit, OnPostsListener onPostsListener) {
+        GetPostsAction getPostsAction = new GetPostsAction(mSessionManager);
+        getPostsAction.setActionListener(onPostsListener);
+        getPostsAction.setPostType(postType);
+        getPostsAction.addField(extraFields);
+        getPostsAction.addLimit(limit);
+        getPostsAction.execute();
+    }
+
 
     /**
      * Get all feeds on the wall of specific entity. It includes: links,
@@ -1813,6 +1832,17 @@ public class SimpleFacebook {
         deleteRequestAction.setRequestId(inRequestId);
         deleteRequestAction.setOnDeleteListener(onDeleteListener);
         deleteRequestAction.execute();
+    }
+
+    /*
+     * Replica of deleteRequest but for posting
+     */
+
+    public void postRequest(String inRequestId, final OnPostListener onPostListener) {
+        PostRequestAction postRequestAction = new PostRequestAction(mSessionManager);
+        postRequestAction.setRequestId(inRequestId);
+        postRequestAction.setOnPostListener(onPostListener);
+        postRequestAction.execute();
     }
 
     /**

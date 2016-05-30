@@ -38,6 +38,13 @@ public class SimpleFacebookConfiguration {
         }
     }
 
+    /*
+     * Allan Wang 2016/05/29
+     */
+    public void setDefaultAudience(DefaultAudience defaultAudience) {
+        mDefaultAudience = defaultAudience;
+    }
+
     /**
      * Get facebook application id
      */

@@ -7,8 +7,11 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.typeface.IIcon;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.exampleFragments.PublishFeedDialogFragment;
+import com.pitchedapps.facebook.frost.exampleFragments.PublishFeedMoreFragment;
 import com.pitchedapps.facebook.frost.fragments.DemoFragment;
 import com.pitchedapps.facebook.frost.fragments.GetPostsFragment;
+import com.pitchedapps.facebook.frost.fragments.MainFragment;
 import com.pitchedapps.facebook.frost.fragments.NewsFeedFragment;
 import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
 
@@ -17,8 +20,8 @@ import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
  */
 public enum FrostFragment {
     FEED(R.string.tab_feed, CommunityMaterial.Icon.cmd_newspaper, NewsFeedFragment.class),
-    FRIENDS(R.string.tab_friends, GoogleMaterial.Icon.gmd_people, GetPostsFragment.class),
-    NOTIFICATIONS(R.string.tab_notifications, MaterialDesignIconic.Icon.gmi_globe, DemoFragment.class),
+    FRIENDS(R.string.tab_friends, GoogleMaterial.Icon.gmd_people, PublishFeedMoreFragment.class),
+    NOTIFICATIONS(R.string.tab_notifications, MaterialDesignIconic.Icon.gmi_globe, PublishFeedDialogFragment.class),
     PROFILE(R.string.tab_profile, CommunityMaterial.Icon.cmd_account, ProfileFragment.class),
     ERROR(R.string.error, null, null);
 

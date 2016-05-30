@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="like_fail">Like/UnLike failed; please refresh and try again</string>
+
+</resources>

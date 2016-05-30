@@ -79,6 +79,20 @@ public class ColorUtils {
         return Color.rgb((int) r, (int) g, (int) b);
     }
 
+    public int getDisabledTextColor() {
+        FrostPreferences fPrefs = new FrostPreferences(mContext);
+        int textColor = fPrefs.getTextColor();
+        int bgColor = fPrefs.getBackgroundColor();
+
+        final float ratio = 0.4f;
+        final float inverseRation = 1f - ratio;
+
+        float r = (Color.red(textColor) * ratio) + (Color.red(bgColor) * inverseRation);
+        float g = (Color.green(textColor) * ratio) + (Color.green(bgColor) * inverseRation);
+        float b = (Color.blue(textColor) * ratio) + (Color.blue(bgColor) * inverseRation);
+        return Color.rgb((int) r, (int) g, (int) b);
+    }
+
     public static int randomColor() {
         Random rnd = new Random();
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));

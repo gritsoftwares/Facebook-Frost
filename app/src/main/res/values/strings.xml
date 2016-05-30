@@ -25,8 +25,9 @@
     <string name="tab_feed">NewsFeed</string>
     <string name="tab_settings">Settings</string>
 
-
+    <!--font families-->
     <string name="preferences_font_family">sans-serif-light</string>
+    <string name="action_button_font_family">sans-serif</string>
 
     <string name="host_update_url">http://allanwang.ca/facebook/</string>
 

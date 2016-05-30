@@ -42,6 +42,8 @@ public class ProfileFragment extends BaseFragment {
 
     private final static String EXAMPLE = "Profile";
     private static final String BUNDLE_RECYCLER_LAYOUT = "ProfileFragment.recycler.layout";
+    private static final String FEED_QUERY =
+            "message,story,type,id,full_picture,updated_time,actions,from,link,likes.limit(25).summary(true){pic_square},comments.limit(25).summary(true){attachment},shares";
 
     private SwipeRefreshLayout mRefresh;
     private RecyclerView mRV;
@@ -232,7 +234,7 @@ public class ProfileFragment extends BaseFragment {
     }
 
     public void getTimeline() {
-        SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, "message,story,type,id,full_picture,updated_time,actions,from,link,likes,comments{attachment},shares", new OnPostsListener() {
+        SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, FEED_QUERY, 25, new OnPostsListener() {
 
 //            @Override
 //            public void onThinking() {

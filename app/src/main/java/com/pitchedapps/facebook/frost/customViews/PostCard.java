@@ -24,6 +24,7 @@ public class PostCard extends RecyclerView.ViewHolder {
     private Post sPost;
     private Context mContext;
     private FrostPreferences fPrefs;
+    private ActionButtons mAB;
 
     public PostCard(Context c, View itemView, Post p) {
         super(itemView);
@@ -58,6 +59,8 @@ public class PostCard extends RecyclerView.ViewHolder {
         tFrom.setText(sPost.getFrom().getName());
         tFrom.setTextColor(fPrefs.getTextColor());
 
+        mAB = (ActionButtons) itemView.findViewById(R.id.item_post_action_buttons);
+        mAB.initialize(sPost);
 
         if (sPost.getFrom() != null) {
             ImageView avatar = (ImageView) itemView.findViewById(R.id.item_post_avatar);
@@ -91,7 +94,7 @@ public class PostCard extends RecyclerView.ViewHolder {
     private void singlePostData() {
         AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
         StringBuilder s = new StringBuilder();
-        String[] ss = {sPost.getId(), sPost.getType(), sPost.getStatusType(), sPost.getPicture()};
+        String[] ss = {sPost.getId(), sPost.getType(), sPost.getStatusType(), sPost.getPicture(), "LIKEC " + sPost.getLikeCount()};
         for (String sss : ss) {
             s.append("\n").append(sss);
         }

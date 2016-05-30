@@ -20,12 +20,6 @@ public class PublishFeedDialogFragment extends BaseFragment {
     private Button mButton;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().setTitle(EXAMPLE);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_example_action, container, false);
         mResult = (TextView) view.findViewById(R.id.result);
@@ -37,12 +31,12 @@ public class PublishFeedDialogFragment extends BaseFragment {
             public void onClick(View v) {
 
                 final Feed feed = new Feed.Builder()
-                        .setMessage("Clone it out...")
-                        .setName("Simple Facebook SDK for Android")
-                        .setCaption("Code less, do the same.")
-                        .setDescription("Login, publish feeds and stories, invite friends and more....")
-                        .setPicture("https://raw.githubusercontent.com/wiki/sromku/android-simple-facebook/images/android_facebook_sdk_logo.png")
-                        .setLink("https://github.com/sromku/android-simple-facebook")
+//                        .setMessage("Clone it out...")
+//                        .setName("Simple Facebook SDK for Android")
+//                        .setCaption("Code less, do the same.")
+//                        .setDescription("Login, publish feeds and stories, invite friends and more....")
+//                        .setPicture("https://raw.githubusercontent.com/wiki/sromku/android-simple-facebook/images/android_facebook_sdk_logo.png")
+//                        .setLink("https://github.com/sromku/android-simple-facebook")
                         .build();
 
                 SimpleFacebook.getInstance().publish(feed, true, new OnPublishListener() {

@@ -1,8 +1,14 @@
 package com.sromku.simple.fb.entities;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 import com.sromku.simple.fb.utils.GraphPath;
+import com.sromku.simple.fb.utils.JsonUtils;
 import com.sromku.simple.fb.utils.Utils;
+
+import org.json.JSONArray;
+import org.json.JSONStringer;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +19,7 @@ import java.util.Map;
  * An individual entry in a profile's feed as represented in the Graph API.
  *
  * @author sromku
- * // @see https://developers.facebook.com/docs/reference/api/post
+ *         // @see https://developers.facebook.com/docs/reference/api/post
  */
 public class Post {
 
@@ -96,10 +102,10 @@ public class Post {
     private String mCaption;
 
     @SerializedName(COMMENTS)
-    private Utils.DataResult<Comment> mComments;
+    private CommentData mCommentData;
 
     @SerializedName(LIKES)
-    private Utils.DataResult<Like> mLikes;
+    private LikeData mLikeData;
 
     @SerializedName(CREATED_TIME)
     private Date mCreatedTime;
@@ -180,6 +186,32 @@ public class Post {
         Integer count;
     }
 
+    /*
+     * Allan Wang 2016/05/29
+     * reroute like and comment to support summary data
+     */
+    private static class LikeData {
+        List<Like> data;
+        LikeSummary summary;
+    }
+
+    private static class LikeSummary {
+        Integer total_count;
+        boolean can_like;
+        boolean has_liked;
+    }
+
+    private static class CommentData {
+        List<Comment> data;
+        CommentSummary summary;
+    }
+
+    private static class CommentSummary {
+        Integer total_count;
+        boolean can_comment;
+//        String order; //exists, but is likely not needed
+    }
+
     /**
      * A list of available actions on the post (including commenting, liking,
      * and an optional app-specified action).
@@ -213,14 +245,22 @@ public class Post {
      * Comments for this post.
      */
     public List<Comment> getComments() {
-        return mComments.data;
+        return mCommentData.data;
+    }
+
+    public Integer getCommentCount() {
+        return mCommentData.summary.total_count;
     }
 
     /**
      * Likes of this post
      */
     public List<Like> getLikes() {
-        return mLikes.data;
+        return mLikeData.data;
+    }
+
+    public Integer getLikeCount() {
+        return mLikeData.summary.total_count;
     }
 
     /**
@@ -426,7 +466,11 @@ public class Post {
         return mWithTags.data;
     }
 
-    public static class Action  {
+    public static class Likes {
+
+    }
+
+    public static class Action {
 
         private static final String NAME = "name";
         private static final String LINK = "link";
