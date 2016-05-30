@@ -25,7 +25,10 @@
     <dimen name="action_button_image_size">16dip</dimen>
     <dimen name="action_button_text_size">12sp</dimen>
 
+    <!--comment-->
+    <dimen name="item_comment_avatar_size">48dip</dimen>
 
+    <!--post-->
     <dimen name="item_post_avatar_size">48dip</dimen>
     <dimen name="item_post_image_size">200dip</dimen>
 

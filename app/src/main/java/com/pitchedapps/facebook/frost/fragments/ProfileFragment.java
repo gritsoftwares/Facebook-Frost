@@ -46,8 +46,7 @@ public class ProfileFragment extends BaseFragment {
     private final static String EXAMPLE = "Profile";
     private static final String BUNDLE_RECYCLER_LAYOUT = "ProfileFragment.recycler.layout";
     private static final String FEED_QUERY =
-            "message,story,type,id,full_picture,updated_time,actions,from,link,likes.limit(25).summary(true){pic_square},comments.limit(25).summary(true){attachment},shares";
-
+            "message,story,type,id,full_picture,updated_time,actions,from,link,likes.limit(25){pic_square,name},comments.limit(25){attachment,message,can_comment,can_like,comment_count,created_time,from,like_count},shares";
     private SwipeRefreshLayout mRefresh;
     private RecyclerView mRV;
     private Context mContext;

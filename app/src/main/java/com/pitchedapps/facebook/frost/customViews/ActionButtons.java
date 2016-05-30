@@ -100,7 +100,7 @@ public class ActionButtons extends LinearLayout {
         iComment.setImageDrawable(dComment);
         iShare.setImageDrawable(dShare);
 
-        if (postLiked) iLike.setColorFilter(cEmphasis);
+        updateHasLiked(postLiked);
 
         lLike = (LinearLayout) findViewById(R.id.action_button_like);
         lComment = (LinearLayout) findViewById(R.id.action_button_comment);
@@ -108,15 +108,13 @@ public class ActionButtons extends LinearLayout {
 
     }
 
-    public void postLiked(boolean b) {
-//        if (b) {
-//            postLiked = true;
-//            iLike.setColorFilter(cEmphasis);
-//        } else {
-//            postLiked = false;
-//            iLike.setColorFilter(cNormal);
-//        }
-        mPostCard.reload();
+    public void updateHasLiked(boolean b) {
+        postLiked = b;
+        if (b) {
+            iLike.setColorFilter(cEmphasis);
+        } else {
+            iLike.setColorFilter(cNormal);
+        }
     }
 
     public void showLikeError() {
@@ -133,7 +131,7 @@ public class ActionButtons extends LinearLayout {
                         @Override
                         public void onComplete(Void response) {
                             super.onComplete(response);
-                            postLiked(false);
+                            mPostCard.reload();
                         }
 
                         @Override
@@ -153,7 +151,7 @@ public class ActionButtons extends LinearLayout {
                         @Override
                         public void onComplete(Void response) {
                             super.onComplete(response);
-                            postLiked(true);
+                            mPostCard.reload();
                         }
 
                         @Override

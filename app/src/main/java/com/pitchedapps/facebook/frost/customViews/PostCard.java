@@ -8,13 +8,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.pitchedapps.facebook.frost.MainActivity;
 import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.adapters.PostAdapter;
 import com.pitchedapps.facebook.frost.graph.UpdateSinglePost;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Retrieve;
+import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Post;
+import com.sromku.simple.fb.utils.JsonUtils;
 
 import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
@@ -28,14 +30,10 @@ public class PostCard extends RecyclerView.ViewHolder {
     private FrostPreferences fPrefs;
     private ActionButtons mAB;
     private TextView tLikeCount, tCommentCount;
-    private PostAdapter mPostAdapter;
-    private int mPosition;
 
-    public PostCard(Context c, View itemView, Post p, PostAdapter pa, int position) {
+    public PostCard(Context c, View itemView, Post p) {
         super(itemView);
 
-        mPostAdapter = pa;
-        mPosition = position;
         mContext = c;
         sPost = p;
 
@@ -70,7 +68,7 @@ public class PostCard extends RecyclerView.ViewHolder {
         tLikeCount.setTextColor(fPrefs.getTextColor());
         tCommentCount = (TextView) itemView.findViewById(R.id.item_post_comment_count);
         tCommentCount.setTextColor(fPrefs.getTextColor());
-        updateLikeCommentCount();
+        updateLikeCommentCount(sPost.getLikeCount(), sPost.getCommentCount());
 
         mAB = (ActionButtons) itemView.findViewById(R.id.item_post_action_buttons);
         mAB.initialize(this);
@@ -108,14 +106,6 @@ public class PostCard extends RecyclerView.ViewHolder {
         new UpdateSinglePost(this).updateLikes();
     }
 
-    public int getPostPosition() {
-        return mPosition;
-    }
-
-    public PostAdapter getPostAdapter() {
-        return mPostAdapter;
-    }
-
     public String getPostID() {
         return sPost.getId();
     }
@@ -125,50 +115,62 @@ public class PostCard extends RecyclerView.ViewHolder {
     }
 
     private void singlePostData() {
-        AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-        StringBuilder s = new StringBuilder();
-        String[] ss = {sPost.getId(), sPost.getType(), sPost.getStatusType(), sPost.getPicture(), "LIKEC " + sPost.getLikeCount()};
-        for (String sss : ss) {
-            s.append("\n").append(sss);
+//        AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
+//        StringBuilder s = new StringBuilder();
+//        String[] ss = {sPost.getId(), sPost.getType(), sPost.getStatusType(), sPost.getPicture(), "Comment C " + sPost.getCommentCount() + " " + JsonUtils.toJson(sPost.getComments())};
+//        for (String sss : ss) {
+//            s.append("\n").append(sss);
+//        }
+//
+//
+//        TextView tDialog = (TextView) p.getChildView(R.id.overlay_dialog_content);
+//        tDialog.setText(s.toString());
+//        tDialog.setTextColor(fPrefs.getTextColor());
+//        p.showDialog();
+        if (mContext instanceof MainActivity) {
+            MainActivity mActivty = (MainActivity)mContext;
+            mActivty.loadComments(sPost.getComments());
+        } else {
+            e("mCONTEXT NOT INSTANCE");
         }
-
-        TextView tDialog = (TextView) p.getChildView(R.id.overlay_dialog_content);
-        tDialog.setText(s.toString());
-        tDialog.setTextColor(fPrefs.getTextColor());
-        p.showDialog();
     }
 
     public Post getPost() {
         return sPost;
     }
 
-    public void updateLikeCommentCount() {
-        Integer likeCount = sPost.getLikeCount();
-        if (likeCount != 0) {
-            StringBuilder sLikeCount = new StringBuilder();
-            sLikeCount.append(likeCount);
-            if (likeCount == 1) {
-                sLikeCount.append(" Like");
+    public void updateLikeCommentCount(Integer likeCount, Integer commentCount) {
+        if (likeCount != null) {
+            if (likeCount != 0) {
+                tLikeCount.setVisibility(View.VISIBLE);
+                StringBuilder sLikeCount = new StringBuilder();
+                sLikeCount.append(likeCount);
+                if (likeCount == 1) {
+                    sLikeCount.append(" Like");
+                } else {
+                    sLikeCount.append(" Likes");
+                }
+                tLikeCount.setText(sLikeCount);
             } else {
-                sLikeCount.append(" Likes");
+                tLikeCount.setVisibility(View.GONE);
             }
-            tLikeCount.setText(sLikeCount);
-        } else {
-            tLikeCount.setVisibility(View.GONE);
         }
 
-        Integer commentCount = sPost.getCommentCount();
-        if (commentCount != 0) {
-            StringBuilder sCommentCount = new StringBuilder();
-            sCommentCount.append(commentCount);
-            if (commentCount == 1) {
-                sCommentCount.append(" Comment");
+        if (commentCount != null) {
+            if (commentCount != 0) {
+                tCommentCount.setVisibility(View.VISIBLE);
+                StringBuilder sCommentCount = new StringBuilder();
+                sCommentCount.append(commentCount);
+                if (commentCount == 1) {
+                    sCommentCount.append(" Comment");
+                } else {
+                    sCommentCount.append(" Comments");
+                }
+                tCommentCount.setText(sCommentCount);
             } else {
-                sCommentCount.append(" Comments");
+                tCommentCount.setVisibility(View.GONE);
             }
-            tCommentCount.setText(sCommentCount);
-        } else {
-            tCommentCount.setVisibility(View.GONE);
         }
     }
+
 }

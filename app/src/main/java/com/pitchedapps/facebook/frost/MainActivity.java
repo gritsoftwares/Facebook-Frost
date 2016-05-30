@@ -44,6 +44,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentStatePagerItemAdapter;
 import com.pitchedapps.facebook.frost.customViews.Changelog;
+import com.pitchedapps.facebook.frost.customViews.OverlayCommentView;
 import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
@@ -53,6 +54,7 @@ import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Comment;
 import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnLoginListener;
 import com.sromku.simple.fb.listeners.OnLogoutListener;
@@ -178,6 +180,12 @@ public class MainActivity extends AppCompatActivity {
         mFAB.setColorPressed(new ColorUtils(mContext).getTintedHeaderBackground(0.2f));
 
 
+    }
+
+    public void loadComments(List<Comment> comments) {
+        OverlayCommentView overlayCommentView = new OverlayCommentView();
+        overlayCommentView.setCommentList(comments);
+        overlayCommentView.show(getSupportFragmentManager(), "comment_overlay");
     }
 
     @Override
