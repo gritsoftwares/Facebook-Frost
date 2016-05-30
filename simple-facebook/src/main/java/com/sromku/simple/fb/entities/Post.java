@@ -261,16 +261,28 @@ public class Post {
         return mLikeData.data;
     }
 
+    public void setLikeCount(Integer i) {
+        mLikeData.summary.total_count = i;
+    }
+
     public Integer getLikeCount() {
         if (mLikeData == null) return 0;
         if (mLikeData.summary == null) return 0;
         return mLikeData.summary.total_count != null ? mLikeData.summary.total_count : 0;
     }
 
+    public void setCanLike(boolean b) {
+        mLikeData.summary.can_like = b;
+    }
+
     public boolean canLike() {
         if (mLikeData == null) return false;
         if (mLikeData.summary == null) return false;
         return mLikeData.summary.can_like;
+    }
+
+    public void setLiked(boolean b) {
+        mLikeData.summary.has_liked = b;
     }
 
     public boolean hasLiked() {

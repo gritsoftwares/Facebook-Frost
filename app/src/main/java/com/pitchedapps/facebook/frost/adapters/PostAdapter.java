@@ -60,7 +60,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 final View singlePost = LayoutInflater.from(
                         viewGroup.getContext()).inflate(R.layout.item_post_card,
                         viewGroup, false);
-                return new PostCard(mContext, singlePost, mPosts.get(i));
+                return new PostCard(mContext, singlePost, mPosts.get(i), this, i);
         }
     }
 
@@ -92,6 +92,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void addPosts(List<Post> response) {
         mPosts.addAll(response);
         loading = false;
+    }
+
+    public Post getPost(int position) {
+        return mPosts.get(position);
     }
 
 }

@@ -31,6 +31,7 @@ import com.sromku.simple.fb.actions.GetPhotosAction;
 import com.sromku.simple.fb.actions.GetPostsAction;
 import com.sromku.simple.fb.actions.GetProfileAction;
 import com.sromku.simple.fb.actions.GetScoresAction;
+import com.sromku.simple.fb.actions.GetSinglePostAction;
 import com.sromku.simple.fb.actions.GetStoryObjectsAction;
 import com.sromku.simple.fb.actions.GetTaggableFriendsAction;
 import com.sromku.simple.fb.actions.GetTaggedPlacesAction;
@@ -92,6 +93,7 @@ import com.sromku.simple.fb.listeners.OnPostsListener;
 import com.sromku.simple.fb.listeners.OnProfileListener;
 import com.sromku.simple.fb.listeners.OnPublishListener;
 import com.sromku.simple.fb.listeners.OnScoresListener;
+import com.sromku.simple.fb.listeners.OnSinglePostListener;
 import com.sromku.simple.fb.listeners.OnStoryObjectsListener;
 import com.sromku.simple.fb.listeners.OnTaggedPlacesListener;
 import com.sromku.simple.fb.listeners.OnVideosListener;
@@ -256,6 +258,22 @@ public class SimpleFacebook {
         getAction.setEdge(edge);
         getAction.execute();
     }
+
+    public <T> void get(String entityId, final Bundle bundle, OnActionListener<T> onActionListener) {
+        GetAction<T> getAction = new GetAction<T>(mSessionManager) {
+            @Override
+            protected Bundle getBundle() {
+                if (bundle != null) {
+                    return bundle;
+                }
+                return super.getBundle();
+            }
+        };
+        getAction.setActionListener(onActionListener);
+        getAction.setTarget(entityId);
+        getAction.execute();
+    }
+
 
     /**
      * The pages of which the current user is an admin.
@@ -1195,6 +1213,15 @@ public class SimpleFacebook {
         getPostsAction.addField(extraFields);
         getPostsAction.addLimit(limit);
         getPostsAction.execute();
+    }
+
+    public void getSinglePost(String entityID, String extraFields, OnSinglePostListener onSinglePostListener) {
+        GetSinglePostAction getSinglePostAction = new GetSinglePostAction(mSessionManager);
+        getSinglePostAction.setActionListener(onSinglePostListener);
+        getSinglePostAction.setTarget(entityID);
+//        getPostsAction.setPostType(postType);
+        getSinglePostAction.addField(extraFields);
+        getSinglePostAction.execute();
     }
 
 

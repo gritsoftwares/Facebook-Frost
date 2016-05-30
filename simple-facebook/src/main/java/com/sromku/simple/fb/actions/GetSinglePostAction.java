@@ -12,28 +12,26 @@ import com.sromku.simple.fb.utils.Utils;
 
 import java.util.List;
 
-public class GetPostsAction extends GetAction<List<Post>> {
+public class GetSinglePostAction extends GetAction<Post> {
 
-    private PostType mPostType = PostType.ALL; // default
-
-    public GetPostsAction(SessionManager sessionManager) {
+    public GetSinglePostAction(SessionManager sessionManager) {
         super(sessionManager);
+        setEdge(null);
     }
 
-    public void setPostType(PostType postType) {
-        mPostType = postType;
-    }
+//    public void setPostType(PostType postType) {
+//        mPostType = postType;
+//    }
 
     @Override
     protected String getGraphPath() {
-        return getTarget() + "/" + mPostType.getGraphPath();
+        return getTarget();
     }
 
     @Override
-    protected List<Post> processResponse(GraphResponse response) {
-        Utils.DataResult<Post> dataResult = Utils.convert(response, new TypeToken<Utils.DataResult<Post>>() {
+    protected Post processResponse(GraphResponse response) {
+        return Utils.convert(response, new TypeToken<Post>() {
         }.getType());
-        return dataResult.data;
     }
 
 }

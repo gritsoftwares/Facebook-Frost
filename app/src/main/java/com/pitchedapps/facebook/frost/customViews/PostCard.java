@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.adapters.PostAdapter;
+import com.pitchedapps.facebook.frost.graph.UpdateSinglePost;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Retrieve;
@@ -26,10 +28,14 @@ public class PostCard extends RecyclerView.ViewHolder {
     private FrostPreferences fPrefs;
     private ActionButtons mAB;
     private TextView tLikeCount, tCommentCount;
+    private PostAdapter mPostAdapter;
+    private int mPosition;
 
-    public PostCard(Context c, View itemView, Post p) {
+    public PostCard(Context c, View itemView, Post p, PostAdapter pa, int position) {
         super(itemView);
 
+        mPostAdapter = pa;
+        mPosition = position;
         mContext = c;
         sPost = p;
 
@@ -61,38 +67,10 @@ public class PostCard extends RecyclerView.ViewHolder {
         tFrom.setTextColor(fPrefs.getTextColor());
 
         tLikeCount = (TextView) itemView.findViewById(R.id.item_post_like_count);
-//        tLikeCount.setBackground(null);
         tLikeCount.setTextColor(fPrefs.getTextColor());
-        Integer likeCount = sPost.getLikeCount();
-        if (likeCount != 0) {
-            StringBuilder sLikeCount = new StringBuilder();
-            sLikeCount.append(likeCount);
-            if (likeCount == 1) {
-                sLikeCount.append(" Like");
-            } else {
-                sLikeCount.append(" Likes");
-            }
-            tLikeCount.setText(sLikeCount);
-        } else {
-            tLikeCount.setVisibility(View.GONE);
-        }
-
         tCommentCount = (TextView) itemView.findViewById(R.id.item_post_comment_count);
-//        tCommentCount.setBackground(null);
         tCommentCount.setTextColor(fPrefs.getTextColor());
-        Integer commentCount = sPost.getCommentCount();
-        if (commentCount != 0) {
-            StringBuilder sCommentCount = new StringBuilder();
-            sCommentCount.append(commentCount);
-            if (commentCount == 1) {
-                sCommentCount.append(" Comment");
-            } else {
-                sCommentCount.append(" Comments");
-            }
-            tCommentCount.setText(sCommentCount);
-        } else {
-            tCommentCount.setVisibility(View.GONE);
-        }
+        updateLikeCommentCount();
 
         mAB = (ActionButtons) itemView.findViewById(R.id.item_post_action_buttons);
         mAB.initialize(this);
@@ -124,6 +102,26 @@ public class PostCard extends RecyclerView.ViewHolder {
 
 
 //            AnimUtils.fadeIn(mContext, itemView, pos * 200, 5000);
+    }
+
+    public void reload() {
+        new UpdateSinglePost(this).updateLikes();
+    }
+
+    public int getPostPosition() {
+        return mPosition;
+    }
+
+    public PostAdapter getPostAdapter() {
+        return mPostAdapter;
+    }
+
+    public String getPostID() {
+        return sPost.getId();
+    }
+
+    public ActionButtons getActionButtons() {
+        return mAB;
     }
 
     private void singlePostData() {

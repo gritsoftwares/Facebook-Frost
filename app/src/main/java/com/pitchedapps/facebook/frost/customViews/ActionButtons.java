@@ -109,13 +109,18 @@ public class ActionButtons extends LinearLayout {
     }
 
     public void postLiked(boolean b) {
-        if (b) {
-            postLiked = true;
-            iLike.setColorFilter(cEmphasis);
-        } else {
-            postLiked = false;
-            iLike.setColorFilter(cNormal);
-        }
+//        if (b) {
+//            postLiked = true;
+//            iLike.setColorFilter(cEmphasis);
+//        } else {
+//            postLiked = false;
+//            iLike.setColorFilter(cNormal);
+//        }
+        mPostCard.reload();
+    }
+
+    public void showLikeError() {
+        Utils.showSimpleSnackbar(mContext, (View) getParent(), getResources().getString(R.string.like_fail));
     }
 
     private void addListeners() {
@@ -129,21 +134,18 @@ public class ActionButtons extends LinearLayout {
                         public void onComplete(Void response) {
                             super.onComplete(response);
                             postLiked(false);
-                            e("delete c");
                         }
 
                         @Override
                         public void onFail(String reason) {
                             super.onFail(reason);
-                            e("delete f " + reason);
-                            Utils.showSimpleSnackbar(mContext, (View) getParent(), getResources().getString(R.string.like_fail));
+                            showLikeError();
                         }
 
                         @Override
                         public void onException(Throwable throwable) {
                             super.onException(throwable);
-                            e("delete e " + throwable.getMessage());
-                            Utils.showSimpleSnackbar(mContext, (View) getParent(), getResources().getString(R.string.like_fail));
+                            showLikeError();
                         }
                     });
                 } else {
@@ -157,13 +159,13 @@ public class ActionButtons extends LinearLayout {
                         @Override
                         public void onFail(String reason) {
                             super.onFail(reason);
-                            Utils.showSimpleSnackbar(mContext, (View) getParent(), getResources().getString(R.string.like_fail));
+                            showLikeError();
                         }
 
                         @Override
                         public void onException(Throwable throwable) {
                             super.onException(throwable);
-                            Utils.showSimpleSnackbar(mContext, (View) getParent(), getResources().getString(R.string.like_fail));
+                            showLikeError();
                         }
                     });
                 }
