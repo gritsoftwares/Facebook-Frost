@@ -42,30 +42,29 @@ import static com.pitchedapps.facebook.frost.utils.Utils.e;
  */
 public class FrostPreferenceView extends RelativeLayout {
 
-    private FragmentManager fManager;
-    private Activity mActivity;
+    private Context mContext;
 
     public FrostPreferenceView(Context c) {
         super(c);
+        mContext = c;
+        initializeViews();
     }
 
     public FrostPreferenceView(Context c, AttributeSet attrs) {
         super(c, attrs);
+        mContext = c;
+        initializeViews();
     }
 
     public FrostPreferenceView(Context c, AttributeSet attrs, int defStyle) {
         super(c, attrs, defStyle);
-    }
-
-    public void initialize(FragmentManager f, Activity a) {
-        fManager = f;
-        mActivity = a;
+        mContext = c;
         initializeViews();
     }
 
     private void initializeViews() {
-        FrostPreferences fPrefs = new FrostPreferences(mActivity);
-        LayoutInflater inflater = (LayoutInflater) mActivity
+        FrostPreferences fPrefs = new FrostPreferences(mContext);
+        LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.preferences_frost, this);
 
@@ -90,7 +89,7 @@ public class FrostPreferenceView extends RelativeLayout {
         animValue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWithSingleChoiceItems(mActivity, animValue).addAnimSpeedOptions();
+                new AlertDialogWithSingleChoiceItems(mContext, animValue).addAnimSpeedOptions();
             }
         });
 
@@ -101,7 +100,7 @@ public class FrostPreferenceView extends RelativeLayout {
         themeValue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWithSingleChoiceItems(mActivity, themeValue).addThemeOptions();
+                new AlertDialogWithSingleChoiceItems(mContext, themeValue).addThemeOptions();
             }
         });
 
@@ -115,11 +114,9 @@ public class FrostPreferenceView extends RelativeLayout {
 
             cBG.setVisibility(GONE);
         } else {
-            cText.initialize(fManager, mActivity);
             cText.setText(getResources().getString(R.string.text_color));
             cText.setPrefKey(FrostPreferences.TEXT_COLOR_CP);
 
-            cBG.initialize(fManager, mActivity);
             cBG.setText(getResources().getString(R.string.background_color));
             cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR_CP);
         }
@@ -131,7 +128,7 @@ public class FrostPreferenceView extends RelativeLayout {
         headerThemeValue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWithSingleChoiceItems(mActivity, headerThemeValue).addHeaderThemeOptions();
+                new AlertDialogWithSingleChoiceItems(mContext, headerThemeValue).addHeaderThemeOptions();
             }
         });
 
@@ -146,11 +143,9 @@ public class FrostPreferenceView extends RelativeLayout {
 
             cHeaderBG.setVisibility(GONE);
         } else {
-            cHeaderText.initialize(fManager, mActivity);
             cHeaderText.setText(getResources().getString(R.string.header_text_color));
             cHeaderText.setPrefKey(FrostPreferences.HEADER_TEXT_COLOR_CP);
 
-            cHeaderBG.initialize(fManager, mActivity);
             cHeaderBG.setText(getResources().getString(R.string.header_background_color));
             cHeaderBG.setPrefKey(FrostPreferences.HEADER_BACKGROUND_COLOR_CP);
         }

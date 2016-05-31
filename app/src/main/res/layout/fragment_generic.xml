@@ -5,12 +5,12 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/profile_viewGroup"
+        android:id="@+id/generic_viewGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/profile_refresh"
+            android:id="@+id/generic_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -20,7 +20,7 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/profile_rv"
+                    android:id="@+id/generic_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true"

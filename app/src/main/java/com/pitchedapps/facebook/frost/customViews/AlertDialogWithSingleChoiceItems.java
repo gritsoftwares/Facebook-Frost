@@ -18,7 +18,7 @@ import com.pitchedapps.facebook.frost.utils.FrostPreferences;
  */
 public class AlertDialogWithSingleChoiceItems {
 
-    private Activity mActivity;
+    private Context mContext;
     private FrostPreferences fPrefs;
     private TextView mTextView;
 
@@ -27,9 +27,9 @@ public class AlertDialogWithSingleChoiceItems {
     public static Themes[] themeValues = {Themes.LIGHT, Themes.DARK, Themes.FACEBOOK, Themes.CUSTOM};
 //    public static Themes[] headerThemeValues = {Themes.LIGHT, Themes.DARK, Themes.CUSTOM};
 
-    public AlertDialogWithSingleChoiceItems(Activity a, TextView tv) {
-        mActivity = a;
-        fPrefs = new FrostPreferences(mActivity);
+    public AlertDialogWithSingleChoiceItems(Context c, TextView tv) {
+        mContext = c;
+        fPrefs = new FrostPreferences(mContext);
         mTextView = tv;
     }
 
@@ -38,7 +38,7 @@ public class AlertDialogWithSingleChoiceItems {
         for (int i = 0; i < animSpeedValues.length; i++) {
             animSpeedOptions[i] = s(animSpeedValues[i].getStringID());
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.Frost_AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.Frost_AlertDialog);
         builder.setTitle(s(R.string.animation_speed));
         builder.setSingleChoiceItems(animSpeedOptions, fPrefs.getAnimationSpeedPosition(), new DialogInterface.OnClickListener() {
             @Override
@@ -60,7 +60,7 @@ public class AlertDialogWithSingleChoiceItems {
         for (int i = 0; i < themeValues.length; i++) {
             themeOptions[i] = s(themeValues[i].getStringID());
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.Frost_AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.Frost_AlertDialog);
         builder.setTitle(s(R.string.theme));
         builder.setSingleChoiceItems(themeOptions, fPrefs.getTheme(), new DialogInterface.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class AlertDialogWithSingleChoiceItems {
                 fPrefs.setTheme(which);
                 fPrefs.setThemeStringID(themeValues[which]);
                 mTextView.setText(s(themeValues[which].getStringID()));
-                if (origID != themeValues[which].getStringID()) ((SettingsActivity)mActivity).colorChanged();
+                if (origID != themeValues[which].getStringID()) ((SettingsActivity)mContext).colorChanged();
                 dialog.cancel();
             }
         });
@@ -84,7 +84,7 @@ public class AlertDialogWithSingleChoiceItems {
         for (int i = 0; i < themeValues.length; i++) {
             themeOptions[i] = s(themeValues[i].getStringID());
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.Frost_AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.Frost_AlertDialog);
         builder.setTitle(s(R.string.header_theme));
         builder.setSingleChoiceItems(themeOptions, fPrefs.getHeaderTheme(), new DialogInterface.OnClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class AlertDialogWithSingleChoiceItems {
                 fPrefs.setHeaderTheme(which);
                 fPrefs.setHeaderThemeStringID(themeValues[which]);
                 mTextView.setText(s(themeValues[which].getStringID()));
-                if (origID != themeValues[which].getStringID()) ((SettingsActivity)mActivity).colorChanged();
+                if (origID != themeValues[which].getStringID()) ((SettingsActivity)mContext).colorChanged();
                 dialog.cancel();
             }
         });
@@ -104,6 +104,6 @@ public class AlertDialogWithSingleChoiceItems {
     }
 
     private String s(int id){
-        return mActivity.getResources().getString(id);
+        return mContext.getResources().getString(id);
     }
 }

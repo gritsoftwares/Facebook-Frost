@@ -1,6 +1,7 @@
 package com.pitchedapps.facebook.frost.customViews;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Retrieve;
 import com.sromku.simple.fb.entities.Event;
@@ -49,6 +51,14 @@ public class EventCard extends RecyclerView.ViewHolder {
 //        } else {
 //            card.setBackgroundColor(fPrefs.getBackgroundColor());
 //        }
+
+        CardView card = (CardView) itemView.findViewById(R.id.item_event_card);
+        if (fPrefs.isDark()) {
+            card.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+        } else {
+            card.setBackgroundColor(fPrefs.getBackgroundColor());
+        }
+
         ImageView mPhoto = (ImageView) itemView.findViewById(R.id.item_event_photo);
         if (pictureURL != null) {
             Glide.with(mContext)
@@ -65,11 +75,18 @@ public class EventCard extends RecyclerView.ViewHolder {
 
         TextView mDesc = (TextView) itemView.findViewById(R.id.item_event_desc);
         mDesc.setTextColor(textColor);
-        mDesc.setText(description);
+        if (description != null) {
+            if (description.length() > 200) {
+                description = description.substring(0, 200) + "\u2026";;
+            }
+            mDesc.setText(description);
+        }
 
         TextView mLocation = (TextView) itemView.findViewById(R.id.item_event_location);
         mLocation.setTextColor(textColor);
-        mLocation.setText(location);
+        if (location != null) {
+            mLocation.setText(location);
+        }
     }
 
     /*

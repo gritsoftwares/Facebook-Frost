@@ -32,28 +32,23 @@ public class ColorPicker extends LinearLayout {
     private CircleImageView mColor;
     private FrostPreferences fPrefs;
     private Context mContext;
-    private FragmentManager fManager;
     private String mTextString, mKey;
-    private Activity mActivity;
 
     public ColorPicker(Context c) {
         super(c);
         mContext = c;
+        initializeViews();
     }
 
     public ColorPicker(Context c, AttributeSet attrs) {
         super(c, attrs);
         mContext = c;
+        initializeViews();
     }
 
     public ColorPicker(Context c, AttributeSet attrs, int defStyle) {
         super(c, attrs, defStyle);
         mContext = c;
-    }
-
-    public void initialize(FragmentManager f, Activity a) {
-        fManager = f;
-        mActivity = a;
         initializeViews();
     }
 
@@ -111,12 +106,12 @@ public class ColorPicker extends LinearLayout {
                                         break;
                                 }
                                 if (color != newColor)
-                                    ((SettingsActivity) mActivity).colorChanged();
+                                    ((SettingsActivity) mContext).colorChanged();
 
                             }
                         })
                         .create()
-                        .show(fManager, "dialog_" + mKey);
+                        .show(((SettingsActivity) mContext).getSupportFragmentManager(), "dialog_" + mKey);
             }
         });
     }

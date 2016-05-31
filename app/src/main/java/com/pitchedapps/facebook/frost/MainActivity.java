@@ -47,6 +47,7 @@ import com.pitchedapps.facebook.frost.customViews.Changelog;
 import com.pitchedapps.facebook.frost.customViews.OverlayCommentView;
 import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
+import com.pitchedapps.facebook.frost.interfaces.OnTabIconPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FragmentUtils;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private Context mContext;
     private ImageView mAvatar;
     private List<OnBackPressListener> mBackPressedListeners = new ArrayList<>();
+    private List<OnTabIconPressListener> mOnTabIconPressListener = new ArrayList<>();
     private Toolbar mToolbar;
     private FrostPreferences fPrefs;
     private FloatingActionButton mFAB;
@@ -236,6 +238,23 @@ public class MainActivity extends AppCompatActivity {
         if (backPressedWhenBlocked) {
             backPressedWhenBlocked = false;
             onBackPressed();
+        }
+    }
+
+    public void addOnTabPressedListener(OnTabIconPressListener listener) {
+        mOnTabIconPressListener.add(listener);
+    }
+
+    public void removeOnTabPressedListener(OnTabIconPressListener listener) {
+        mOnTabIconPressListener.remove(listener);
+    }
+
+    private void scrollToTop(int position) {
+        if (mOnTabIconPressListener == null) return;
+        for (OnTabIconPressListener listener : mOnTabIconPressListener) {
+            if (listener != null) {
+                listener.tabIconPressed(position);
+            }
         }
     }
 
@@ -502,11 +521,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabClicked(int position) {
                 if (position == mViewPager.getCurrentItem()) {
-                    Fragment fr = mFPIAdapter.getItem(position);
-                    if (fr instanceof ProfileFragment) {
-//                        fr.refresh();
-                        ((ProfileFragment)fr).scrollToTop();
-                    }
+                    scrollToTop(position);
 //                    FragmentStatePagerItemAdapter fSPIA = new FragmentStatePagerItemAdapter(thi)
 //                    switch (position) {
 //                        case 1:

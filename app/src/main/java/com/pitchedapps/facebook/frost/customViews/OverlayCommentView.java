@@ -16,18 +16,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 
 import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.adapters.CommentAdapter;
+import com.pitchedapps.facebook.frost.adapters.BaseAdapter;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.entities.Comment;
 
 import java.util.List;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-30.
@@ -69,7 +66,8 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
             mLLM = new LinearLayoutManager(mContext);
             mLLM.setOrientation(LinearLayoutManager.VERTICAL);
             mRV.setLayoutManager(mLLM);
-            mRV.setAdapter(new CommentAdapter(mContext, mCommentList));
+            mRV.setAdapter(new BaseAdapter<>(mContext, mCommentList, R.layout.item_comment_card));
+//            mRV.setAdapter(new CommentAdapter(mContext, mCommentList));
             mRV.setOnTouchListener(this);
         } else {
             mRV.setVisibility(View.GONE);

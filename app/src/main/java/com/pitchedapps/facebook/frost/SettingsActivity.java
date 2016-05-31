@@ -1,29 +1,18 @@
 package com.pitchedapps.facebook.frost;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.OnApplyWindowInsetsListener;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.WindowInsetsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 
 import com.pitchedapps.facebook.frost.customViews.FrostPreferenceView;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
-import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-22.
@@ -72,22 +61,13 @@ public class SettingsActivity extends AppCompatActivity {
             intent.putExtra("colorChange", true);
             startActivity(intent);
         }
-
         super.onBackPressed();
     }
 
 
     private FrostPreferenceView newPreferenceView() {
         FrostPreferenceView mFPV = new FrostPreferenceView(mContext);
-        mFPV.initialize(fManager, this);
         mFrame.addView(mFPV);
-//        mFPV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CharSequence[] test = {"A", "B", "C"};
-//                new AlertDialogWithSingleChoiceItems(mContext, "test", test, 0, this);
-//            }
-//        });
         return mFPV;
     }
 
@@ -101,22 +81,9 @@ public class SettingsActivity extends AppCompatActivity {
             public void onAnimationEnd() {
                 mFrame.removeView(mCurrent);
                 mCurrent = mFPV;
+//                updateStatusBar();
             }
         });
-//
-//        final Animator anim =
-//                ViewAnimationUtils.createCircularReveal(mFPV, p.x / 2, p.y / 2, 0, (float) Utils.getScreenDiagonal(mContext) / 2).setDuration((long) (Utils.getScreenDiagonal(mContext) / 2 * FrostPreferences.getAnimationSpeedFactor(mContext)));
-//        anim.addListener(new AnimatorListenerAdapter() {
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//                super.onAnimationEnd(animation);
-//                mFrame.removeView(mCurrent);
-//                mCurrent = mFPV;
-////                updateStatusBar();
-//            }
-//        });
-//        mFPV.setVisibility(View.VISIBLE);
-//        anim.start();
     }
 
     private void updateStatusBar() {
