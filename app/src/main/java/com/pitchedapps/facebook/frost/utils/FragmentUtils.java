@@ -14,7 +14,7 @@ public class FragmentUtils {
             case 1:
                 return FrostFragment.PROFILE;
             case 2:
-                return FrostFragment.FRIENDS;
+                return FrostFragment.EVENTS;
             case 3:
                 return FrostFragment.NOTIFICATIONS;
             default:

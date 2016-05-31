@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * @author sromku
- * // @see https://developers.facebook.com/docs/graph-api/reference/event
+ *         // @see https://developers.facebook.com/docs/graph-api/reference/event
  */
 public class Event {
 
@@ -22,6 +22,7 @@ public class Event {
     private static final String TICKET_URI = "ticket_uri";
     private static final String UPDATED_TIME = "updated_time";
     private static final String VENUE = "venue";
+    private static final String RSVP_STATUS = "rsvp_status";
 
     @SerializedName(DESCRIPTION)
     private String mDescription;
@@ -63,16 +64,20 @@ public class Event {
     @SerializedName(VENUE)
     private Place mVenue;
 
+    @SerializedName(RSVP_STATUS)
+    private String mRSVP;
+
     /**
      * The attendance options of the user. He can accept and <b>attend</b> the
      * event, or say <b>maybe</b>, or totally <b>decline</b> the invitation.
-     *
+     * <p/>
      * <li>{@link #ATTENDING}</li> <li>{@link #MAYBE}</li> <li>{@link #DECLINED}
      * </li><br>
      *
      * @author sromku
      */
     public enum EventDecision {
+        ALL("all"), //not actually a node; will be modified from GetEventsAction
         /**
          * Events that user decided to attend
          */
@@ -214,5 +219,9 @@ public class Event {
      */
     public Place getVenue() {
         return mVenue;
+    }
+
+    public String getRsvpStatus() {
+        return mRSVP;
     }
 }

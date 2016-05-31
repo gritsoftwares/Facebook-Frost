@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class GetEventsAction extends GetAction<List<Event>> {
 
-    private EventDecision mEventDesicion = EventDecision.ATTENDING; // default
+    private EventDecision mEventDesicion = EventDecision.ALL; // default
 
     public GetEventsAction(SessionManager sessionManager) {
         super(sessionManager);
@@ -42,6 +42,7 @@ public class GetEventsAction extends GetAction<List<Event>> {
     @Override
     protected String getGraphPath() {
         // example path: {user-id}/events/attending
+        if (mEventDesicion == EventDecision.ALL) return getTarget() + "/" + GraphPath.EVENTS;
         return getTarget() + "/" + GraphPath.EVENTS + "/" + mEventDesicion.getGraphNode();
     }
 

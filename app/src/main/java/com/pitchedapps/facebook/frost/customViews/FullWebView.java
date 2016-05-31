@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -141,8 +143,11 @@ public class FullWebView extends FrameLayout implements FrostWebView.Listener, O
     public void onPageStarted(String url, Bitmap favicon) {
 
         // http://stackoverflow.com/a/12039477/4407321
-        mWebView.setBackgroundColor(fPrefs.getBackgroundColor());
+        mWebView.setBackgroundColor(Color.TRANSPARENT);
+//        mWebView.setDrawingCacheBackgroundColor(0x00000000);
+//        mWebView.setBackgroundColor(fPrefs.getBackgroundColor());
 //        mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+//        mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, new Paint(0x00000000));
         mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
     }
 
@@ -153,6 +158,7 @@ public class FullWebView extends FrameLayout implements FrostWebView.Listener, O
 
 //        WebThemer.injectTheme(mActivity, mWebView);
 
+        mWebView.setBackgroundColor(Color.TRANSPARENT);
 
         if (firstRun || reload) {
             firstRun = false;

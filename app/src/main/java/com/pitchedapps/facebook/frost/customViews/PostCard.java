@@ -85,7 +85,6 @@ public class PostCard extends RecyclerView.ViewHolder {
                 photo.setVisibility(View.VISIBLE);
                 Glide.with(mContext)
                         .load(sPost.getFullPicture())
-//                        .dontTransform() //load full image
                         .into(photo);
                 break;
             case "link":

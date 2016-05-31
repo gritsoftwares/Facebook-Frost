@@ -10,6 +10,7 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.exampleFragments.PublishFeedDialogFragment;
 import com.pitchedapps.facebook.frost.exampleFragments.PublishFeedMoreFragment;
 import com.pitchedapps.facebook.frost.fragments.DemoFragment;
+import com.pitchedapps.facebook.frost.fragments.EventsFragment;
 import com.pitchedapps.facebook.frost.fragments.GetPostsFragment;
 import com.pitchedapps.facebook.frost.fragments.MainFragment;
 import com.pitchedapps.facebook.frost.fragments.NewsFeedFragment;
@@ -23,6 +24,7 @@ public enum FrostFragment {
     FRIENDS(R.string.tab_friends, GoogleMaterial.Icon.gmd_people, PublishFeedMoreFragment.class),
     NOTIFICATIONS(R.string.tab_notifications, MaterialDesignIconic.Icon.gmi_globe, PublishFeedDialogFragment.class),
     PROFILE(R.string.tab_profile, CommunityMaterial.Icon.cmd_account, ProfileFragment.class),
+    EVENTS(R.string.tab_events, GoogleMaterial.Icon.gmd_event, EventsFragment.class),
     ERROR(R.string.error, null, null);
 
     private int tabNameID;

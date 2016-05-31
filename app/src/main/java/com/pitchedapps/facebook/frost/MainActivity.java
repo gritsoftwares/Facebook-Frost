@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mFullLayout.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
         }
+        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
 //        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         getWindow().setStatusBarColor(fPrefs.getHeaderBackgroundColor()); //TODO fix this

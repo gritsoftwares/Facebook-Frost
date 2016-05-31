@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/facebook_blue_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
@@ -45,7 +46,8 @@
     </style>
 
     <style name="Startup">
-        <item name="android:windowBackground">@color/splashBackground</item>
+        <!--<item name="android:windowBackground">@color/splashBackground</item>-->
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:background">@color/splashBackground</item>
         <item name="colorPrimary">@color/splashBackground</item>
         <item name="colorPrimaryDark">@color/splashBackground</item>

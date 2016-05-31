@@ -3,6 +3,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string-array name="fullchangelog">
+        <item>@array/v1b</item>
         <item>@array/v1a</item>
         <item>@array/v0</item>
     </string-array>
@@ -15,12 +16,18 @@
         <item></item>
     </string-array>
 
+    <string-array name="v1b">
+        <item>v1.0-beta</item>
+        <item>Initial Play Store release</item>
+        <item>Added animated theme settings</item>
+        <item>Added like functionality and endless timeline loading</item>
+        <item>Added comment view</item>
+    </string-array>
+
     <string-array name="v1a">
         <item>v1.0-alpha</item>
         <item>Added timeline view</item>
         <item>Imported and improved simple facebook lib</item>
-        <!--<item></item>-->
-        <!--<item></item>-->
     </string-array>
 
     <string-array name="v0">

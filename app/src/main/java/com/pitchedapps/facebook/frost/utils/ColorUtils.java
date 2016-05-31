@@ -36,7 +36,7 @@ public class ColorUtils {
         int background = new FrostPreferences(mContext).getBackgroundColor();
         int tint = isColorDark(background) ? 0xffffffff : 0xff000000;
         final float inverseRation = 1f - ratio;
-        float a = (Color.alpha(tint));
+        float a = (Color.alpha(background));
         float r = (Color.red(tint) * ratio) + (Color.red(background) * inverseRation);
         float g = (Color.green(tint) * ratio) + (Color.green(background) * inverseRation);
         float b = (Color.blue(tint) * ratio) + (Color.blue(background) * inverseRation);
@@ -47,7 +47,7 @@ public class ColorUtils {
         int background = new FrostPreferences(mContext).getHeaderBackgroundColor();
         int tint = isColorDark(background) ? 0xffffffff : 0xff000000;
         final float inverseRation = 1f - ratio;
-        float a = (Color.alpha(tint));
+        float a = (Color.alpha(background));
         float r = (Color.red(tint) * ratio) + (Color.red(background) * inverseRation);
         float g = (Color.green(tint) * ratio) + (Color.green(background) * inverseRation);
         float b = (Color.blue(tint) * ratio) + (Color.blue(background) * inverseRation);
@@ -58,7 +58,7 @@ public class ColorUtils {
         int background = new FrostPreferences(mContext).getBackgroundColor();
         int tint = isColorDark(background) ? 0xffffffff : 0xff000000;
         final float inverseRation = 1f - ratio;
-        float a = (Color.alpha(tint));
+        float a = (Color.alpha(background));
         int r = (int)((Color.red(tint) * ratio) + (Color.red(background) * inverseRation));
         int g = (int)((Color.green(tint) * ratio) + (Color.green(background) * inverseRation));
         int b = (int)((Color.blue(tint) * ratio) + (Color.blue(background) * inverseRation));
