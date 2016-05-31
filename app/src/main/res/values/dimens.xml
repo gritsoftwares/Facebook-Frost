@@ -27,6 +27,7 @@
 
     <!--comment-->
     <dimen name="item_comment_avatar_size">48dip</dimen>
+    <dimen name="item_reply_avatar_size">@dimen/item_comment_avatar_size</dimen>
 
     <!--post-->
     <dimen name="item_post_avatar_size">48dip</dimen>

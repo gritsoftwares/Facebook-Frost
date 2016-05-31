@@ -10,7 +10,7 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.pitchedapps.facebook.frost.utils.SharedObjects;
+import com.pitchedapps.facebook.frost.utils.FacebookUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -77,17 +77,17 @@ public class ExamplesAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup group) {
         if (view == null) {
-            TextView textView = new TextView(SharedObjects.context);
-            textView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, SharedObjects.context.getResources().getDimensionPixelSize(R.dimen.example_list_height)));
-            textView.setTextColor(SharedObjects.context.getResources().getColor(R.color.white));
+            TextView textView = new TextView(FacebookUtils.context);
+            textView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, FacebookUtils.context.getResources().getDimensionPixelSize(R.dimen.example_list_height)));
+            textView.setTextColor(FacebookUtils.context.getResources().getColor(R.color.white));
             textView.setSingleLine();
             if (getItemViewType(position) == EXAMPLE_VIEW) {
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, SharedObjects.context.getResources().getDimensionPixelSize(R.dimen.example_list_text_size));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, FacebookUtils.context.getResources().getDimensionPixelSize(R.dimen.example_list_text_size));
             } else {
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, SharedObjects.context.getResources().getDimensionPixelSize(R.dimen.example_list_title_size));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, FacebookUtils.context.getResources().getDimensionPixelSize(R.dimen.example_list_title_size));
             }
             textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-            int pix10dp = SharedObjects.context.getResources().getDimensionPixelSize(R.dimen.padding_10dp);
+            int pix10dp = FacebookUtils.context.getResources().getDimensionPixelSize(R.dimen.padding_10dp);
             textView.setPadding(pix10dp, 0, pix10dp, 0);
             view = textView;
         }

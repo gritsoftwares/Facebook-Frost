@@ -13,6 +13,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
+import com.pitchedapps.facebook.frost.MainActivity;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
@@ -173,7 +174,12 @@ public class ActionButtons extends LinearLayout {
         lComment.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mContext instanceof MainActivity) {
+                    MainActivity mActivty = (MainActivity)mContext;
+                    mActivty.loadComments(mPost.getComments());
+                } else {
+                    e("mCONTEXT NOT INSTANCE");
+                }
             }
         });
 

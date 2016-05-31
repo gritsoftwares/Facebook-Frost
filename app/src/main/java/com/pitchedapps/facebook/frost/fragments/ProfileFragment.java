@@ -16,13 +16,11 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.EmptyAdapter;
 import com.pitchedapps.facebook.frost.adapters.PostAdapter;
 import com.pitchedapps.facebook.frost.customViews.FullWebView;
-import com.pitchedapps.facebook.frost.customViews.HeaderProfile;
-import com.pitchedapps.facebook.frost.customViews.PostCard;
 import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.enums.PostHeader;
 import com.pitchedapps.facebook.frost.exampleFragments.BaseFragment;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
-import com.pitchedapps.facebook.frost.utils.SharedObjects;
+import com.pitchedapps.facebook.frost.utils.FacebookUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
@@ -230,7 +228,7 @@ public class ProfileFragment extends BaseFragment {
             public void onComplete(Profile response) {
                 mRefresh.setRefreshing(false);
                 mProfile = response;
-                SharedObjects.saveProfile(response);
+                FacebookUtils.saveProfile(response);
                 getTimeline();
 //                updateProfileContent(response);
             }

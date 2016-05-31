@@ -16,9 +16,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.CommentAdapter;
+import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.entities.Comment;
@@ -36,11 +38,10 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
     private LinearLayoutManager mLLM;
     private RecyclerView mRV;
     private List<Comment> mCommentList;
-    private float y, netOffset = 0.0f, translateOffset = 0.0f, border, screenHeight, animSpeedFactor;
+    private float y, netOffset = 0.0f, border, absoluteBorder, screenHeight, animSpeedFactor, minAnimDuration = 500.0f;
     private Window mWindow;
-    private boolean slidingUp = false;
-    private DialogFragment mDialog;
-//    private View mFullView;
+    private boolean slidingUp = false, exiting = false;
+    private FrostPreferences fPrefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,12 +57,13 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog d = new Dialog(getActivity(), R.style.Frost_DialogFragment);
         d.getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
+        d.getWindow().setWindowAnimations(R.style.SlideUpAnimations);
+        d.getWindow().getDecorView().setOnTouchListener(this);
         return d;
     }
 
-
     public void getViews(View view) {
-        mDialog = this;
+        fPrefs = new FrostPreferences(mContext);
         mRV = (RecyclerView) view.findViewById(R.id.comment_rv);
         if (mCommentList != null) {
             mLLM = new LinearLayoutManager(mContext);
@@ -76,51 +78,39 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
         mWindow.setGravity(Gravity.TOP);
         screenHeight = Utils.getScreenSize(mContext).y;
         border = screenHeight * -0.3f;
-        animSpeedFactor = new FrostPreferences(mContext).getAnimationSpeedFactor() / 10.0f;
-        mDialog.setExitTransition(R.anim.slide_out_up);
+        absoluteBorder = border * 2;
+        animSpeedFactor = new FrostPreferences(mContext).getAnimationSpeedFactor() / 6.0f;
+        view.findViewById(R.id.comment_layout).setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+
+        ReplyBox mReply = (ReplyBox) view.findViewById(R.id.comment_reply_box);
+        mReply.initialize();
+//        mReply.setOnTouchListener(this);
+
+        mReply.getEditText().setOnTouchListener(this);
+        mReply.getPostButton().setOnTouchListener(this);
     }
 
     public void setCommentList(List<Comment> lC) {
         mCommentList = lC;
     }
 
-
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (mLLM.findLastCompletelyVisibleItemPosition() == (mCommentList.size() - 1)) {
+        if (exiting) return true;
+        if (!(v instanceof RecyclerView) || (mLLM.findLastCompletelyVisibleItemPosition() == (mCommentList.size() - 1))) {
+//            e("TOUCH " + v);
             int action = MotionEventCompat.getActionMasked(event);
             switch (action) {
                 case (MotionEvent.ACTION_MOVE):
                     sliding(event);
                     break;
                 case (MotionEvent.ACTION_UP):
-                    e("NETOFFSET " + netOffset);
+//                    e("NETOFFSET " + netOffset);
                     slidingUp = false;
                     if (netOffset > border) {
-                        float newOffset = translateOffset - netOffset;
-                        ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", translateOffset, newOffset).setDuration((long)(Math.abs(netOffset) * animSpeedFactor)).start();
-                        netOffset = 0.0f;
-                        translateOffset = newOffset;
+                        translateToOriginal();
                     } else {
-                        e("EXIT");
-                        getActivity().getSupportFragmentManager().popBackStack();
-                        ObjectAnimator exit = ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", translateOffset, translateOffset - screenHeight - netOffset).setDuration((long)(Math.abs(screenHeight - netOffset) * animSpeedFactor));
-                        exit.addListener(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) { }
-
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                mDialog.dismiss();
-                            }
-
-                            @Override
-                            public void onAnimationCancel(Animator animation) {  }
-
-                            @Override
-                            public void onAnimationRepeat(Animator animation) { }
-                        });
-                        exit.start();
+                        translateExit();
                     }
                     break;
                 default:
@@ -128,24 +118,63 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
             }
             y = event.getRawY();
             if (netOffset < 0.0f) return true;
-//        } else if (slidingUp) {
-//            int action = MotionEventCompat.getActionMasked(event);
-//            switch (action) {
-//                case (MotionEvent.ACTION_UP):
-//                    slidingUp = false;
-//                    break;
-//                case (MotionEvent.ACTION_MOVE):
-//                    sliding(event);
-//                    break;
-//                default:
-//                    break;
-//            }
-//            y = event.getRawY();
-//            if (netOffset < 0.0f) return true;
         }
         return false;
     }
 
+    private void translateToOriginal() {
+        final float newOffset = -netOffset;
+        ObjectAnimator toOrig = ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", 0, newOffset).setDuration((long) (Math.max(Math.abs(netOffset), minAnimDuration) * animSpeedFactor));
+        toOrig.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mWindow.getDecorView().offsetTopAndBottom((int) newOffset);
+                ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", newOffset, 0).setDuration((long) (Math.abs(netOffset) * animSpeedFactor)).setDuration(0).start();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        toOrig.start();
+        netOffset = 0.0f;
+    }
+
+    private void translateExit() {
+        final DialogFragment mDialogFragment = this;
+        exiting = true;
+        ObjectAnimator exit = ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", 0, -screenHeight - netOffset).setDuration((long) (Math.max(Math.abs(screenHeight - netOffset), minAnimDuration) * animSpeedFactor));
+        exit.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mDialogFragment.dismiss();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+        exit.start();
+    }
 
     private void sliding(MotionEvent event) {
         float diff = event.getRawY() - y;
@@ -163,6 +192,8 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
                 mWindow.getDecorView().offsetTopAndBottom((int) diff);
             }
         }
-//        e("diff " + diff + " netOffset " + netOffset);
+        if (netOffset < absoluteBorder) {
+            translateExit();
+        }
     }
 }

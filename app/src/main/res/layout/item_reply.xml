@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_reply_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_small">
+
+    <View
+        android:id="@+id/item_reply_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:padding="@dimen/padding_small" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/item_reply_avatar"
+        android:layout_width="@dimen/item_reply_avatar_size"
+        android:layout_height="@dimen/item_reply_avatar_size"
+        android:layout_below="@id/item_reply_divider"
+        app:civ_border_color="#fff"
+        app:civ_border_width="0dp" />
+
+    <LinearLayout
+        android:id="@+id/item_reply_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_reply_divider"
+        android:layout_toEndOf="@id/item_reply_avatar"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_medium">
+
+        <EditText
+            android:id="@+id/item_reply_editText"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/write_a_comment"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:maxLines="3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <Button
+            android:id="@+id/item_reply_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:padding="0dip"
+            android:text="@string/post" />
+
+    </LinearLayout>
+
+</RelativeLayout>

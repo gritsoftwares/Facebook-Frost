@@ -115,24 +115,24 @@ public class PostCard extends RecyclerView.ViewHolder {
     }
 
     private void singlePostData() {
-//        AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-//        StringBuilder s = new StringBuilder();
-//        String[] ss = {sPost.getId(), sPost.getType(), sPost.getStatusType(), sPost.getPicture(), "Comment C " + sPost.getCommentCount() + " " + JsonUtils.toJson(sPost.getComments())};
-//        for (String sss : ss) {
-//            s.append("\n").append(sss);
-//        }
-//
-//
-//        TextView tDialog = (TextView) p.getChildView(R.id.overlay_dialog_content);
-//        tDialog.setText(s.toString());
-//        tDialog.setTextColor(fPrefs.getTextColor());
-//        p.showDialog();
-        if (mContext instanceof MainActivity) {
-            MainActivity mActivty = (MainActivity)mContext;
-            mActivty.loadComments(sPost.getComments());
-        } else {
-            e("mCONTEXT NOT INSTANCE");
+        AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
+        StringBuilder s = new StringBuilder();
+        String[] ss = {sPost.getId(), sPost.getType(), sPost.getStatusType(), sPost.getPicture(), "Comment C " + sPost.getCommentCount() + " " + JsonUtils.toJson(sPost.getComments())};
+        for (String sss : ss) {
+            s.append("\n").append(sss);
         }
+
+
+        TextView tDialog = (TextView) p.getChildView(R.id.overlay_dialog_content);
+        tDialog.setText(s.toString());
+        tDialog.setTextColor(fPrefs.getTextColor());
+        p.showDialog();
+//        if (mContext instanceof MainActivity) {
+//            MainActivity mActivty = (MainActivity)mContext;
+//            mActivty.loadComments(sPost.getComments());
+//        } else {
+//            e("mCONTEXT NOT INSTANCE");
+//        }
     }
 
     public Post getPost() {

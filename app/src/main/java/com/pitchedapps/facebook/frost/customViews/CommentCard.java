@@ -42,14 +42,14 @@ public class CommentCard extends RecyclerView.ViewHolder {
         String message = sComment.getMessage();
         String name = null;
 
-        RelativeLayout card = (RelativeLayout) itemView.findViewById(R.id.item_comment_card);
+//        RelativeLayout card = (RelativeLayout) itemView.findViewById(R.id.item_comment_container);
         fPrefs = new FrostPreferences(mContext);
 
-        if (fPrefs.isDark()) {
-            card.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
-        } else {
-            card.setBackgroundColor(fPrefs.getBackgroundColor());
-        }
+//        if (fPrefs.isDark()) {
+//            card.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+//        } else {
+//            card.setBackgroundColor(fPrefs.getBackgroundColor());
+//        }
 
         if (sComment.getFrom() != null) {
             name = sComment.getFrom().getName();

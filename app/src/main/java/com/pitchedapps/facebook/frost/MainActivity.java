@@ -416,8 +416,17 @@ public class MainActivity extends AppCompatActivity {
         if (mSimpleFacebook.isLogin()) { //direct reveal without animations
             mStartLayout.setVisibility(View.GONE);
             mMainLayout.setVisibility(View.VISIBLE);
+            updateMainNavBarColor();
         } else {
             getWindow().setNavigationBarColor(fPrefs.getHeaderBackgroundColor());
+        }
+    }
+
+    private void updateMainNavBarColor() {
+        if (fPrefs.isDark()) {
+            getWindow().setNavigationBarColor(fPrefs.getBackgroundColor());
+        } else {
+            getWindow().setNavigationBarColor(new ColorUtils(mContext).getTintedBackground(0.1f));
         }
     }
 
@@ -428,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 revealMain();
-                getWindow().setNavigationBarColor(fPrefs.getBackgroundColor());
+                updateMainNavBarColor();
             }
         }, 2000); // afterDelay will be executed after (secs*1000) milliseconds.
     }
