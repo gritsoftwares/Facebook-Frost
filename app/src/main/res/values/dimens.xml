@@ -43,6 +43,9 @@
     <dimen name="frost_preference_width">120dp</dimen>
     <dimen name="color_picker_preview_size">40dip</dimen>
 
+    <!--dialog-->
+    <dimen name="rounded_dialog_corner">30dip</dimen>
+
     <!--fab-->
     <dimen name="fab_margin">16dp</dimen>
 

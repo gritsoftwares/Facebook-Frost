@@ -23,4 +23,15 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:background">@color/facebook_blue_dark</item>
     </style>
+
+    <style name="Frost.DialogFragment" parent="Theme.AppCompat.Dialog">
+        <!--<item name="android:windowAnimationStyle">@style/SlideAnimations</item>-->
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:windowMinWidthMajor">70%</item>
+    </style>
+
+    <style name="SlideAnimations" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
 </resources>

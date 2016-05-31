@@ -5,6 +5,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -41,7 +42,7 @@ public class CommentCard extends RecyclerView.ViewHolder {
         String message = sComment.getMessage();
         String name = null;
 
-        CardView card = (CardView) itemView.findViewById(R.id.item_comment_card);
+        RelativeLayout card = (RelativeLayout) itemView.findViewById(R.id.item_comment_card);
         fPrefs = new FrostPreferences(mContext);
 
         if (fPrefs.isDark()) {

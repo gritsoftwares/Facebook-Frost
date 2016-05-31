@@ -245,6 +245,7 @@ public class Post {
      * Comments for this post.
      */
     public List<Comment> getComments() {
+        if (mCommentData == null) return null;
         return mCommentData.data;
     }
 
