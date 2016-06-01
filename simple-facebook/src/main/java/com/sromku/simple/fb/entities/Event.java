@@ -1,6 +1,7 @@
 package com.sromku.simple.fb.entities;
 
 import com.google.gson.annotations.SerializedName;
+import com.sromku.simple.fb.utils.PictureAttributes;
 
 import java.util.Date;
 
@@ -13,7 +14,6 @@ public class Event {
     private static final String DESCRIPTION = "description";
     private static final String END_TIME = "end_time";
     private static final String ID = "id";
-    private static final String LOCATION = "location";
     private static final String NAME = "name";
     private static final String OWNER = "owner";
     private static final String PICTURE = "picture";
@@ -21,8 +21,15 @@ public class Event {
     private static final String START_TIME = "start_time";
     private static final String TICKET_URI = "ticket_uri";
     private static final String UPDATED_TIME = "updated_time";
-    private static final String VENUE = "venue";
+    private static final String PLACE = "place";
     private static final String RSVP_STATUS = "rsvp_status";
+    private static final String INTERESTED_COUNT = "interested_count";
+    private static final String ATTENDING_COUNT = "attending_count";
+    private static final String MAYBE_COUNT = "maybe_count";
+    private static final String DECLINED_COUNT = "declined_count";
+    private static final String CAN_GUESTS_INVITE = "can_guests_invite";
+    private static final String GUEST_LIST_ENABLED = "guest_list_enabled";
+    private static final String COVER = "cover";
 
     @SerializedName(DESCRIPTION)
     private String mDescription;
@@ -32,9 +39,6 @@ public class Event {
 
     @SerializedName(ID)
     private String mId;
-
-    @SerializedName(LOCATION)
-    private String mLocation;
 
     @SerializedName(NAME)
     private String mName;
@@ -47,7 +51,7 @@ public class Event {
      * picture in the fields param; example: ?fields=id,name,picture)
      */
     @SerializedName(PICTURE)
-    private String mPicture;
+    private EventPicture mPicture;
 
     @SerializedName(PRIVACY)
     private EventPrivacy mPrivacy;
@@ -61,11 +65,32 @@ public class Event {
     @SerializedName(UPDATED_TIME)
     private Date mUpdatedTime;
 
-    @SerializedName(VENUE)
-    private Place mVenue;
+    @SerializedName(PLACE)
+    private Place mPlace;
 
     @SerializedName(RSVP_STATUS)
     private String mRSVP;
+
+    @SerializedName(INTERESTED_COUNT)
+    private Integer mInterestedCount;
+
+    @SerializedName(ATTENDING_COUNT)
+    private Integer mAttendingCount;
+
+    @SerializedName(MAYBE_COUNT)
+    private Integer mMaybeCount;
+
+    @SerializedName(DECLINED_COUNT)
+    private Integer mDeclinedCount;
+
+    @SerializedName(CAN_GUESTS_INVITE)
+    private boolean mCanGuestsInvite;
+
+    @SerializedName(GUEST_LIST_ENABLED)
+    private boolean mIsGuestListEnabled;
+
+    @SerializedName(COVER)
+    private EventCover mCover;
 
     /**
      * The attendance options of the user. He can accept and <b>attend</b> the
@@ -136,6 +161,16 @@ public class Event {
         }
     }
 
+    public class EventPicture {
+        EventPictureData data;
+    }
+
+    public class EventPictureData {
+        String url;
+        Integer height, width;
+        boolean is_silhouette;
+    }
+
     /**
      * The long-form description of the event.
      */
@@ -158,13 +193,6 @@ public class Event {
     }
 
     /**
-     * The location for this event.
-     */
-    public String getLocation() {
-        return mLocation;
-    }
-
-    /**
      * The event title.
      */
     public String getName() {
@@ -181,8 +209,35 @@ public class Event {
     /**
      * The URL of the event's picture.
      */
-    public String getPicture() {
-        return mPicture;
+    public String getPictureURL() {
+        return mPicture.data.url;
+    }
+
+    public Integer getPictureHeight() {
+        return mPicture.data.height;
+    }
+
+    public Integer getPictureWidth() {
+        return mPicture.data.width;
+    }
+
+    public boolean getPictureIsSilhouette() {
+        return mPicture.data.is_silhouette;
+    }
+
+    public class EventCover {
+        String source;
+        String id;
+    }
+
+    public String getCoverURL() {
+        if (mCover == null) return null;
+        return mCover.source;
+    }
+
+    public String getCoverID() {
+        if (mCover == null) return null;
+        return mCover.id;
     }
 
     /**
@@ -217,11 +272,36 @@ public class Event {
     /**
      * The location of this event.
      */
-    public Place getVenue() {
-        return mVenue;
+    public Place getPlace() {
+        return mPlace;
     }
 
     public String getRsvpStatus() {
         return mRSVP;
     }
+
+    public Integer getInterestedCount() {
+        return mInterestedCount;
+    }
+
+    public Integer getAttendingCount() {
+        return mAttendingCount;
+    }
+
+    public Integer getMaybeCount() {
+        return mMaybeCount;
+    }
+
+    public Integer getDeclinedCount() {
+        return mDeclinedCount;
+    }
+
+    public boolean canGuestsInvite() {
+        return mCanGuestsInvite;
+    }
+
+    public boolean isGuestListEnabled() {
+        return mIsGuestListEnabled;
+    }
+
 }

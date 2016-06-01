@@ -185,9 +185,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void loadComments(List<Comment> comments) {
+    public void loadComments(List<Comment> comments, String postID) {
         OverlayCommentView overlayCommentView = new OverlayCommentView();
-        overlayCommentView.setCommentList(comments);
+        overlayCommentView.initialize(comments, postID);
         overlayCommentView.show(getSupportFragmentManager(), "comment_overlay");
     }
 

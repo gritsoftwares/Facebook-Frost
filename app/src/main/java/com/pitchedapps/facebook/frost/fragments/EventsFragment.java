@@ -15,6 +15,10 @@ import java.util.List;
 
 public class EventsFragment extends BaseFragment<Event> {
 
+    private static final String EVENT_QUERY =
+//            "id,start_time,end_time,description,name,rsvp_status";
+            "id,start_time,end_time,description,name,place,rsvp_status,picture.type(large){url},attending_count,cover,declined_count,maybe_count,owner,can_guests_invite,guest_list_enabled,interested_count";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +27,8 @@ public class EventsFragment extends BaseFragment<Event> {
 
     @Override
     public void getData() {
-        SimpleFacebook.getInstance().getEvents(Event.EventDecision.ALL, new OnEventsListener() {
+//        SimpleFacebook.getInstance().getEvents(Event.EventDecision.ALL, new OnEventsListener() {
+        SimpleFacebook.getInstance().getEvents(Event.EventDecision.ALL, EVENT_QUERY, 25, new OnEventsListener() {
 
             @Override
             public void onThinking() {

@@ -509,6 +509,15 @@ public class SimpleFacebook {
         getEventsAction.execute();
     }
 
+    public void getEvents(EventDecision eventDecision, String field, int limit, OnEventsListener onEventsListener) {
+        GetEventsAction getEventsAction = new GetEventsAction(mSessionManager);
+        getEventsAction.setActionListener(onEventsListener);
+        getEventsAction.setEventDecision(eventDecision);
+        getEventsAction.addField(field);
+        getEventsAction.addLimit(limit);
+        getEventsAction.execute();
+    }
+
     /**
      * Get events of specific entity.<br>
      * <br>

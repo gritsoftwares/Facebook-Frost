@@ -149,10 +149,26 @@ public class AnimUtils {
         return fadeOutAnimation;
     }
 
+    public static Animation fadeOutAnimation(Context c, double offset, double duration, Animation.AnimationListener mListener) {
+        duration *= FrostPreferences.getAnimationSpeedFactor(c);
+        Animation fadeOutAnimation = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
+        fadeOutAnimation.setStartOffset((int) offset);
+        fadeOutAnimation.setDuration((int) duration);
+        fadeOutAnimation.setAnimationListener(mListener);
+        return fadeOutAnimation;
+    }
+
     public static void fadeOut(Context c, View v, double offset, double duration) {
         v.setVisibility(View.GONE);
         if (v.isAttachedToWindow()) {
             v.startAnimation(fadeOutAnimation(c, offset, duration));
+        }
+    }
+
+    public static void fadeOut(Context c, View v, double offset, double duration, Animation.AnimationListener mListener) {
+        v.setVisibility(View.GONE);
+        if (v.isAttachedToWindow()) {
+            v.startAnimation(fadeOutAnimation(c, offset, duration, mListener));
         }
     }
 

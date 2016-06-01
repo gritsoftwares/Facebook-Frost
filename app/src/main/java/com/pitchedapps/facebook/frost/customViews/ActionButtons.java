@@ -176,7 +176,7 @@ public class ActionButtons extends LinearLayout {
             public void onClick(View v) {
                 if (mContext instanceof MainActivity) {
                     MainActivity mActivty = (MainActivity)mContext;
-                    mActivty.loadComments(mPost.getComments());
+                    mActivty.loadComments(mPost.getComments(), mPost.getId());
                 } else {
                     e("mCONTEXT NOT INSTANCE");
                 }

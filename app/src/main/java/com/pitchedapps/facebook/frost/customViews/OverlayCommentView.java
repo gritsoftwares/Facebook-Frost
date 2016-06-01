@@ -5,6 +5,8 @@ import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MotionEventCompat;
@@ -22,7 +24,11 @@ import com.pitchedapps.facebook.frost.adapters.BaseAdapter;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
+import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Comment;
+import com.sromku.simple.fb.entities.Post;
+import com.sromku.simple.fb.listeners.OnCommentsListener;
+import com.sromku.simple.fb.listeners.OnSinglePostListener;
 
 import java.util.List;
 
@@ -39,6 +45,12 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
     private Window mWindow;
     private boolean slidingUp = false, exiting = false;
     private FrostPreferences fPrefs;
+    private String mPostID;
+    private ReplyBox mReply;
+    private BaseAdapter<Comment> mAdapter;
+
+    private static final String COMMENT_QUERY =
+            "comments.summary(true).limit(25).order(reverse_chronological){attachment,message,can_comment,can_like,comment_count,created_time,from,like_count}";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +78,8 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
             mLLM = new LinearLayoutManager(mContext);
             mLLM.setOrientation(LinearLayoutManager.VERTICAL);
             mRV.setLayoutManager(mLLM);
-            mRV.setAdapter(new BaseAdapter<>(mContext, mCommentList, R.layout.item_comment_card));
+            mAdapter = new BaseAdapter<>(mContext, mCommentList, R.layout.item_comment_card).reverse();
+            mRV.setAdapter(mAdapter);
 //            mRV.setAdapter(new CommentAdapter(mContext, mCommentList));
             mRV.setOnTouchListener(this);
         } else {
@@ -80,16 +93,17 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
         animSpeedFactor = new FrostPreferences(mContext).getAnimationSpeedFactor() / 6.0f;
         view.findViewById(R.id.comment_layout).setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
 
-        ReplyBox mReply = (ReplyBox) view.findViewById(R.id.comment_reply_box);
-        mReply.initialize();
+        mReply = (ReplyBox) view.findViewById(R.id.comment_reply_box);
+        mReply.initialize(mPostID, this);
 //        mReply.setOnTouchListener(this);
 
         mReply.getEditText().setOnTouchListener(this);
         mReply.getPostButton().setOnTouchListener(this);
     }
 
-    public void setCommentList(List<Comment> lC) {
+    public void initialize(List<Comment> lC, String postID) {
         mCommentList = lC;
+        mPostID = postID;
     }
 
     @Override
@@ -193,5 +207,46 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
         if (netOffset < absoluteBorder) {
             translateExit();
         }
+    }
+
+    public void addNewComment(Comment comment) {
+        mAdapter.addItems(comment);
+        mRV.smoothScrollToPosition(mAdapter.getItemCount());
+        reloadAfterPost();
+    }
+
+    public void reloadAfterPost() {
+        SimpleFacebook.getInstance().getSinglePost(mPostID, COMMENT_QUERY, new OnSinglePostListener() {
+
+            @Override
+            public void onException(Throwable throwable) {
+                showCommentLoadError();
+            }
+
+            @Override
+            public void onFail(String reason) {
+                showCommentLoadError();
+            }
+
+            @Override
+            public void onComplete(Post response) {
+                mAdapter.switchItems(response.getComments());
+                mRV.scrollToPosition(mAdapter.getItemCount());
+
+//                mReply.getEditText().getText().clear();
+//                mReply.getEditText().setEnabled(true);
+//                mAdapter.addItems();
+//                mRV.setAdapter(new BaseAdapter<>(mContext, response, R.layout.item_comment_card));
+//                mRV.scrollToPosition(response.size() - 1);
+            }
+        });
+    }
+
+    private void showCommentLoadError() {
+        Utils.showSimpleSnackbar(mContext, mRV, getResources().getString(R.string.comment_reload_fail));
+    }
+
+    public BaseAdapter<Comment> getAdapter() {
+        return mAdapter;
     }
 }

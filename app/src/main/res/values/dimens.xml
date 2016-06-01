@@ -35,6 +35,9 @@
     <dimen name="item_post_avatar_size">48dip</dimen>
     <dimen name="item_post_image_size">200dip</dimen>
 
+    <!--event-->
+    <dimen name="event_photo_size">100dip</dimen>
+
     <!-- Dimensions for some dialogs -->
     <dimen name="dialog_margin">24dp</dimen>
     <dimen name="dialog_margin_bottom">16dp</dimen>
@@ -47,7 +50,7 @@
     <dimen name="color_picker_preview_size">40dip</dimen>
 
     <!--dialog-->
-    <dimen name="rounded_dialog_corner">30dip</dimen>
+    <dimen name="rounded_dialog_corner">20dip</dimen>
 
     <!--fab-->
     <dimen name="fab_margin">16dp</dimen>

@@ -22,6 +22,10 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FacebookUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
+import com.pitchedapps.facebook.frost.utils.Utils;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Comment;
+import com.sromku.simple.fb.listeners.OnPublishListener;
 
 public class ReplyBox extends RelativeLayout {
 
@@ -29,6 +33,8 @@ public class ReplyBox extends RelativeLayout {
     private FrostPreferences fPrefs;
     private EditText mEditText;
     private Button mPostButton;
+    private String mPostID;
+    private OverlayCommentView mOCV;
 
     public ReplyBox(Context context) {
         super(context);
@@ -45,7 +51,9 @@ public class ReplyBox extends RelativeLayout {
         mContext = context;
     }
 
-    public void initialize() {
+    public void initialize(String postID, OverlayCommentView OCV) {
+        mPostID = postID;
+        mOCV = OCV;
         initializeViews();
     }
 
@@ -65,7 +73,46 @@ public class ReplyBox extends RelativeLayout {
         mDivider.setAlpha(0.5f);
 
         mPostButton = (Button) findViewById(R.id.item_reply_post);
-        mPostButton.setBackgroundColor(fPrefs.getBackgroundColor());
+//        mPostButton.setBackgroundColor(fPrefs.getBackgroundColor());
+        mPostButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mEditText.setEnabled(false);
+
+                final Comment comment = new Comment.Builder()
+                        .setMessage(mEditText.getText().toString())
+                        .build();
+
+                SimpleFacebook.getInstance().publish(mPostID, comment, new OnPublishListener() {
+
+                    @Override
+                    public void onException(Throwable throwable) {
+                        showCommentError();
+                    }
+
+                    @Override
+                    public void onFail(String reason) {
+                        showCommentError();
+                    }
+
+//                    @Override
+//                    public void onThinking() {
+//                        showDialog();
+//                    }
+
+                    @Override
+                    public void onComplete(String response) {
+//                        hideDialog();
+//                        mResult.setText(response);
+                        mEditText.setEnabled(true);
+                        mEditText.getText().clear();
+                        mOCV.addNewComment(comment);
+
+                    }
+                });
+            }
+        });
 
         mEditText = (EditText) findViewById(R.id.item_reply_editText);
         mEditText.addTextChangedListener(new TextWatcher() {
@@ -89,6 +136,11 @@ public class ReplyBox extends RelativeLayout {
             }
         });
 
+    }
+
+    private void showCommentError() {
+        mEditText.setEnabled(true);
+        Utils.showSimpleSnackbar(mContext, (View) getParent(), getResources().getString(R.string.comment_fail));
     }
 
     public EditText getEditText() {

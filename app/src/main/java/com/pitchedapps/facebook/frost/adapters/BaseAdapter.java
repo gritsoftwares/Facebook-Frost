@@ -27,7 +27,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<T> mItems;
     private Cursor mCursor;
     private int mLayoutID;
-    private boolean loading = false;
+    private boolean loading = false, reverse = false;
 
     public BaseAdapter(Context context, List<T> items, int layoutID) {
         mContext = context;
@@ -42,10 +42,15 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mLayoutID = layoutID;
     }
 
-    public BaseAdapter<T> initialize(PostHeader newHeader, Object headerContents) {
+    public BaseAdapter<T> addHeader(PostHeader newHeader, Object headerContents) {
         mHasHeader = true;
         mHeaderType = newHeader.getType();
         mHeaderContents = headerContents;
+        return this;
+    }
+
+    public BaseAdapter<T> reverse() {
+        reverse = true;
         return this;
     }
 
@@ -65,6 +70,9 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final View view = LayoutInflater.from(
                 viewGroup.getContext()).inflate(mLayoutID,
                 viewGroup, false);
+        if (reverse) {
+            return new BaseCard<T>(mContext, view, mItems.get(getItemCount() - 1 - i));
+        }
         return new BaseCard<T>(mContext, view, mItems.get(i));
     }
 
@@ -96,6 +104,15 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void addItems(List<T> response) {
         mItems.addAll(response);
         loading = false;
+    }
+
+    public void addItems(T response) {
+        mItems.add(response);
+        loading = false;
+    }
+
+    public void switchItems(List<T> response) {
+        mItems = response;
     }
 
     public T getItem(int position) {

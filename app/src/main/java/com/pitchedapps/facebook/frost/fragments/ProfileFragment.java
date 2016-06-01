@@ -27,7 +27,7 @@ import static com.pitchedapps.facebook.frost.utils.Utils.e;
 public class ProfileFragment extends BaseFragment<Post> {
 
     private static final String FEED_QUERY =
-            "message,story,type,id,full_picture,updated_time,actions,from,link,likes.summary(true).limit(25){pic_square,name},comments.summary(true).limit(25){attachment,message,can_comment,can_like,comment_count,created_time,from,like_count},shares";
+            "message,story,type,id,full_picture,updated_time,actions,from,link,likes.summary(true).limit(25){pic_square,name},comments.summary(true).limit(25).order(reverse_chronological){attachment,message,can_comment,can_like,comment_count,created_time,from,like_count},shares";
 
     private Profile mProfile;
 
@@ -88,36 +88,27 @@ public class ProfileFragment extends BaseFragment<Post> {
 
             @Override
             public void onException(Throwable throwable) {
-//                mRefresh.setRefreshing(false);
                 Utils.showSimpleSnackbar(mContext, mRefresh, throwable.getMessage());
                 getTimeline();
             }
 
             @Override
             public void onFail(String reason) {
-//                mRefresh.setRefreshing(false);
                 Utils.showSimpleSnackbar(mContext, mRefresh, reason);
                 getTimeline();
             }
 
             @Override
             public void onComplete(Profile response) {
-                mRefresh.setRefreshing(false);
                 mProfile = response;
                 FacebookUtils.saveProfile(response);
                 getTimeline();
-//                updateProfileContent(response);
             }
         });
     }
 
     public void getTimeline() {
         SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, FEED_QUERY, 25, new OnPostsListener() {
-
-//            @Override
-//            public void onThinking() {
-//                mRefresh.setRefreshing(true);
-//            }
 
             @Override
             public void onException(Throwable throwable) {
@@ -142,30 +133,7 @@ public class ProfileFragment extends BaseFragment<Post> {
 
     @Override
     public void setAdapter() {
-        mAdapter = new BaseAdapter<Post>(mContext, mResponse, mCursor, mSingleLayoutID).initialize(PostHeader.PROFILE, mProfile);
+        mAdapter = new BaseAdapter<>(mContext, mResponse, mCursor, mSingleLayoutID).addHeader(PostHeader.PROFILE, mProfile);
     }
-
-    private void printProfileData(Profile response) {
-        try {
-            for (Field f : response.getClass().getDeclaredFields()) {
-                f.setAccessible(true);
-                if (Modifier.isStatic(f.getModifiers())) {
-                    continue;
-                }
-                e(f.getName() + " " + f.get(response));
-            }
-        } catch (IllegalAccessException e) {
-            //do nothing
-        }
-    }
-
-    public void scrollToTop() {
-        e("GGG");
-        if (mLLM == null) return;
-        e("HHH");
-        mLLM.scrollToPosition(0);
-//        mLLM.smoothScrollToPosition(mRV, RecyclerView.State, 0);
-    }
-
 
 }

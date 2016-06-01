@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import com.pitchedapps.facebook.frost.MainActivity;
 import com.pitchedapps.facebook.frost.R;
@@ -22,6 +23,7 @@ import com.pitchedapps.facebook.frost.enums.FrostFragment;
 import com.pitchedapps.facebook.frost.interfaces.OnTabIconPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.FragmentUtils;
+import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
@@ -48,6 +50,7 @@ public class BaseFragment<T> extends Fragment implements OnTabIconPressListener{
     public int mSingleLayoutID;
     public boolean loading = false;
     private int mTitleKey;
+    public FrostPreferences fPrefs;
 
 //    public interface BaseFragmentActions {
 //        public void getData(SwipeRefreshLayout mRefresh, Cursor mCursor);
@@ -64,7 +67,6 @@ public class BaseFragment<T> extends Fragment implements OnTabIconPressListener{
                 break;
             }
         }
-
         mTitleKey = frostFragment.getTabNameID();
     }
 
@@ -72,6 +74,7 @@ public class BaseFragment<T> extends Fragment implements OnTabIconPressListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_generic, container, false);
         mContext = getActivity();
+        fPrefs = new FrostPreferences(mContext);
         getViews(view);
         if (sdkVersion) {
             getData();
@@ -211,10 +214,25 @@ public class BaseFragment<T> extends Fragment implements OnTabIconPressListener{
             if (i < 10) {
                 mRV.smoothScrollToPosition(0);
             } else {
-                mRV.smoothScrollToPosition(i - 10);
-                mRV.scrollToPosition(0);
+                AnimUtils.fadeOut(mContext, mRV, 0, 300, new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        mRV.scrollToPosition(0);
+                        AnimUtils.fadeIn(mContext, mRV, 0, 300);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
             }
-//            mLLM.scrollToPosition(0);
         }
         return false;
     }
