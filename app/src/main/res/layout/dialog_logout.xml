@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_logout_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_logout_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_2_text"
+        android:padding="@dimen/padding_medium"
+        android:text="@string/logout_confirm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dip"
+            android:layout_height="1dip"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/dialog_logout_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:minHeight="0dip"
+            android:minWidth="0dip"
+            android:padding="@dimen/padding_micro"
+            android:text="@string/cancel" />
+
+        <Space
+            android:layout_width="@dimen/padding_medium"
+            android:layout_height="1dip" />
+
+        <Button
+            android:id="@+id/dialog_logout_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:minHeight="0dip"
+            android:minWidth="0dip"
+            android:padding="@dimen/padding_micro"
+            android:text="@string/logout" />
+
+        <Space
+            android:layout_width="@dimen/padding_micro"
+            android:layout_height="1dip" />
+    </LinearLayout>
+</LinearLayout>

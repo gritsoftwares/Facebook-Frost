@@ -3,6 +3,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string-array name="fullchangelog">
+        <item>@array/v1b2</item>
         <item>@array/v1b</item>
         <item>@array/v1a</item>
         <item>@array/v0</item>
@@ -12,6 +13,14 @@
         <item></item>
         <item></item>
         <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="v1b2">
+        <item>v1.0-beta2</item>
+        <item>Added transparency support (excluding webviews)</item>
+        <item>Added comment support</item>
         <item></item>
         <item></item>
     </string-array>

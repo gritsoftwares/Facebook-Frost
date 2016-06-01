@@ -8,13 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.pitchedapps.facebook.frost.MainActivity;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.dialogs.AlertDialogWithCircularReveal;
 import com.pitchedapps.facebook.frost.graph.UpdateSinglePost;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Retrieve;
-import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Post;
 import com.sromku.simple.fb.utils.JsonUtils;
 

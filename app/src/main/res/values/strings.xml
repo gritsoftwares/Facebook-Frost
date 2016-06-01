@@ -40,4 +40,6 @@
     <string name="header_profile_photo_desc">Profile Photo</string>
 
     <string name="splash_continue_from_error">%1$s\n\nOops, this shouldn\'t have happened; please consider sending me a log.\n\nTap anywhere to continue.</string>
+
+    <string name="logout_confirm">Are you sure you want to log out?</string>
 </resources>

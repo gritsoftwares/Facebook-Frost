@@ -5,12 +5,10 @@ package com.pitchedapps.facebook.frost.customViews;
  */
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.utils.ColorUtils;
+import com.pitchedapps.facebook.frost.dialogs.OverlayCommentView;
 import com.pitchedapps.facebook.frost.utils.FacebookUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
@@ -80,8 +78,9 @@ public class ReplyBox extends RelativeLayout {
 
                 mEditText.setEnabled(false);
 
+                String text = mEditText.getText().toString();
                 final Comment comment = new Comment.Builder()
-                        .setMessage(mEditText.getText().toString())
+                        .setMessage(text)
                         .build();
 
                 SimpleFacebook.getInstance().publish(mPostID, comment, new OnPublishListener() {
@@ -103,8 +102,6 @@ public class ReplyBox extends RelativeLayout {
 
                     @Override
                     public void onComplete(String response) {
-//                        hideDialog();
-//                        mResult.setText(response);
                         mEditText.setEnabled(true);
                         mEditText.getText().clear();
                         mOCV.addNewComment(comment);

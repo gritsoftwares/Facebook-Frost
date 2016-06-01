@@ -82,7 +82,8 @@ public class ColorPicker extends LinearLayout {
             public void onClick(View v) {
                 new ChromaDialog.Builder()
                         .initialColor(color)
-                        .colorMode((mKey.equals(FrostPreferences.TEXT_COLOR_CP) || (mKey.equals(FrostPreferences.HEADER_TEXT_COLOR_CP))) ? ColorMode.RGB : ColorMode.ARGB)
+                        .colorMode((mKey.equals(FrostPreferences.ACCENT_COLOR_CP) || mKey.equals(FrostPreferences.TEXT_COLOR_CP) || (mKey.equals(FrostPreferences.HEADER_TEXT_COLOR_CP)))
+                                ? ColorMode.RGB : ColorMode.ARGB)
                         .indicatorMode(IndicatorMode.DECIMAL) //HEX or DECIMAL;
                         .onColorSelected(new OnColorSelectedListener() {
                             @Override
@@ -93,6 +94,9 @@ public class ColorPicker extends LinearLayout {
                                         break;
                                     case FrostPreferences.HEADER_BACKGROUND_COLOR_CP:
                                         fPrefs.setHeaderBackgroundColorCP(newColor);
+                                        break;
+                                    case FrostPreferences.ACCENT_COLOR_CP:
+                                        fPrefs.setAccentColorCP(newColor);
                                         break;
                                     case FrostPreferences.TEXT_COLOR_CP:
                                         fPrefs.setTextColorCP(newColor);

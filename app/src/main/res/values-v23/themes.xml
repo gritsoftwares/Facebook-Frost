@@ -1,5 +1,5 @@
 <resources>
-    <style name="Frost.Theme.Light" parent="Frost.Theme">
+    <style name="Frost.Theme.Light.2" parent="Frost.Theme">
         <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

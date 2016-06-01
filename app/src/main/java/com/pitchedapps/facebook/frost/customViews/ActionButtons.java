@@ -68,9 +68,11 @@ public class ActionButtons extends LinearLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.action_buttons, this);
 
-        cNormal = new FrostPreferences(mContext).getTextColor();
+        FrostPreferences fPrefs = new FrostPreferences(mContext);
+
+        cNormal = fPrefs.getTextColor();
         cDisabled = new ColorUtils(mContext).getDisabledTextColor();
-        cEmphasis = ColorUtils.cFACEBOOK;
+        cEmphasis = fPrefs.getAccentColor();
 
         tLike = (TextView) findViewById(R.id.action_button_like_text);
         tComment = (TextView) findViewById(R.id.action_button_comment_text);

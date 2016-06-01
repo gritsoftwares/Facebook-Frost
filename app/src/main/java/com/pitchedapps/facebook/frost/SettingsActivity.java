@@ -22,7 +22,6 @@ public class SettingsActivity extends AppCompatActivity {
     private ViewGroup mFrame;
     private FrostPreferenceView mCurrent;
     private Context mContext;
-    private FragmentManager fManager;
     private FrostPreferences fPrefs;
     private boolean colorChanged = false;
 
@@ -34,13 +33,12 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fManager = getSupportFragmentManager();
         setContentView(R.layout.activity_empty_settings);
         mContext = this;
+        fPrefs = new FrostPreferences(mContext);
         mFrame = (ViewGroup) findViewById(R.id.settings_frame);
         mCurrent = newPreferenceView();
 
-        fPrefs = new FrostPreferences(mContext);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         updateStatusBar();
     }
@@ -68,6 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
     private FrostPreferenceView newPreferenceView() {
         FrostPreferenceView mFPV = new FrostPreferenceView(mContext);
         mFrame.addView(mFPV);
+        updateBaseTheme();
         return mFPV;
     }
 
@@ -93,5 +92,21 @@ public class SettingsActivity extends AppCompatActivity {
 //                getWindow().setStatusBarColor(Color.TRANSPARENT);
 //            }
 //        }
+    }
+
+    private void updateBaseTheme() {
+        if (fPrefs.isDark()) {
+            if (fPrefs.isTransparent()) {
+                setTheme(R.style.Frost_Theme_Transparent);
+            }  else {
+                setTheme(R.style.Frost_Theme);
+            }
+        } else {
+            if (fPrefs.isTransparent()) {
+                setTheme(R.style.Frost_Theme_Light_Transparent);
+            } else {
+                setTheme(R.style.Frost_Theme_Light);
+            }
+        }
     }
 }

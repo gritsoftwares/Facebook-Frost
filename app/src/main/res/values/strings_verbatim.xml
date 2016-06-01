@@ -34,6 +34,7 @@
     <string name="no_email_found">No Email Found</string>
     <string name="unnamed">Unnamed</string>
 
+    <string name="cancel">Cancel</string>
     <string name="logout">Logout</string>
     <string name="logged_out">Logged Out</string>
     <string name="login">Login</string>
@@ -55,6 +56,7 @@
     <string name="dark">Dark</string>
     <string name="facebook_blue">Facebook Blue</string>
     <string name="custom">Custom</string>
+    <string name="accent_color">Accent Color</string>
     <string name="text_color">Text Color</string>
     <string name="header_text_color">Header Text Color</string>
     <string name="background_color">Background Color</string>

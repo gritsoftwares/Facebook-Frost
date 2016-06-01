@@ -128,7 +128,7 @@ public class FullWebView extends FrameLayout implements FrostWebView.Listener, O
         mRefresh.setRefreshing(true);
         AnimUtils.fadeOut(mActivity, mWebView, 0, 200);
         reload = true;
-        t(mActivity, "RELOADING");
+//        t(mActivity, "RELOADING");
         mWebView.reload();
     }
 

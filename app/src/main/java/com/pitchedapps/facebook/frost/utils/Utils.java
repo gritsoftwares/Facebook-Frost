@@ -315,7 +315,7 @@ public class Utils {
 
     public static Point getLocation(View v) {
         int[] posXY = new int[2];
-        v.getLocationInWindow(posXY);
+        v.getLocationOnScreen(posXY);
         return new Point(posXY[0] + v.getWidth()/2, posXY[1] + v.getHeight()/2);
     }
 

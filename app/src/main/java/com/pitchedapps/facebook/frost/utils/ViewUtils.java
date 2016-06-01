@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.pitchedapps.facebook.frost.enums.V;
@@ -32,6 +33,15 @@ public class ViewUtils {
             mTextView.setText(text);
         }
         return mTextView;
+    }
+
+    public Button b(int id, String text) {
+        Button mButton = (Button) parent.findViewById(id);
+        mButton.setTextColor(textColor);
+        if (text != null) {
+            mButton.setText(text);
+        }
+        return mButton;
     }
 
 }

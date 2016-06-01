@@ -19,9 +19,12 @@ public class FrostPreferences {
             PREFERENCE_NAME = "frost_preferences",
             FIRST_RUN = "first_run",
             IS_DARK = "is_dark",
+            IS_TRANSPARENT = "is_transparent",
             TEXT_COLOR = "text_color",
+            ACCENT_COLOR = "accent_color",
             BACKGROUND_COLOR = "bg_color",
             TEXT_COLOR_CP = "text_color_cp",
+            ACCENT_COLOR_CP = "accent_color_cp",
             BACKGROUND_COLOR_CP = "bg_color_cp",
             HEADER_TEXT_COLOR = "header_text_color",
             HEADER_BACKGROUND_COLOR = "header_bg_color",
@@ -65,6 +68,14 @@ public class FrostPreferences {
         getSharedPreferences().edit().putBoolean(IS_DARK, b).apply();
     }
 
+    public boolean isTransparent() {
+        return getSharedPreferences().getBoolean(IS_TRANSPARENT, false);
+    }
+
+    public void setIsTransparent(boolean b) {
+        getSharedPreferences().edit().putBoolean(IS_TRANSPARENT, b).apply();
+    }
+
     public boolean isFirstRun() {
         return getSharedPreferences().getBoolean(FIRST_RUN, true);
     }
@@ -86,9 +97,28 @@ public class FrostPreferences {
         return getSharedPreferences().getInt(TEXT_COLOR_CP, 0xff000000);
     }
 
+    public void setAccentColor(int i) {
+        getSharedPreferences().edit().putInt(ACCENT_COLOR, i).apply();
+    }
+
+    public int getAccentColor() {
+        return getSharedPreferences().getInt(ACCENT_COLOR, ColorUtils.cFACEBOOK);
+    }
+
+    public void setAccentColorCP(int i) {
+        getSharedPreferences().edit().putInt(ACCENT_COLOR_CP, i).apply();
+        setAccentColor(i);
+    }
+
+    public int getAccentColorCP() {
+        return getSharedPreferences().getInt(ACCENT_COLOR_CP, ColorUtils.cFACEBOOK);
+    }
+
+
     public void setBackgroundColor(int i) {
         getSharedPreferences().edit().putInt(BACKGROUND_COLOR, i).apply();
         setIsDark(ColorUtils.isColorDark(i));
+        setIsTransparent(ColorUtils.isTransparent(i));
     }
 
     public int getBackgroundColor() {
@@ -188,18 +218,22 @@ public class FrostPreferences {
             case LIGHT:
                 setTextColor(0xff000000);
                 setBackgroundColor(0xffeeeeee);
+                setAccentColor(ColorUtils.cFACEBOOK);
                 break;
             case DARK:
                 setTextColor(0xffffffff);
                 setBackgroundColor(0xff121212);
+                setAccentColor(ColorUtils.cFACEBOOK);
                 break;
             case FACEBOOK:
                 setTextColor(0xffffffff);
                 setBackgroundColor(ColorUtils.cFACEBOOK);
+                setAccentColor(0xffe91e63); //Material pink
                 break;
             case CUSTOM:
                 setTextColor(getTextColorCP());
                 setBackgroundColor(getBackgroundColorCP());
+                setAccentColor(getAccentColorCP());
                 break;
             default:
                 break;

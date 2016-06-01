@@ -10,6 +10,7 @@
     <dimen name="splash_logo">16dp</dimen>
 
     <dimen name="big_text">20sp</dimen>
+    <dimen name="big_2_text">18sp</dimen>
     <dimen name="icon_button_size">48dip</dimen>
     <dimen name="icon_button_padding">12dip</dimen>
     <dimen name="padding_micro_micro">4dip</dimen>
@@ -51,6 +52,7 @@
 
     <!--dialog-->
     <dimen name="rounded_dialog_corner">20dip</dimen>
+    <dimen name="dialog_logout_min_width">800dip</dimen>
 
     <!--fab-->
     <dimen name="fab_margin">16dp</dimen>

@@ -11,15 +11,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.dialogs.AlertDialogWithCircularReveal;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FacebookUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
-import com.pitchedapps.facebook.frost.utils.Retrieve;
 import com.pitchedapps.facebook.frost.utils.ViewUtils;
 import com.sromku.simple.fb.entities.Event;
-import com.sromku.simple.fb.entities.Image;
 
 import static com.pitchedapps.facebook.frost.utils.Utils.e;
 

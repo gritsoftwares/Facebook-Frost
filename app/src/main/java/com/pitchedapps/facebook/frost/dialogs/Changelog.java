@@ -1,4 +1,4 @@
-package com.pitchedapps.facebook.frost.customViews;
+package com.pitchedapps.facebook.frost.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;

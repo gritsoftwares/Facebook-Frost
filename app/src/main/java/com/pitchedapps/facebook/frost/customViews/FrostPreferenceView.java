@@ -1,41 +1,18 @@
 package com.pitchedapps.facebook.frost.customViews;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.OnApplyWindowInsetsListener;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.WindowInsetsCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.mikepenz.iconics.IconicsDrawable;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.SettingsActivity;
+import com.pitchedapps.facebook.frost.dialogs.AlertDialogWithSingleChoiceItems;
 import com.pitchedapps.facebook.frost.enums.Themes;
-import com.pitchedapps.facebook.frost.utils.FragmentUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
-
-import java.util.Random;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-22.
@@ -107,13 +84,17 @@ public class FrostPreferenceView extends RelativeLayout {
 
 //        t.setBackgroundColor(randomColor());
 
+        ColorPicker cAccent = (ColorPicker) findViewById(R.id.preferences_accent_color);
         ColorPicker cText = (ColorPicker) findViewById(R.id.preferences_text_color);
         ColorPicker cBG = (ColorPicker) findViewById(R.id.preferences_background_color);
         if (fPrefs.getThemeStringID() != Themes.CUSTOM.getStringID()) {
+            cAccent.setVisibility(GONE);
             cText.setVisibility(GONE);
-
             cBG.setVisibility(GONE);
         } else {
+            cAccent.setText(getResources().getString(R.string.accent_color));
+            cAccent.setPrefKey(FrostPreferences.ACCENT_COLOR_CP);
+
             cText.setText(getResources().getString(R.string.text_color));
             cText.setPrefKey(FrostPreferences.TEXT_COLOR_CP);
 

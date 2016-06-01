@@ -5,13 +5,27 @@
         <item name="colorPrimary">@color/facebook_blue</item>
         <item name="colorPrimaryDark">@color/facebook_blue_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="Frost.Theme.Light" parent="Frost.Theme" />
+    <style name="Frost.Theme.Transparent" parent="Frost.Theme">
+        <item name="android:windowShowWallpaper">true</item>
+    </style>
+
+    <style name="Frost.Theme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/facebook_blue</item>
+        <item name="colorPrimaryDark">@color/facebook_blue_dark</item>
+        <item name="colorAccent">@android:color/black</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Frost.Theme.Light.Transparent" parent="Frost.Theme.Light">
+        <item name="android:windowShowWallpaper">true</item>
+    </style>
 
     <style name="Frost.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <!-- Customize your theme here. -->
@@ -38,7 +52,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="Frost.Theme.Splash" parent="Frost.Theme">
+    <style name="Frost.Theme.Splash" parent="Frost.Theme.Transparent">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:navigationBarColor">@color/splashBackground</item>
         <item name="colorPrimaryDark">@color/splashBackground</item>

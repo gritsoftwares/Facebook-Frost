@@ -1,4 +1,4 @@
-package com.pitchedapps.facebook.frost.customViews;
+package com.pitchedapps.facebook.frost.dialogs;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -21,6 +21,7 @@ import android.view.Window;
 
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.BaseAdapter;
+import com.pitchedapps.facebook.frost.customViews.ReplyBox;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
@@ -31,6 +32,8 @@ import com.sromku.simple.fb.listeners.OnCommentsListener;
 import com.sromku.simple.fb.listeners.OnSinglePostListener;
 
 import java.util.List;
+
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-30.
@@ -164,7 +167,6 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
     }
 
     private void translateExit() {
-        final DialogFragment mDialogFragment = this;
         exiting = true;
         ObjectAnimator exit = ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", 0, -screenHeight - netOffset).setDuration((long) (Math.max(Math.abs(screenHeight - netOffset), minAnimDuration) * animSpeedFactor));
         exit.addListener(new Animator.AnimatorListener() {
@@ -174,7 +176,7 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                mDialogFragment.dismiss();
+                dismiss();
             }
 
             @Override
@@ -211,7 +213,6 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
 
     public void addNewComment(Comment comment) {
         mAdapter.addItems(comment);
-        mRV.smoothScrollToPosition(mAdapter.getItemCount());
         reloadAfterPost();
     }
 
@@ -231,7 +232,8 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
             @Override
             public void onComplete(Post response) {
                 mAdapter.switchItems(response.getComments());
-                mRV.scrollToPosition(mAdapter.getItemCount());
+                mAdapter.notifyDataSetChanged();
+                mRV.smoothScrollToPosition(mAdapter.getItemCount());
 
 //                mReply.getEditText().getText().clear();
 //                mReply.getEditText().setEnabled(true);

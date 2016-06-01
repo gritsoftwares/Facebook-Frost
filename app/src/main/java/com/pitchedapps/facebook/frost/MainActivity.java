@@ -1,14 +1,13 @@
 package com.pitchedapps.facebook.frost;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.PagerAdapter;
@@ -21,12 +20,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,10 +38,9 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentStatePagerItemAdapter;
-import com.pitchedapps.facebook.frost.customViews.Changelog;
-import com.pitchedapps.facebook.frost.customViews.OverlayCommentView;
-import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
+import com.pitchedapps.facebook.frost.dialogs.Changelog;
+import com.pitchedapps.facebook.frost.dialogs.LogoutDialog;
+import com.pitchedapps.facebook.frost.dialogs.OverlayCommentView;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.interfaces.OnTabIconPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
@@ -94,13 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean fromError = false, blockBack = false, backPressedWhenBlocked = false;
     private int fadeUnfade = 300; //Used for mTextStatus transitions
-    private int lX = 0, lY = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
-
         mContext = this;
         mSimpleFacebook = SimpleFacebook.getInstance(this);
         fPrefs = new FrostPreferences(mContext);
@@ -164,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUIColors() {
         mToolbar.setBackgroundColor(fPrefs.getHeaderBackgroundColor());
         mToolbar.setTitleTextColor(fPrefs.getHeaderTextColor());
-
+        mToolbar.getOverflowIcon().setColorFilter(fPrefs.getHeaderTextColor(), PorterDuff.Mode.SRC_ATOP);
         mViewPagerTab.setBackgroundColor(fPrefs.getHeaderBackgroundColor());
         mViewPagerTab.setDefaultTabTextColor(fPrefs.getHeaderTextColor());
 
@@ -204,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (data != null) {
             if (data.getExtras().containsKey("colorChange")) {
-                e("RECREATE");
                 if (data.getBooleanExtra("colorChange", false)) this.recreate();
             }
         }
@@ -258,6 +250,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateBaseTheme() {
+        if (fPrefs.isDark()) {
+            if (fPrefs.isTransparent()) {
+                setTheme(R.style.Frost_Theme_Transparent);
+            }  else {
+                setTheme(R.style.Frost_Theme);
+            }
+        } else {
+            if (fPrefs.isTransparent()) {
+                setTheme(R.style.Frost_Theme_Light_Transparent);
+            } else {
+                setTheme(R.style.Frost_Theme_Light);
+            }
+        }
+    }
+
+    private void updateBaseThemeOpaque() {
+        if (fPrefs.isDark()) {
+            setTheme(R.style.Frost_Theme);
+        } else {
+            setTheme(R.style.Frost_Theme_Light);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -267,9 +283,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-        lX = (mToolbar.getWidth() - mToolbar.getHeight() * 2); //TODO make this read clicks
-        lY = (int) (mToolbar.getHeight() * 4.2);
+        int lX = mToolbar.getWidth() - mToolbar.getHeight() * 2; //TODO make this read clicks
+        int lY = mToolbar.getHeight();
 
+
+        switch (item.getItemId()) {
+            case R.id.sendemail:
+                Utils.sendEmailWithDeviceInfo(mContext);
+                break;
+            case R.id.changelog:
+                new Changelog(mContext).showWithCircularReveal(lX, (int) (lY * 2.2));
+                Set<String> grantedPermissions = SimpleFacebook.getInstance().getGrantedPermissions();
+//                e("PERMISSIONS " + grantedPermissions);
+                break;
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logout:
+                LogoutDialog mLogout = new LogoutDialog();
+                mLogout.show(getSupportFragmentManager(), "logout_dialog");
+                break;
+            default:
+                Toast.makeText(mContext, "Not  yet added; Stay tuned", //TODO add
+                        Toast.LENGTH_LONG).show();
+                break;
+        }
+        return true; //TODO change to true
+    }
+
+    public void logout(final Point p) {
         final OnLogoutListener onLogoutListener = new OnLogoutListener() {
             @Override
             public void onLogout() {
@@ -279,39 +322,12 @@ public class MainActivity extends AppCompatActivity {
 
                 android.webkit.CookieManager cookieManager = CookieManager.getInstance();
                 cookieManager.removeAllCookies(null);
-//                WebView w = new WebView(mContext);
-//                w.clearCache(true);
-//                w.clearFormData();
-//                w.clearHistory();
 
-                revealSplashLayout();
+                revealSplashLayout(p);
             }
         };
-
-
-        switch (item.getItemId()) {
-            case R.id.sendemail:
-                Utils.sendEmailWithDeviceInfo(mContext);
-                break;
-            case R.id.changelog:
-                new Changelog(mContext).showWithCircularReveal(lX, (int) (lY * 2.2 / 4.2));
-                Set<String> grantedPermissions = SimpleFacebook.getInstance().getGrantedPermissions();
-//                e("PERMISSIONS " + grantedPermissions);
-                break;
-            case R.id.settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.logout:
-                mSimpleFacebook.logout(onLogoutListener);
-//                logoutClick = true;
-                break;
-            default:
-                Toast.makeText(mContext, "Not  yet added; Stay tuned", //TODO add
-                        Toast.LENGTH_LONG).show();
-                break;
-        }
-        return true; //TODO change to true
+//        updateBaseThemeOpaque();
+        mSimpleFacebook.logout(onLogoutListener);
     }
 
     private void setLogin() {
@@ -374,7 +390,8 @@ public class MainActivity extends AppCompatActivity {
                                 Animation fadeText = AnimUtils.fadeOutAnimation(mContext, 0, fadeUnfade);
                                 fadeText.setAnimationListener(new Animation.AnimationListener() {
                                     @Override
-                                    public void onAnimationStart(Animation animation) { }
+                                    public void onAnimationStart(Animation animation) {
+                                    }
 
                                     @Override
                                     public void onAnimationEnd(Animation animation) {
@@ -385,7 +402,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onAnimationRepeat(Animation animation) { }
+                                    public void onAnimationRepeat(Animation animation) {
+                                    }
                                 });
 
                                 mTextStatus.setVisibility(View.INVISIBLE);
@@ -416,7 +434,8 @@ public class MainActivity extends AppCompatActivity {
         Animation fadeText = AnimUtils.fadeOutAnimation(mContext, 0, fadeUnfade);
         fadeText.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) { }
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -425,7 +444,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) { }
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
 
         mTextStatus.setVisibility(View.INVISIBLE);
@@ -462,11 +482,15 @@ public class MainActivity extends AppCompatActivity {
         }, 2000); // afterDelay will be executed after (secs*1000) milliseconds.
     }
 
-    private void revealSplashLayout() {
-        double finalRadius = Utils.getScreenDiagonal(mContext) / 2;
-
-        AnimUtils.fadeOut(mContext, mMainLayout, finalRadius * 0.1, finalRadius * 0.18);
-        AnimUtils.circleReveal(mContext, mStartLayout, lX, lY, finalRadius);
+    private void revealSplashLayout(Point p) {
+        double finalRadius = Utils.getScreenDiagonal(mContext);
+        AnimUtils.fadeOut(mContext, mMainLayout, finalRadius * 0.05, finalRadius * 0.09);
+        AnimUtils.circleReveal(mContext, mStartLayout, p.x, p.y, finalRadius, new AnimUtils.AnimUtilsInterface() {
+            @Override
+            public void onAnimationEnd() {
+                getWindow().setNavigationBarColor(fPrefs.getHeaderBackgroundColor());
+            }
+        });
     }
 
     //Animations
@@ -482,6 +506,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd() {
                 checkBlockedBackPress();
+                updateBaseTheme();
             }
         });
     }

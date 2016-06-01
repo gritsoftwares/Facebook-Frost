@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.dialogs.AlertDialogWithCircularReveal;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.entities.Profile;
@@ -123,7 +124,7 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 AlertDialogWithCircularReveal d = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-                d.setRippleStart(Utils.getLocation(mbGender));
+                d.setRippleStart(Utils.getLocation(v));
                 TextView t = (TextView) d.getChildView(R.id.overlay_dialog_title);
                 t.setText(String.format(mContext.getResources().getString(R.string.about_user), sProfile.getFirstName()));
                 t.setTextColor(fPrefs.getTextColor());
@@ -163,7 +164,7 @@ public class HeaderProfile extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 AlertDialogWithCircularReveal d = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-                d.setRippleStart(Utils.getLocation(mbBirthday));
+                d.setRippleStart(Utils.getLocation(v));
                 TextView t = (TextView) d.getChildView(R.id.overlay_dialog_title);
                 t.setText(String.format(mContext.getResources().getString(R.string.about_user), sProfile.getFirstName()));
                 t.setTextColor(fPrefs.getTextColor());

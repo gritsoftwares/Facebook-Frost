@@ -10,6 +10,7 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.BaseCard;
 import com.pitchedapps.facebook.frost.customViews.HeaderProfile;
 import com.pitchedapps.facebook.frost.enums.PostHeader;
+import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.actions.Cursor;
 import com.sromku.simple.fb.entities.Profile;
 
@@ -102,12 +103,20 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void addItems(List<T> response) {
-        mItems.addAll(response);
+        if (reverse) {
+            mItems.addAll(0, response);
+        } else {
+            mItems.addAll(response);
+        }
         loading = false;
     }
 
     public void addItems(T response) {
-        mItems.add(response);
+        if (reverse) {
+            mItems.add(0, response);
+        } else {
+            mItems.add(response);
+        }
         loading = false;
     }
 
