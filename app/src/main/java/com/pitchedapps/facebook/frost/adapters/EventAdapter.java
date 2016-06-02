@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.customViews.CommentCard;
 import com.pitchedapps.facebook.frost.customViews.EventCard;
 import com.sromku.simple.fb.actions.Cursor;
-import com.sromku.simple.fb.entities.Comment;
 import com.sromku.simple.fb.entities.Event;
 
 import java.util.List;

@@ -207,7 +207,7 @@ public class Utils {
                     Snackbar.LENGTH_LONG);
 
             ViewGroup viewgroup = (ViewGroup) snackbar.getView();
-            viewgroup.setBackgroundColor(new ColorUtils(context).getTintedBackground(0.2f));
+            viewgroup.setBackgroundColor(new FrostPreferences(context).getDialogBackgroundColor());
 //            viewgroup.setPadding(viewgroup.getPaddingLeft(), viewgroup.getPaddingTop(),
 //                    viewgroup.getPaddingRight(), viewgroup.getPaddingBottom() + navBarHeight); //Add padding to match top of navbar
             snackbar.show();

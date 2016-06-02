@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * Created by Allan Wang on 2016-05-27.
  */

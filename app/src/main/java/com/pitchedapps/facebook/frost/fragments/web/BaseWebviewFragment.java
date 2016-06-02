@@ -1,4 +1,4 @@
-package com.pitchedapps.facebook.frost.fragments;
+package com.pitchedapps.facebook.frost.fragments.web;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,35 +11,24 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.FullWebView;
 import com.pitchedapps.facebook.frost.enums.FBURL;
 
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
-
 /**
  * Created by Allan Wang on 2016-05-21.
  */
-public class NewsFeedFragment extends Fragment {
+public class BaseWebviewFragment extends Fragment {
 
     private FullWebView mWebView;
-//    private FloatingActionButton mFab;
 
-    public NewsFeedFragment() {
+    public FBURL returnFBURL() {
+        return FBURL.FEED;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_webview, container, false);
 
-        mWebView = (FullWebView) rootView.findViewById(R.id.news_feed_webview);
-        mWebView.initializeViews(FBURL.FEED, getActivity());
-//        mFab = (FloatingActionButton) rootView.findViewById(R.id.news_feed_fab);
-//        mFab.hide(false);
-//        mWebView.setOnScrollChangedCallback(new FullWebView.OnScrollChangedCallback() {
-//            @Override
-//            public void onScroll(int l, int t) {
-//                e("scroll " + l + " " + t);
-//            }
-//        });
-
+        mWebView = (FullWebView) rootView.findViewById(R.id.fragment_fullwebview);
+        mWebView.initializeViews(returnFBURL(), getActivity());
         return rootView;
     }
 
@@ -67,20 +56,10 @@ public class NewsFeedFragment extends Fragment {
         super.onDestroy();
     }
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        mFab.hide(false);
-//    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         mWebView.onActivityResult(requestCode, resultCode, intent);
     }
 
-//    @Override
-//    public void onScroll(int l, int t) {
-//        e("scroll " + l + " " + t);
-//
-//    }
 }

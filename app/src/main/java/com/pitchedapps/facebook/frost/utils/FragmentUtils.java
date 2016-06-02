@@ -1,9 +1,6 @@
 package com.pitchedapps.facebook.frost.utils;
 
-import android.support.v4.app.Fragment;
-
 import com.pitchedapps.facebook.frost.enums.FrostFragment;
-import com.pitchedapps.facebook.frost.fragments.ProfileFragment;
 
 /**
  * Created by Allan Wang on 2016-05-21.

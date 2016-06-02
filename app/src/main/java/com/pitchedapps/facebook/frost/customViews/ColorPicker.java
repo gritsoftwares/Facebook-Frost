@@ -1,9 +1,7 @@
 package com.pitchedapps.facebook.frost.customViews;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.SettingsActivity;
-import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 
 import de.hdodenhof.circleimageview.CircleImageView;

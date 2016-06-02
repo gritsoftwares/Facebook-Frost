@@ -2,7 +2,6 @@ package com.pitchedapps.facebook.frost.adapters;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 
 public class ChangelogAdapter extends BaseAdapter {
 
@@ -49,18 +49,19 @@ public class ChangelogAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        int textColor = new FrostPreferences(context).getTextColor();
+
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.changelog_content, parent, false);
-            convertView.setClickable(false);
-            convertView.setLongClickable(false);
-            convertView.setFocusable(false);
-            convertView.setFocusableInTouchMode(false);
-            convertView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
         }
 
         TextView title = (TextView) convertView.findViewById(R.id.changelog_title);
         TextView content = (TextView) convertView.findViewById(R.id.changelog_content);
+
+        title.setTextColor(textColor);
+        content.setTextColor(textColor);
+
         String nameStr = mChangelog[position][0];
         String contentStr = "";
 
@@ -74,18 +75,7 @@ public class ChangelogAdapter extends BaseAdapter {
         }
 
         title.setText(nameStr);
-        title.setClickable(false);
-        title.setLongClickable(false);
-        title.setFocusable(false);
-        title.setFocusableInTouchMode(false);
-        title.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
-
         content.setText(contentStr);
-        content.setClickable(false);
-        content.setLongClickable(false);
-        content.setFocusable(false);
-        content.setFocusableInTouchMode(false);
-        content.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
 
         return convertView;
     }

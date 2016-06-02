@@ -7,8 +7,6 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.enums.AnimSpeed;
 import com.pitchedapps.facebook.frost.enums.Themes;
 
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
-
 /**
  * Created by Allan Wang on 2016-05-21.
  */
@@ -23,10 +21,14 @@ public class FrostPreferences {
             TEXT_COLOR = "text_color",
             ACCENT_COLOR = "accent_color",
             BACKGROUND_COLOR = "bg_color",
+            BACKGROUND_COLOR_TINT_1 = "bg_color_tint_1",
+            BACKGROUND_COLOR_TINT_2 = "bg_color_tint_2",
+            DIALOG_BACKGROUND_COLOR = "dialog_bg_color",
             TEXT_COLOR_CP = "text_color_cp",
             ACCENT_COLOR_CP = "accent_color_cp",
             BACKGROUND_COLOR_CP = "bg_color_cp",
             HEADER_TEXT_COLOR = "header_text_color",
+            HEADER_TEXT_COLOR_DISABLED = "header_text_color_disabled",
             HEADER_BACKGROUND_COLOR = "header_bg_color",
             HEADER_TEXT_COLOR_CP = "header_text_color_cp",
             HEADER_BACKGROUND_COLOR_CP = "header_bg_color_cp",
@@ -81,7 +83,7 @@ public class FrostPreferences {
     }
 
     public void setTextColor(int i) {
-        getSharedPreferences().edit().putInt(TEXT_COLOR, i).apply();
+        setInt(TEXT_COLOR, i);
     }
 
     public int getTextColor() {
@@ -89,7 +91,7 @@ public class FrostPreferences {
     }
 
     public void setTextColorCP(int i) {
-        getSharedPreferences().edit().putInt(TEXT_COLOR_CP, i).apply();
+        setInt(TEXT_COLOR_CP, i);
         setTextColor(i);
     }
 
@@ -98,7 +100,7 @@ public class FrostPreferences {
     }
 
     public void setAccentColor(int i) {
-        getSharedPreferences().edit().putInt(ACCENT_COLOR, i).apply();
+        setInt(ACCENT_COLOR, i);
     }
 
     public int getAccentColor() {
@@ -106,7 +108,7 @@ public class FrostPreferences {
     }
 
     public void setAccentColorCP(int i) {
-        getSharedPreferences().edit().putInt(ACCENT_COLOR_CP, i).apply();
+        setInt(ACCENT_COLOR_CP, i);
         setAccentColor(i);
     }
 
@@ -116,17 +118,33 @@ public class FrostPreferences {
 
 
     public void setBackgroundColor(int i) {
-        getSharedPreferences().edit().putInt(BACKGROUND_COLOR, i).apply();
+        ColorUtils c = new ColorUtils(mContext);
+        setInt(BACKGROUND_COLOR, i);
         setIsDark(ColorUtils.isColorDark(i));
         setIsTransparent(ColorUtils.isTransparent(i));
+        setInt(BACKGROUND_COLOR_TINT_1, c.getTintedBackground(0.1f));
+        setInt(BACKGROUND_COLOR_TINT_2, c.getTintedBackground(0.2f));
+        setInt(DIALOG_BACKGROUND_COLOR, c.getDialogBackground());
     }
 
     public int getBackgroundColor() {
         return getSharedPreferences().getInt(BACKGROUND_COLOR, 0xffeeeeee);
     }
 
+    public int getBackgroundColorTint1() {
+        return getSharedPreferences().getInt(BACKGROUND_COLOR_TINT_1, 0xffcccccc);
+    }
+
+    public int getBackgroundColorTint2() {
+        return getSharedPreferences().getInt(BACKGROUND_COLOR_TINT_2, 0xffaaaaaa);
+    }
+
+    public int getDialogBackgroundColor() {
+        return getSharedPreferences().getInt(DIALOG_BACKGROUND_COLOR, 0xffcccccc);
+    }
+
     public void setBackgroundColorCP(int i) {
-        getSharedPreferences().edit().putInt(BACKGROUND_COLOR_CP, i).apply();
+        setInt(BACKGROUND_COLOR_CP, i);
         setBackgroundColor(i);
     }
 
@@ -135,15 +153,20 @@ public class FrostPreferences {
     }
 
     public void setHeaderTextColor(int i) {
-        getSharedPreferences().edit().putInt(HEADER_TEXT_COLOR, i).apply();
+        setInt(HEADER_TEXT_COLOR, i);
+        setInt(HEADER_TEXT_COLOR_DISABLED, new ColorUtils(mContext).getDisabledHeaderTextColor());
     }
 
     public int getHeaderTextColor() {
         return getSharedPreferences().getInt(HEADER_TEXT_COLOR, 0xffffffff);
     }
 
+    public int getHeaderDisabledTextColor() {
+        return getSharedPreferences().getInt(HEADER_TEXT_COLOR_DISABLED, 0xffaaaaaa);
+    }
+
     public void setHeaderBackgroundColor(int i) {
-        getSharedPreferences().edit().putInt(HEADER_BACKGROUND_COLOR, i).apply();
+        setInt(HEADER_BACKGROUND_COLOR, i);
     }
 
     public int getHeaderBackgroundColor() {
@@ -151,7 +174,7 @@ public class FrostPreferences {
     }
 
     public void setHeaderTextColorCP(int i) {
-        getSharedPreferences().edit().putInt(HEADER_TEXT_COLOR_CP, i).apply();
+        setInt(HEADER_TEXT_COLOR_CP, i);
         setHeaderTextColor(i);
     }
 
@@ -160,7 +183,7 @@ public class FrostPreferences {
     }
 
     public void setHeaderBackgroundColorCP(int i) {
-        getSharedPreferences().edit().putInt(HEADER_BACKGROUND_COLOR_CP, i).apply();
+        setInt(HEADER_BACKGROUND_COLOR_CP, i);
         setHeaderBackgroundColor(i);
     }
 
@@ -169,7 +192,7 @@ public class FrostPreferences {
     }
 
     public void setHeaderTheme(int i) {
-        getSharedPreferences().edit().putInt(HEADER_THEME_STYLE, i).apply();
+        setInt(HEADER_THEME_STYLE, i);
     }
 
     public int getHeaderTheme() {
@@ -177,23 +200,23 @@ public class FrostPreferences {
     }
 
     public void setHeaderThemeStringID(Themes t) {
-        getSharedPreferences().edit().putInt(HEADER_THEME_STYLE_STRING_ID, t.getStringID()).apply();
+        setInt(HEADER_THEME_STYLE_STRING_ID, t.getStringID());
         switch (t) {
             case LIGHT:
-                setHeaderTextColor(0xff000000);
                 setHeaderBackgroundColor(0xffeeeeee);
+                setHeaderTextColor(0xff000000);
                 break;
             case DARK:
-                setHeaderTextColor(0xffffffff);
                 setHeaderBackgroundColor(0xff121212);
+                setHeaderTextColor(0xffffffff);
                 break;
             case FACEBOOK:
-                setHeaderTextColor(0xffffffff);
                 setHeaderBackgroundColor(ColorUtils.cFACEBOOK);
+                setHeaderTextColor(0xffffffff);
                 break;
             case CUSTOM:
-                setHeaderTextColor(getHeaderTextColorCP());
                 setHeaderBackgroundColor(getHeaderBackgroundColorCP());
+                setHeaderTextColor(getHeaderTextColorCP());
                 break;
             default:
                 break;
@@ -205,7 +228,7 @@ public class FrostPreferences {
     }
 
     public void setTheme(int i) {
-        getSharedPreferences().edit().putInt(THEME_STYLE, i).apply();
+        setInt(THEME_STYLE, i);
     }
 
     public int getTheme() {
@@ -213,7 +236,7 @@ public class FrostPreferences {
     }
 
     public void setThemeStringID(Themes t) {
-        getSharedPreferences().edit().putInt(THEME_STYLE_STRING_ID, t.getStringID()).apply();
+        setInt(THEME_STYLE_STRING_ID, t.getStringID());
         switch (t) {
             case LIGHT:
                 setTextColor(0xff000000);
@@ -259,7 +282,7 @@ public class FrostPreferences {
     }
 
     private void setAnimationSpeedStringID(AnimSpeed s) {
-        getSharedPreferences().edit().putInt(ANIMATION_SPEED_STRING_ID, s.getStringID()).apply();
+        setInt(ANIMATION_SPEED_STRING_ID, s.getStringID());
     }
 
     public int getAnimationSpeedStringID() {
@@ -271,7 +294,7 @@ public class FrostPreferences {
     }
 
     public void setAnimationSpeedPosition(int i) {
-        getSharedPreferences().edit().putInt(ANIMATION_DIALOG_CHECKED, i).apply();
+        setInt(ANIMATION_DIALOG_CHECKED, i);
     }
 
     public int getAnimationSpeedPosition() {

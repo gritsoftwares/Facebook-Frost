@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
-import com.pitchedapps.facebook.frost.utils.ColorUtils;
+import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 
 /**
@@ -28,7 +28,7 @@ public class AlertDialogWithCircularReveal {
     public AlertDialogWithCircularReveal(Context c, int layoutID) {
         mContext = c;
         mView = View.inflate(mContext, layoutID, null);
-        mView.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.2f));
+        mView.setBackgroundColor(new FrostPreferences(mContext).getDialogBackgroundColor());
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setView(mView);
 

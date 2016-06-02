@@ -10,7 +10,6 @@ import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.customViews.BaseCard;
 import com.pitchedapps.facebook.frost.customViews.HeaderProfile;
 import com.pitchedapps.facebook.frost.enums.PostHeader;
-import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.actions.Cursor;
 import com.sromku.simple.fb.entities.Profile;
 

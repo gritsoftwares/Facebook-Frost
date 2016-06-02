@@ -2,14 +2,11 @@ package com.pitchedapps.facebook.frost.fragments;
 
 import android.os.Bundle;
 
-import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.BaseAdapter;
-import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.enums.FrostFragment;
 import com.pitchedapps.facebook.frost.enums.PostHeader;
 import com.pitchedapps.facebook.frost.utils.FacebookUtils;
 import com.pitchedapps.facebook.frost.utils.Utils;
-import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Post;
 import com.sromku.simple.fb.entities.Profile;
@@ -18,11 +15,7 @@ import com.sromku.simple.fb.listeners.OnProfileListener;
 import com.sromku.simple.fb.utils.Attributes;
 import com.sromku.simple.fb.utils.PictureAttributes;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.List;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 public class ProfileFragment extends BaseFragment<Post> {
 

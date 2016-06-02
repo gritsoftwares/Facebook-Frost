@@ -5,8 +5,6 @@ import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MotionEventCompat;
@@ -22,18 +20,14 @@ import android.view.Window;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.BaseAdapter;
 import com.pitchedapps.facebook.frost.customViews.ReplyBox;
-import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Comment;
 import com.sromku.simple.fb.entities.Post;
-import com.sromku.simple.fb.listeners.OnCommentsListener;
 import com.sromku.simple.fb.listeners.OnSinglePostListener;
 
 import java.util.List;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 /**
  * Created by Allan Wang on 2016-05-30.
@@ -51,6 +45,7 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
     private String mPostID;
     private ReplyBox mReply;
     private BaseAdapter<Comment> mAdapter;
+    private static final float scrollRatio = 0.5f;
 
     private static final String COMMENT_QUERY =
             "comments.summary(true).limit(25).order(reverse_chronological){attachment,message,can_comment,can_like,comment_count,created_time,from,like_count}";
@@ -91,10 +86,10 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
         mWindow = getDialog().getWindow();
         mWindow.setGravity(Gravity.TOP);
         screenHeight = Utils.getScreenSize(mContext).y;
-        border = screenHeight * -0.3f;
+        border = screenHeight * -0.3f * scrollRatio;
         absoluteBorder = border * 2;
         animSpeedFactor = new FrostPreferences(mContext).getAnimationSpeedFactor() / 6.0f;
-        view.findViewById(R.id.comment_layout).setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+        view.findViewById(R.id.comment_layout).setBackgroundColor(fPrefs.getDialogBackgroundColor());
 
         mReply = (ReplyBox) view.findViewById(R.id.comment_reply_box);
         mReply.initialize(mPostID, this);
@@ -139,7 +134,7 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
 
     private void translateToOriginal() {
         final float newOffset = -netOffset;
-        ObjectAnimator toOrig = ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", 0, newOffset).setDuration((long) (Math.max(Math.abs(netOffset), minAnimDuration) * animSpeedFactor));
+        ObjectAnimator toOrig = ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", 0, newOffset).setDuration((long) (Math.max(Math.abs(netOffset), minAnimDuration) * 2 * animSpeedFactor));
         toOrig.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -149,7 +144,7 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
             @Override
             public void onAnimationEnd(Animator animation) {
                 mWindow.getDecorView().offsetTopAndBottom((int) newOffset);
-                ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", newOffset, 0).setDuration((long) (Math.abs(netOffset) * animSpeedFactor)).setDuration(0).start();
+                ObjectAnimator.ofFloat(mWindow.getDecorView(), "translationY", newOffset, 0).setDuration(0).start();
             }
 
             @Override
@@ -192,18 +187,19 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
 
     private void sliding(MotionEvent event) {
         float diff = event.getRawY() - y;
+        diff *= scrollRatio;
         if (!slidingUp) {
             if (diff < 0.0f) {
                 slidingUp = true;
                 netOffset += diff;
                 if (netOffset <= 0.0f) {
-                    mWindow.getDecorView().offsetTopAndBottom((int) diff);
+                    mWindow.getDecorView().offsetTopAndBottom((int) (diff));
                 }
             }
         } else {
             netOffset += diff;
             if (netOffset <= 0.0f) {
-                mWindow.getDecorView().offsetTopAndBottom((int) diff);
+                mWindow.getDecorView().offsetTopAndBottom((int) (diff));
             }
         }
         if (netOffset < absoluteBorder) {

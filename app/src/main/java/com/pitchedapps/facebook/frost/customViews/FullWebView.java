@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -21,9 +20,6 @@ import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 import com.pitchedapps.facebook.frost.webHelpers.WebThemer;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
-import static com.pitchedapps.facebook.frost.utils.Utils.t;
 
 /**
  * Created by Allan Wang on 2016-05-21.

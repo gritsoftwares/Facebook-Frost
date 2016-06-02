@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.dialogs.AlertDialogWithCircularReveal;
 import com.pitchedapps.facebook.frost.graph.UpdateSinglePost;
-import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Retrieve;
 import com.sromku.simple.fb.entities.Post;
@@ -50,7 +49,7 @@ public class PostCard extends RecyclerView.ViewHolder {
         fPrefs = new FrostPreferences(mContext);
 
         if (fPrefs.isDark()) {
-            card.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+            card.setBackgroundColor(fPrefs.getBackgroundColorTint1());
         } else {
             card.setBackgroundColor(fPrefs.getBackgroundColor());
         }

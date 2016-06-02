@@ -6,11 +6,9 @@ package com.pitchedapps.facebook.frost.customViews;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 
@@ -43,9 +41,11 @@ public class TintableImageView extends ImageView {
     }
 
     private void init(Context context) {
+        FrostPreferences fPrefs = new FrostPreferences(context);
+
         int[] colors = new int[] {
-                new FrostPreferences(context).getHeaderTextColor(),
-                new ColorUtils(context).getDisabledHeaderTextColor()
+                fPrefs.getHeaderTextColor(),
+                fPrefs.getHeaderDisabledTextColor()
         };
 
         tint = new ColorStateList(states, colors);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
         mCurrent = newPreferenceView();
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        updateStatusBar();
+//        updateStatusBar();
     }
 
     public void colorChanged() {
@@ -75,7 +74,13 @@ public class SettingsActivity extends AppCompatActivity {
         mFPV.setVisibility(View.INVISIBLE);
         Point p = Utils.getScreenSize(mContext);
 
-        AnimUtils.circleReveal(mContext, mFPV, p.x / 2, p.y / 2, Utils.getScreenDiagonal(mContext) / 2, new AnimUtils.AnimUtilsInterface() {
+        double radius = Utils.getScreenDiagonal(mContext) / 2;
+
+        if (fPrefs.isTransparent()) {
+            AnimUtils.fadeOut(mContext, mCurrent, 0, radius * 0.5);
+        }
+
+        AnimUtils.circleReveal(mContext, mFPV, p.x / 2, p.y / 2, radius, new AnimUtils.AnimUtilsInterface() {
             @Override
             public void onAnimationEnd() {
                 mFrame.removeView(mCurrent);
@@ -96,17 +101,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void updateBaseTheme() {
         if (fPrefs.isDark()) {
-            if (fPrefs.isTransparent()) {
-                setTheme(R.style.Frost_Theme_Transparent);
-            }  else {
-                setTheme(R.style.Frost_Theme);
-            }
+            setTheme(R.style.Frost_Theme);
         } else {
-            if (fPrefs.isTransparent()) {
-                setTheme(R.style.Frost_Theme_Light_Transparent);
-            } else {
-                setTheme(R.style.Frost_Theme_Light);
-            }
+            setTheme(R.style.Frost_Theme_Light);
         }
     }
 }

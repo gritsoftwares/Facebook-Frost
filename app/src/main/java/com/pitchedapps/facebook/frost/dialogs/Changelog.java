@@ -1,65 +1,61 @@
 package com.pitchedapps.facebook.frost.dialogs;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AlertDialog;
-import android.view.MotionEvent;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.ChangelogAdapter;
-import com.pitchedapps.facebook.frost.utils.AnimUtils;
-import com.pitchedapps.facebook.frost.utils.Utils;
+import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 
 /**
  * Created by Allan Wang on 2016-05-21.
  */
-public class Changelog {
+public class Changelog extends DialogFragment{
 
     private Context mContext;
-    private AlertDialog mDialog;
-    private View mView;
+    private int x = 0, y = 0;
+    private LinearLayout mLinear;
 
-    public Changelog(Context c) {
-        mContext = c;
-        mView = View.inflate(mContext, R.layout.changelog_dialog, null);
-        ListView mList = (ListView) mView.findViewById(R.id.changelog_list);
-        LinearLayout mLL = (LinearLayout) mView.findViewById(R.id.changelog_dialog);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.changelog_dialog, container);
+        mContext = getActivity();
+        getViews(view);
+        return view;
+    }
 
+    private void getViews(View view) {
+//        FrostPreferences fPrefs = new FrostPreferences(mContext);
+
+        ListView mList = (ListView) view.findViewById(R.id.changelog_list);
+        mLinear = (LinearLayout) view.findViewById(R.id.changelog_dialog);
+        mLinear.setBackgroundColor(new FrostPreferences(mContext).getDialogBackgroundColor());
         mList.setAdapter(new ChangelogAdapter(mContext, R.array.fullchangelog));
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setView(mView);
-        mDialog = builder.create();
-
-        //Hacky way to be able to close the dialog on outside touch
-        mLL.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mDialog.cancel();
-                return true;
-            }
-        });
     }
 
-    public void show() {
-        mDialog.show();
-    }
+//    public void setRippleStartPoint(int xx, int yy) {
+//        x = xx;
+//        y = yy;
+//    }
 
-    public void showWithCircularReveal(final int x, final int y) {
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//        WindowManager.LayoutParams lp = mDialog.getWindow().getAttributes();
-//        lp.dimAmount = 0.2f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
-
-        mDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                AnimUtils.circleReveal(mContext, mView, x, y, Utils.getScreenDiagonal(mContext));
-            }
-        });
-        mDialog.show();
-    }
+//    @NonNull
+//    @Override
+//    public Dialog onCreateDialog(Bundle savedInstanceState) {
+//        Dialog d = new Dialog(getActivity());
+//        d.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        d.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialog) {
+//                AnimUtils.circleReveal(mContext, mLinear, x, y, Utils.getScreenDiagonal(mContext));
+//            }
+//        });
+//        return d;
+//    }
 }

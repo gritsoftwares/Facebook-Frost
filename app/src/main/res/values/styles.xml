@@ -36,6 +36,11 @@
         <item name="android:windowMinWidthMajor">60%</item>
     </style>
 
+    <style name="Frost.DialogFragment.Full" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowMinWidthMinor">100%</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+    </style>
+
     <style name="SlideUpAnimations">
         <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
         <item name="android:windowExitAnimation">@anim/slide_out_up</item>

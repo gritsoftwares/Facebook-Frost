@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
@@ -33,12 +32,12 @@ import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.pitchedapps.facebook.frost.dialogs.Changelog;
+import com.pitchedapps.facebook.frost.dialogs.EventFullDialog;
 import com.pitchedapps.facebook.frost.dialogs.LogoutDialog;
 import com.pitchedapps.facebook.frost.dialogs.OverlayCommentView;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
@@ -51,6 +50,7 @@ import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Comment;
+import com.sromku.simple.fb.entities.Event;
 import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnLoginListener;
 import com.sromku.simple.fb.listeners.OnLogoutListener;
@@ -60,7 +60,6 @@ import com.sromku.simple.fb.utils.PictureAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
+//        LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
         mContext = this;
         mSimpleFacebook = SimpleFacebook.getInstance(this);
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         if (fPrefs.isDark()) {
             mFullLayout.setBackgroundColor(fPrefs.getBackgroundColor());
         } else {
-            mFullLayout.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+            mFullLayout.setBackgroundColor(fPrefs.getBackgroundColorTint1());
         }
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
@@ -182,6 +181,12 @@ public class MainActivity extends AppCompatActivity {
         OverlayCommentView overlayCommentView = new OverlayCommentView();
         overlayCommentView.initialize(comments, postID);
         overlayCommentView.show(getSupportFragmentManager(), "comment_overlay");
+    }
+
+    public void loadEvent(Event event) {
+        EventFullDialog eventFullDialog = new EventFullDialog();
+        eventFullDialog.initialize(event);
+        eventFullDialog.show(getSupportFragmentManager(), "event_dialog");
     }
 
     @Override
@@ -252,22 +257,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateBaseTheme() {
         if (fPrefs.isDark()) {
-            if (fPrefs.isTransparent()) {
-                setTheme(R.style.Frost_Theme_Transparent);
-            }  else {
-                setTheme(R.style.Frost_Theme);
-            }
-        } else {
-            if (fPrefs.isTransparent()) {
-                setTheme(R.style.Frost_Theme_Light_Transparent);
-            } else {
-                setTheme(R.style.Frost_Theme_Light);
-            }
-        }
-    }
-
-    private void updateBaseThemeOpaque() {
-        if (fPrefs.isDark()) {
             setTheme(R.style.Frost_Theme);
         } else {
             setTheme(R.style.Frost_Theme_Light);
@@ -283,8 +272,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-        int lX = mToolbar.getWidth() - mToolbar.getHeight() * 2; //TODO make this read clicks
-        int lY = mToolbar.getHeight();
+//        int lX = mToolbar.getWidth() - mToolbar.getHeight() * 2; //TODO make this read clicks
+//        int lY = mToolbar.getHeight();
 
 
         switch (item.getItemId()) {
@@ -292,9 +281,9 @@ public class MainActivity extends AppCompatActivity {
                 Utils.sendEmailWithDeviceInfo(mContext);
                 break;
             case R.id.changelog:
-                new Changelog(mContext).showWithCircularReveal(lX, (int) (lY * 2.2));
-                Set<String> grantedPermissions = SimpleFacebook.getInstance().getGrantedPermissions();
-//                e("PERMISSIONS " + grantedPermissions);
+                Changelog mChangelog = new Changelog();
+//                mChangelog.setRippleStartPoint(lX, (int) (lY * 2.2));
+                mChangelog.show(getSupportFragmentManager(), "changelog_dialog");
                 break;
             case R.id.settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -326,7 +315,6 @@ public class MainActivity extends AppCompatActivity {
                 revealSplashLayout(p);
             }
         };
-//        updateBaseThemeOpaque();
         mSimpleFacebook.logout(onLogoutListener);
     }
 
@@ -547,13 +535,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabClicked(int position) {
                 if (position == mViewPager.getCurrentItem()) {
                     scrollToTop(position);
-//                    FragmentStatePagerItemAdapter fSPIA = new FragmentStatePagerItemAdapter(thi)
-//                    switch (position) {
-//                        case 1:
-//                            break;
-//                        default:
-//                            break;
-//                    }
                 }
             }
         });

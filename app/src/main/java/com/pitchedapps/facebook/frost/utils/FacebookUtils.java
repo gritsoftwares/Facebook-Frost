@@ -2,15 +2,10 @@ package com.pitchedapps.facebook.frost.utils;
 
 import android.content.Context;
 
-import com.sromku.simple.fb.entities.Comment;
 import com.sromku.simple.fb.entities.Profile;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.List;
-
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
 
 public class FacebookUtils {
 

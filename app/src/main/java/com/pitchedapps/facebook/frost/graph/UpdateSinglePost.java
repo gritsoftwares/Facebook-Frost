@@ -5,8 +5,6 @@ import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Post;
 import com.sromku.simple.fb.listeners.OnSinglePostListener;
 
-import static com.pitchedapps.facebook.frost.utils.Utils.e;
-
 /**
  * Created by Allan Wang on 2016-05-30.
  */

@@ -2,11 +2,8 @@ package com.pitchedapps.facebook.frost.fragments;
 
 import android.os.Bundle;
 
-import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.enums.FrostFragment;
 import com.pitchedapps.facebook.frost.utils.Utils;
-import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Event;
 import com.sromku.simple.fb.listeners.OnEventsListener;

@@ -11,10 +11,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.pitchedapps.facebook.frost.MainActivity;
 import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.dialogs.AlertDialogWithCircularReveal;
-import com.pitchedapps.facebook.frost.utils.ColorUtils;
-import com.pitchedapps.facebook.frost.utils.FacebookUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.ViewUtils;
 import com.sromku.simple.fb.entities.Event;
@@ -126,7 +124,7 @@ public class EventCard extends RecyclerView.ViewHolder {
 
         CardView card = (CardView) itemView.findViewById(R.id.item_event_card);
         if (fPrefs.isDark()) {
-            card.setBackgroundColor(new ColorUtils(mContext).getTintedBackground(0.1f));
+            card.setBackgroundColor(fPrefs.getBackgroundColorTint1());
         } else {
             card.setBackgroundColor(fPrefs.getBackgroundColor());
         }
@@ -174,18 +172,21 @@ public class EventCard extends RecyclerView.ViewHolder {
     }
 
     private void singleEventData() {
-        AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
-//        StringBuilder s = new StringBuilder();
-//        String[] ss = {sEvent.getId(), sEvent.getType(), sEvent.getStatusType(), sEvent.getPicture(), "Event C " + sEvent.getEventCount() + " " + JsonUtils.toJson(sEvent.getEvents())};
-//        for (String sss : ss) {
-//            s.append("\n").append(sss);
-//        }
 
+        ((MainActivity)mContext).loadEvent(sEvent);
 
-        TextView tDialog = (TextView) p.getChildView(R.id.overlay_dialog_content);
-        tDialog.setText(FacebookUtils.printResponseData(sEvent));
-        tDialog.setTextColor(fPrefs.getTextColor());
-        p.showDialog();
+//        AlertDialogWithCircularReveal p = new AlertDialogWithCircularReveal(mContext, R.layout.overlay_dialog);
+////        StringBuilder s = new StringBuilder();
+////        String[] ss = {sEvent.getId(), sEvent.getType(), sEvent.getStatusType(), sEvent.getPicture(), "Event C " + sEvent.getEventCount() + " " + JsonUtils.toJson(sEvent.getEvents())};
+////        for (String sss : ss) {
+////            s.append("\n").append(sss);
+////        }
+//
+//
+//        TextView tDialog = (TextView) p.getChildView(R.id.overlay_dialog_content);
+//        tDialog.setText(FacebookUtils.printResponseData(sEvent));
+//        tDialog.setTextColor(fPrefs.getTextColor());
+//        p.showDialog();
     }
 
     /*

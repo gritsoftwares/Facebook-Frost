@@ -48,6 +48,16 @@ public class ColorUtils {
         return Color.argb((int) a, (int) r, (int) g, (int) b);
     }
 
+    public int getDialogBackground() {
+        int background = getTintedBackground(0.1f);
+        float a = (Color.alpha(background));
+        if (a > 155) return background;
+        float r = (Color.red(background));
+        float g = (Color.green(background));
+        float b = (Color.blue(background));
+        return Color.argb(155, (int) r, (int) g, (int) b);
+    }
+
     public int getTintedHeaderBackground(float ratio) {
         int background = new FrostPreferences(mContext).getHeaderBackgroundColor();
         int tint = isColorDark(background) ? 0xffffffff : 0xff000000;
@@ -57,17 +67,6 @@ public class ColorUtils {
         float g = (Color.green(tint) * ratio) + (Color.green(background) * inverseRation);
         float b = (Color.blue(tint) * ratio) + (Color.blue(background) * inverseRation);
         return Color.argb((int) a, (int) r, (int) g, (int) b);
-    }
-
-    public String getTintedBackgroundString(float ratio) {
-        int background = new FrostPreferences(mContext).getBackgroundColor();
-        int tint = isColorDark(background) ? 0xffffffff : 0xff000000;
-        final float inverseRation = 1f - ratio;
-        float a = (Color.alpha(background));
-        int r = (int)((Color.red(tint) * ratio) + (Color.red(background) * inverseRation));
-        int g = (int)((Color.green(tint) * ratio) + (Color.green(background) * inverseRation));
-        int b = (int)((Color.blue(tint) * ratio) + (Color.blue(background) * inverseRation));
-        return "rgba(" + r + ", " + g + ", " + b + ", " + (int) (a * 255) + ")";
     }
 
     public int getDisabledHeaderTextColor() {
