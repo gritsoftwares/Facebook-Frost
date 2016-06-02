@@ -44,7 +44,7 @@ public class EventCard extends RecyclerView.ViewHolder {
 
         fPrefs = new FrostPreferences(mContext);
         int textColor = fPrefs.getTextColor();
-        vu = new ViewUtils().initTextView(textColor, itemView);
+        vu = new ViewUtils(mContext, itemView);
 
         String title = sEvent.getName();
         String time = sEvent.getStartTime().toString();
@@ -145,10 +145,10 @@ public class EventCard extends RecyclerView.ViewHolder {
             mPhoto.setVisibility(View.GONE);
         }
 
-        vu.tv(R.id.item_event_title, title);
-        vu.tv(R.id.item_event_start_time, time);
-        vu.tv(R.id.item_event_location, location);
-        TextView stats = vu.tv(R.id.item_event_interested_maybe, interestedMaybe.toString());
+        vu.textView(R.id.item_event_title, title);
+        vu.textView(R.id.item_event_start_time, time);
+        vu.textView(R.id.item_event_location, location);
+        TextView stats = vu.textView(R.id.item_event_interested_maybe, interestedMaybe.toString());
         stats.setAlpha(0.7f);
 
     }

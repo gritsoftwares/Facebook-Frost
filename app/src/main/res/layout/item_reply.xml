@@ -16,14 +16,12 @@
         android:layout_height="@dimen/padding_small"
         android:layout_below="@id/item_reply_divider" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.pitchedapps.facebook.frost.customViews.ProfilePicture
         android:id="@+id/item_reply_avatar"
-        android:layout_width="@dimen/item_reply_avatar_size"
-        android:layout_height="@dimen/item_reply_avatar_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/item_reply_space"
-        app:civ_border_color="#fff"
-        app:civ_border_width="0dp" />
+        android:layout_below="@id/item_reply_space" />
 
     <!--<LinearLayout-->
     <!--android:id="@+id/item_reply_info"-->

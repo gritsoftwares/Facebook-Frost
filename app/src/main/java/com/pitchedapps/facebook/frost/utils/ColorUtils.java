@@ -37,6 +37,14 @@ public class ColorUtils {
         return (new FrostPreferences(mContext).isDark()) ? Color.argb(alpha, 255, 255, 255) : Color.argb(alpha, 0, 0, 0);
     }
 
+    public static int getTransparentColor(float a, int c) {
+        int alpha = (int) (a * 255);
+        int r = Color.red(c);
+        int g = Color.green(c);
+        int b = Color.blue(c);
+        return Color.argb(alpha, r, g, b);
+    }
+
     public int getTintedBackground(float ratio) {
         int background = new FrostPreferences(mContext).getBackgroundColor();
         int tint = isColorDark(background) ? 0xffffffff : 0xff000000;

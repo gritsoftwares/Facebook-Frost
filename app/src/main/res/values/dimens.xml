@@ -31,6 +31,7 @@
     <dimen name="item_comment_avatar_size">@dimen/item_avatar_size</dimen>
     <dimen name="item_reply_avatar_size">@dimen/item_avatar_size</dimen>
     <dimen name="item_event_avatar_size">@dimen/item_avatar_size</dimen>
+    <dimen name="profile_picture_avatar_size">@dimen/item_avatar_size</dimen>
 
     <!--post-->
     <dimen name="item_post_avatar_size">48dip</dimen>

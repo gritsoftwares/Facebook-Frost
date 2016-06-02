@@ -37,6 +37,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.pitchedapps.facebook.frost.dialogs.Changelog;
+import com.pitchedapps.facebook.frost.dialogs.CreatePostDialog;
 import com.pitchedapps.facebook.frost.dialogs.EventFullDialog;
 import com.pitchedapps.facebook.frost.dialogs.LogoutDialog;
 import com.pitchedapps.facebook.frost.dialogs.OverlayCommentView;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mFAB;
     private Drawable fCreate, fRefresh;
     private FragmentPagerItemAdapter mFPIAdapter;
+    private int mCurrentFragmentID;
 
     private SimpleFacebook mSimpleFacebook;
 
@@ -127,7 +129,15 @@ public class MainActivity extends AppCompatActivity {
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.showSimpleSnackbar(mContext, mMainLayout, "TEST");
+                switch (getCurrentPageID()) {
+                    case R.string.tab_feed:
+                        CreatePostDialog createPostDialog = new CreatePostDialog();
+                        createPostDialog.show(getSupportFragmentManager(), "create_post_dialog");
+                        break;
+                    default:
+                        Utils.showSimpleSnackbar(mContext, mMainLayout, "TEST");
+                        break;
+                }
             }
         });
 
@@ -272,18 +282,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-//        int lX = mToolbar.getWidth() - mToolbar.getHeight() * 2; //TODO make this read clicks
-//        int lY = mToolbar.getHeight();
-
 
         switch (item.getItemId()) {
             case R.id.sendemail:
                 Utils.sendEmailWithDeviceInfo(mContext);
                 break;
             case R.id.changelog:
-                Changelog mChangelog = new Changelog();
-//                mChangelog.setRippleStartPoint(lX, (int) (lY * 2.2));
-                mChangelog.show(getSupportFragmentManager(), "changelog_dialog");
+                showChangelog();
+                break;
+            case R.id.rate:
+                Utils.openPlayStoreApp(mContext, BuildConfig.APPLICATION_ID);
                 break;
             case R.id.settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -299,6 +307,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return true; //TODO change to true
+    }
+
+    private void showChangelog() {
+        Changelog mChangelog = new Changelog();
+        mChangelog.show(getSupportFragmentManager(), "changelog_dialog");
     }
 
     public void logout(final Point p) {
@@ -547,6 +560,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                setCurrentPageID(position);
                 switch (position) {
                     case 0:
                         mFAB.setImageDrawable(fCreate);
@@ -581,6 +595,16 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(3);
         mViewPagerTab.setViewPager(mViewPager);
 
+        setCurrentPageID(mViewPager.getCurrentItem());
+
+    }
+
+    private void setCurrentPageID(int position) {
+        mCurrentFragmentID = FragmentUtils.getFrostFragment(position).getTabNameID();
+    }
+
+    private int getCurrentPageID() {
+        return mCurrentFragmentID;
     }
 
 

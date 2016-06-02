@@ -17,6 +17,8 @@ import com.sromku.simple.fb.utils.PictureAttributes;
 
 import java.util.List;
 
+import static com.pitchedapps.facebook.frost.utils.Utils.e;
+
 public class ProfileFragment extends BaseFragment<Post> {
 
     private static final String FEED_QUERY =
@@ -81,13 +83,13 @@ public class ProfileFragment extends BaseFragment<Post> {
 
             @Override
             public void onException(Throwable throwable) {
-                Utils.showSimpleSnackbar(mContext, mRefresh, throwable.getMessage());
+                showError(throwable.getMessage());
                 getTimeline();
             }
 
             @Override
             public void onFail(String reason) {
-                Utils.showSimpleSnackbar(mContext, mRefresh, reason);
+                showError(reason);
                 getTimeline();
             }
 
@@ -100,19 +102,24 @@ public class ProfileFragment extends BaseFragment<Post> {
         });
     }
 
+    private void showError(String s) {
+        e("Profile Fragment Error: " + s);
+        Utils.showSimpleSnackbar(mContext, mRefresh, s);
+    }
+
     public void getTimeline() {
         SimpleFacebook.getInstance().getPosts(Post.PostType.ALL, FEED_QUERY, 25, new OnPostsListener() {
 
             @Override
             public void onException(Throwable throwable) {
                 mRefresh.setRefreshing(false);
-                Utils.showSimpleSnackbar(mContext, mRefresh, throwable.getMessage());
+                showError(throwable.getMessage());
             }
 
             @Override
             public void onFail(String reason) {
                 mRefresh.setRefreshing(false);
-                Utils.showSimpleSnackbar(mContext, mRefresh, reason);
+                showError(reason);
             }
 
             @Override

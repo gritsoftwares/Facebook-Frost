@@ -88,7 +88,7 @@ public class OverlayCommentView extends DialogFragment implements View.OnTouchLi
         screenHeight = Utils.getScreenSize(mContext).y;
         border = screenHeight * -0.3f * scrollRatio;
         absoluteBorder = border * 2;
-        animSpeedFactor = new FrostPreferences(mContext).getAnimationSpeedFactor() / 6.0f;
+        animSpeedFactor = fPrefs.getAnimationSpeedFactor() / 6.0f;
         view.findViewById(R.id.comment_layout).setBackgroundColor(fPrefs.getDialogBackgroundColor());
 
         mReply = (ReplyBox) view.findViewById(R.id.comment_reply_box);

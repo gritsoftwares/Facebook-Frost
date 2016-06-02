@@ -224,6 +224,11 @@ public class Utils {
         context.startActivity(intent);
     }
 
+    public static void openPlayStoreApp(Context context, String packageName) {
+        String link = String.format(context.getString(R.string.play_store_app_link), packageName);
+        openLink(context, link);
+    }
+
     @SuppressWarnings("ResourceAsColor")
     public static void openLinkInChromeCustomTab(Context context, String link) {
         final CustomTabsClient[] mClient = new CustomTabsClient[1];

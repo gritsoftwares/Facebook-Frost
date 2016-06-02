@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_create_container"
+    android:padding="@dimen/padding_small"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.pitchedapps.facebook.frost.customViews.ProfilePicture
+        android:id="@+id/dialog_create_profile_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/dialog_create_edittext"
+        android:layout_toEndOf="@id/dialog_create_profile_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/write_a_post"
+        android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+        android:maxLines="8"
+        android:layout_marginStart="@dimen/padding_small" />
+
+    <LinearLayout
+        android:id="@+id/dialog_create_bottom_toolbar"
+        android:layout_below="@id/dialog_create_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_micro"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dip"
+            android:layout_height="1dip"
+            android:layout_weight="1" />
+
+        <!--<Button-->
+            <!--android:id="@+id/dialog_create_cancel"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="?selectableItemBackground"-->
+            <!--android:minHeight="0dip"-->
+            <!--android:minWidth="0dip"-->
+            <!--android:padding="@dimen/padding_micro"-->
+            <!--android:text="@string/cancel" />-->
+
+        <!--<Space-->
+            <!--android:layout_width="@dimen/padding_medium"-->
+            <!--android:layout_height="1dip" />-->
+
+        <Button
+            android:id="@+id/dialog_create_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:minHeight="0dip"
+            android:minWidth="0dip"
+            android:padding="@dimen/padding_micro"
+            android:text="@string/post" />
+
+        <Space
+            android:layout_width="@dimen/padding_micro"
+            android:layout_height="1dip" />
+    </LinearLayout>
+</RelativeLayout>

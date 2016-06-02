@@ -162,7 +162,7 @@ public class FrostPreferences {
     }
 
     public int getHeaderDisabledTextColor() {
-        return getSharedPreferences().getInt(HEADER_TEXT_COLOR_DISABLED, 0xffaaaaaa);
+        return getSharedPreferences().getInt(HEADER_TEXT_COLOR_DISABLED, 0xff899bc1);
     }
 
     public void setHeaderBackgroundColor(int i) {

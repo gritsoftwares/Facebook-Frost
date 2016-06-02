@@ -43,4 +43,6 @@
     <string name="splash_continue_from_error">%1$s\n\nOops, this shouldn\'t have happened; please consider sending me a log.\n\nTap anywhere to continue.</string>
 
     <string name="logout_confirm">Are you sure you want to log out?</string>
+
+    <string name="play_store_app_link">https://play.google.com/store/apps/details?id=%1$s</string>
 </resources>

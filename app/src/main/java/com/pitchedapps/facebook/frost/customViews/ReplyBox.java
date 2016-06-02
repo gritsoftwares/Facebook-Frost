@@ -12,15 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.dialogs.OverlayCommentView;
-import com.pitchedapps.facebook.frost.utils.FacebookUtils;
-import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
+import com.pitchedapps.facebook.frost.utils.ViewUtils;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Comment;
 import com.sromku.simple.fb.listeners.OnPublishListener;
@@ -28,7 +25,6 @@ import com.sromku.simple.fb.listeners.OnPublishListener;
 public class ReplyBox extends RelativeLayout {
 
     private Context mContext;
-    private FrostPreferences fPrefs;
     private EditText mEditText;
     private Button mPostButton;
     private String mPostID;
@@ -56,21 +52,17 @@ public class ReplyBox extends RelativeLayout {
     }
 
     private void initializeViews() {
-        fPrefs = new FrostPreferences(mContext);
+        ViewUtils vu = new ViewUtils(mContext, this);
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.item_reply, this);
 
-        Glide.with(mContext)
-                .load(FacebookUtils.getProfileURL())
-                .fitCenter()
-                .into((ImageView) findViewById(R.id.item_reply_avatar));
-
         View mDivider = findViewById(R.id.item_reply_divider);
-        mDivider.setBackgroundColor(fPrefs.getTextColor());
+        mDivider.setBackgroundColor(vu.getTextColor());
         mDivider.setAlpha(0.5f);
 
-        mPostButton = (Button) findViewById(R.id.item_reply_post);
+        mEditText = vu.editText(R.id.item_reply_editText);
+        mPostButton = vu.buttonWithEditTextDependency(R.id.item_reply_post, mEditText);
 //        mPostButton.setBackgroundColor(fPrefs.getBackgroundColor());
         mPostButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -108,28 +100,6 @@ public class ReplyBox extends RelativeLayout {
 
                     }
                 });
-            }
-        });
-
-        mEditText = (EditText) findViewById(R.id.item_reply_editText);
-        mEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    mPostButton.setEnabled(true);
-                } else {
-                    mPostButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
