@@ -3,12 +3,18 @@ package com.pitchedapps.facebook.frost.utils;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.typeface.IIcon;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 /**
  * Created by Allan Wang on 2016-05-31.
@@ -17,6 +23,7 @@ public class ViewUtils {
 
     private int textColor, disabledTextColor, backgroundColor, dialogBackgroundColor;
     private View parent;
+    private Context mContext;
 
     private ColorStateList mColorStateList;
     private int[][] states = new int[][] {
@@ -26,7 +33,8 @@ public class ViewUtils {
 
     public ViewUtils(Context c, View p) {
         parent = p;
-        FrostPreferences fPrefs = new FrostPreferences(c);
+        mContext = c;
+        FrostPreferences fPrefs = new FrostPreferences(mContext);
         textColor = fPrefs.getTextColor();
         disabledTextColor = ColorUtils.getTransparentColor(0.5f, textColor);
         backgroundColor = fPrefs.getBackgroundColor();
@@ -76,8 +84,6 @@ public class ViewUtils {
         return mButton;
     }
 
-
-
     public EditText editText(int id) {
         EditText mEditText = (EditText) parent.findViewById(id);
         mEditText.getBackground().setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
@@ -110,6 +116,21 @@ public class ViewUtils {
             }
         });
         return mButton;
+    }
+
+    public ImageView imageView(int id, IIcon icon, int size) {
+        ImageView mImageView = (ImageView) parent.findViewById(id);
+        mImageView.setImageDrawable(new IconicsDrawable(mContext)
+                .icon(icon)
+                .color(textColor)
+                .sizeDp(size));
+        return mImageView;
+    }
+
+    public ImageView imageView(int id, Drawable d) {
+        ImageView mImageView = (ImageView) parent.findViewById(id);
+        mImageView.setImageDrawable(d);
+        return mImageView;
     }
 
     public int getTextColor() {

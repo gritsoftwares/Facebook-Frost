@@ -24,6 +24,11 @@
     <string name="welcome">Welcome %1$s</string>
     <string name="exception">Exception: %1$s</string>
 
+    <!--privacy-->
+    <string name="only_me">Only Me</string>
+    <string name="friends">Friends</string>
+    <string name="everyone">Everyone</string>
+
     <!--events-->
     <string name="x_going">%1$d Going</string>
     <string name="x_interested">%1$d Interested</string>

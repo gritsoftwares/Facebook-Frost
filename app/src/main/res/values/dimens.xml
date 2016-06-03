@@ -26,6 +26,14 @@
     <dimen name="action_button_image_size">16dip</dimen>
     <dimen name="action_button_text_size">12sp</dimen>
 
+    <!--create post-->
+    <dimen name="edit_text_min_height">80dip</dimen>
+    <dimen name="create_post_toolbar_icon_size">24dip</dimen>
+
+    <!--popup privacy-->
+    <dimen name="popup_privacy_width">200dip</dimen>
+    <dimen name="popup_privacy_icon_size">@dimen/create_post_toolbar_icon_size</dimen>
+
     <!--avatars-->
     <dimen name="item_avatar_size">48dip</dimen>
     <dimen name="item_comment_avatar_size">@dimen/item_avatar_size</dimen>

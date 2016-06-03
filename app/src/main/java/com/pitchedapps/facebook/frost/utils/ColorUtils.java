@@ -66,6 +66,16 @@ public class ColorUtils {
         return Color.argb(155, (int) r, (int) g, (int) b);
     }
 
+    public int getDialogBackground2() {
+        int background = getTintedBackground(0.2f);
+        float a = (Color.alpha(background));
+        if (a > 155) return background;
+        float r = (Color.red(background));
+        float g = (Color.green(background));
+        float b = (Color.blue(background));
+        return Color.argb(155, (int) r, (int) g, (int) b);
+    }
+
     public int getTintedHeaderBackground(float ratio) {
         int background = new FrostPreferences(mContext).getHeaderBackgroundColor();
         int tint = isColorDark(background) ? 0xffffffff : 0xff000000;

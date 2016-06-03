@@ -24,6 +24,7 @@ public class FrostPreferences {
             BACKGROUND_COLOR_TINT_1 = "bg_color_tint_1",
             BACKGROUND_COLOR_TINT_2 = "bg_color_tint_2",
             DIALOG_BACKGROUND_COLOR = "dialog_bg_color",
+            DIALOG_BACKGROUND_COLOR_2 = "dialog_bg_color_2",
             TEXT_COLOR_CP = "text_color_cp",
             ACCENT_COLOR_CP = "accent_color_cp",
             BACKGROUND_COLOR_CP = "bg_color_cp",
@@ -125,6 +126,7 @@ public class FrostPreferences {
         setInt(BACKGROUND_COLOR_TINT_1, c.getTintedBackground(0.1f));
         setInt(BACKGROUND_COLOR_TINT_2, c.getTintedBackground(0.2f));
         setInt(DIALOG_BACKGROUND_COLOR, c.getDialogBackground());
+        setInt(DIALOG_BACKGROUND_COLOR_2, c.getDialogBackground2());
     }
 
     public int getBackgroundColor() {
@@ -141,6 +143,10 @@ public class FrostPreferences {
 
     public int getDialogBackgroundColor() {
         return getSharedPreferences().getInt(DIALOG_BACKGROUND_COLOR, 0xffcccccc);
+    }
+
+    public int getDialogBackgroundColor2() {
+        return getSharedPreferences().getInt(DIALOG_BACKGROUND_COLOR_2, 0xffaaaaaa);
     }
 
     public void setBackgroundColorCP(int i) {

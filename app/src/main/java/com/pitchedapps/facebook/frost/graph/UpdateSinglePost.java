@@ -1,6 +1,6 @@
 package com.pitchedapps.facebook.frost.graph;
 
-import com.pitchedapps.facebook.frost.customViews.PostCard;
+import com.pitchedapps.facebook.frost.cards.PostCard;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Post;
 import com.sromku.simple.fb.listeners.OnSinglePostListener;

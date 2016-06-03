@@ -1,4 +1,4 @@
-package com.pitchedapps.facebook.frost.customViews;
+package com.pitchedapps.facebook.frost.cards;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

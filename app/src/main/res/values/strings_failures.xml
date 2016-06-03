@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="like_fail">Like/UnLike failed; please refresh and try again</string>
+    <string name="post_fail">Publish failed; please refresh and try again</string>
     <string name="comment_fail">Comment failed; please refresh and try again</string>
     <string name="comment_reload_fail">Comment reloading failed; please refresh and try again</string>
 

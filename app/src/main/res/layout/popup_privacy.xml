@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_privacy_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.pitchedapps.facebook.frost.customViews.ImageTextCheck
+        android:id="@+id/popup_privacy_only_me"
+        android:layout_width="@dimen/popup_privacy_width"
+        android:layout_height="wrap_content" />
+
+    <com.pitchedapps.facebook.frost.customViews.ImageTextCheck
+        android:id="@+id/popup_privacy_friends"
+        android:layout_width="@dimen/popup_privacy_width"
+        android:layout_height="wrap_content" />
+
+    <com.pitchedapps.facebook.frost.customViews.ImageTextCheck
+        android:id="@+id/popup_privacy_everyone"
+        android:layout_width="@dimen/popup_privacy_width"
+        android:layout_height="wrap_content" />
+</LinearLayout>

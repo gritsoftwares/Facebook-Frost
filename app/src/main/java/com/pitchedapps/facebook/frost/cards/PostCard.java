@@ -1,4 +1,4 @@
-package com.pitchedapps.facebook.frost.customViews;
+package com.pitchedapps.facebook.frost.cards;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.pitchedapps.facebook.frost.R;
+import com.pitchedapps.facebook.frost.customViews.ActionButtons;
 import com.pitchedapps.facebook.frost.dialogs.AlertDialogWithCircularReveal;
 import com.pitchedapps.facebook.frost.graph.UpdateSinglePost;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;

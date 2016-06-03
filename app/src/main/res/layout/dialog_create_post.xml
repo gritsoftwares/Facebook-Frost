@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialog_create_container"
     android:padding="@dimen/padding_small"
     android:layout_width="match_parent"
@@ -15,6 +16,8 @@
         android:layout_toEndOf="@id/dialog_create_profile_picture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="top"
+        android:minHeight="@dimen/edit_text_min_height"
         android:hint="@string/write_a_post"
         android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
         android:maxLines="8"
@@ -25,27 +28,60 @@
         android:layout_below="@id/dialog_create_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_micro"
+        android:layout_marginTop="@dimen/padding_small_medium"
         android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/dialog_create_bottom_toolbar_camera"
+            android:layout_width="@dimen/create_post_toolbar_icon_size"
+            android:layout_height="@dimen/create_post_toolbar_icon_size"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="@dimen/padding_small_medium"
+            android:layout_height="1dip" />
+
+        <ImageView
+            android:id="@+id/dialog_create_bottom_toolbar_gallery"
+            android:layout_width="@dimen/create_post_toolbar_icon_size"
+            android:layout_height="@dimen/create_post_toolbar_icon_size"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="@dimen/padding_small_medium"
+            android:layout_height="1dip" />
+
+        <ImageView
+            android:id="@+id/dialog_create_bottom_toolbar_location"
+            android:layout_width="@dimen/create_post_toolbar_icon_size"
+            android:layout_height="@dimen/create_post_toolbar_icon_size"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="@dimen/padding_small_medium"
+            android:layout_height="1dip" />
+
+        <ImageView
+            android:id="@+id/dialog_create_bottom_toolbar_tag"
+            android:layout_width="@dimen/create_post_toolbar_icon_size"
+            android:layout_height="@dimen/create_post_toolbar_icon_size"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="@dimen/padding_small_medium"
+            android:layout_height="1dip" />
+
+        <ImageView
+            android:id="@+id/dialog_create_bottom_toolbar_privacy"
+            android:layout_width="@dimen/create_post_toolbar_icon_size"
+            android:layout_height="@dimen/create_post_toolbar_icon_size"
+            tools:ignore="ContentDescription" />
 
         <Space
             android:layout_width="0dip"
             android:layout_height="1dip"
+            android:minWidth="@dimen/padding_medium"
             android:layout_weight="1" />
-
-        <!--<Button-->
-            <!--android:id="@+id/dialog_create_cancel"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="?selectableItemBackground"-->
-            <!--android:minHeight="0dip"-->
-            <!--android:minWidth="0dip"-->
-            <!--android:padding="@dimen/padding_micro"-->
-            <!--android:text="@string/cancel" />-->
-
-        <!--<Space-->
-            <!--android:layout_width="@dimen/padding_medium"-->
-            <!--android:layout_height="1dip" />-->
 
         <Button
             android:id="@+id/dialog_create_post"
@@ -61,4 +97,11 @@
             android:layout_width="@dimen/padding_micro"
             android:layout_height="1dip" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/dialog_create_sub_view"
+        android:layout_below="@id/dialog_create_bottom_toolbar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

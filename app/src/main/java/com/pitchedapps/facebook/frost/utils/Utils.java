@@ -324,6 +324,12 @@ public class Utils {
         return new Point(posXY[0] + v.getWidth()/2, posXY[1] + v.getHeight()/2);
     }
 
+    public static Point getLocationInWindow(View v) {
+        int[] posXY = new int[2];
+        v.getLocationInWindow(posXY);
+        return new Point(posXY[0] + v.getWidth()/2, posXY[1] + v.getHeight()/2);
+    }
+
     public static int getToolbarHeight(Context context) {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
                 new int[]{R.attr.actionBarSize});

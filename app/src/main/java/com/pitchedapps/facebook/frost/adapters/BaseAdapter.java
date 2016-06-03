@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pitchedapps.facebook.frost.R;
-import com.pitchedapps.facebook.frost.customViews.BaseCard;
+import com.pitchedapps.facebook.frost.cards.BaseCard;
 import com.pitchedapps.facebook.frost.customViews.HeaderProfile;
 import com.pitchedapps.facebook.frost.enums.PostHeader;
 import com.sromku.simple.fb.actions.Cursor;

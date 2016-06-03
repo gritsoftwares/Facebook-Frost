@@ -457,6 +457,7 @@ public class MainActivity extends AppCompatActivity {
         if (mSimpleFacebook.isLogin()) { //direct reveal without animations
             mStartLayout.setVisibility(View.GONE);
             mMainLayout.setVisibility(View.VISIBLE);
+            updateBaseTheme();
             updateMainNavBarColor();
         } else {
             getWindow().setNavigationBarColor(fPrefs.getHeaderBackgroundColor());

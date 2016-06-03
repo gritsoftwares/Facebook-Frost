@@ -67,7 +67,30 @@ public class ColorPicker extends LinearLayout {
 
     public void setPrefKey(String s) {
         mKey = s;
-        final int color = fPrefs.getInt(s);
+        final int color;
+
+        switch (mKey) {
+            case FrostPreferences.BACKGROUND_COLOR_CP:
+                color = fPrefs.getBackgroundColorCP();
+                break;
+            case FrostPreferences.HEADER_BACKGROUND_COLOR_CP:
+                color = fPrefs.getHeaderBackgroundColorCP();
+                break;
+            case FrostPreferences.ACCENT_COLOR_CP:
+                color = fPrefs.getAccentColorCP();
+                break;
+            case FrostPreferences.TEXT_COLOR_CP:
+                color = fPrefs.getTextColorCP();
+                break;
+            case FrostPreferences.HEADER_TEXT_COLOR_CP:
+                color = fPrefs.getHeaderTextColorCP();
+                break;
+            default:
+                e("Invalid key: " + mKey);
+                color = fPrefs.getInt(s);
+                break;
+        }
+
         if (mTextString == null) mTextString = s;
         mText.setText(mTextString);
         int borderColor = fPrefs.isDark() ? 0x80ffffff : 0x80000000;
@@ -102,7 +125,6 @@ public class ColorPicker extends LinearLayout {
                                         fPrefs.setHeaderTextColorCP(newColor);
                                         break;
                                     default:
-                                        e("Invalid key: " + mKey);
                                         fPrefs.setInt(mKey, newColor);
                                         break;
                                 }
