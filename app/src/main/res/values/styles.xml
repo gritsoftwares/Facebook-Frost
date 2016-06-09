@@ -25,7 +25,6 @@
     </style>
 
     <style name="Frost.DialogFragment" parent="Theme.AppCompat.Dialog">
-        <!--<item name="android:windowAnimationStyle">@style/SlideAnimations</item>-->
         <item name="android:windowMinWidthMinor">100%</item>
         <item name="android:windowMinWidthMajor">70%</item>
     </style>
