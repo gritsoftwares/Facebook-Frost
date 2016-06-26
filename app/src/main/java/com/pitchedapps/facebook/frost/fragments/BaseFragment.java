@@ -17,14 +17,13 @@ import com.pitchedapps.facebook.frost.MainActivity;
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.adapters.BaseAdapter;
 import com.pitchedapps.facebook.frost.adapters.EmptyAdapter;
-import com.pitchedapps.facebook.frost.customViews.FullWebView;
 import com.pitchedapps.facebook.frost.enums.FBURL;
 import com.pitchedapps.facebook.frost.enums.FrostFragment;
 import com.pitchedapps.facebook.frost.interfaces.OnTabIconPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
-import com.pitchedapps.facebook.frost.utils.FragmentUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
+import com.pitchedapps.facebook.frost.webHelpers.FrostWebView;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.actions.Cursor;
@@ -37,7 +36,7 @@ public class BaseFragment<T> extends Fragment implements OnTabIconPressListener{
     public SwipeRefreshLayout mRefresh;
     public RecyclerView mRV;
     public Context mContext;
-    public FullWebView mWebView;
+    public FrostWebView mWebView;
     public ViewGroup mViewGroup;
     public boolean firstRun = true;
     public boolean sdkVersion = true;
@@ -79,11 +78,11 @@ public class BaseFragment<T> extends Fragment implements OnTabIconPressListener{
         if (sdkVersion) {
             getData();
         } else if (mURL != null) {
-            mViewGroup = (ViewGroup) view.findViewById(R.id.generic_viewGroup);
-            mWebView = new FullWebView(mContext);
-            mWebView.initializeViews(mURL, getActivity());
-            mViewGroup.removeView(mRefresh);
-            mViewGroup.addView(mWebView);
+//            mViewGroup = (ViewGroup) view.findViewById(R.id.generic_viewGroup);
+//            mWebView = new FrostWebView(mContext);
+//            mWebView.initializeViews(mURL, getActivity());
+//            mViewGroup.removeView(mRefresh);
+//            mViewGroup.addView(mWebView);
             Utils.showSimpleSnackbar(mContext, container, "Permissions not granted; using webview");
         } else {
             Utils.showSimpleSnackbar(mContext, container, "Permissions not granted; link not supplied");
@@ -121,7 +120,7 @@ public class BaseFragment<T> extends Fragment implements OnTabIconPressListener{
     @Override
     public void onStop() {
         super.onStop();
-        if (!sdkVersion) mWebView.onStop();
+//        if (!sdkVersion) mWebView.onStop();
         ((MainActivity)mContext).removeOnTabPressedListener(this);
     }
 
@@ -209,7 +208,7 @@ public class BaseFragment<T> extends Fragment implements OnTabIconPressListener{
 
     @Override
     public boolean tabIconPressed(int position) {
-        if (FragmentUtils.isVisiblePosition(position, mTitleKey)) {
+        if (FrostFragment.isVisiblePosition(position, mTitleKey)) {
             int i = mLLM.findFirstVisibleItemPosition();
             if (i < 10) {
                 mRV.smoothScrollToPosition(0);

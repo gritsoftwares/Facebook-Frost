@@ -47,8 +47,8 @@ public class EventCard extends RecyclerView.ViewHolder {
         vu = new ViewUtils(mContext, itemView);
 
         String title = sEvent.getName();
-        String time = sEvent.getStartTime().toString();
-        String location = sEvent.getPlace().getName();
+        String time = sEvent.getStartTime() == null ? "NA" : sEvent.getStartTime().toString();
+        String location = sEvent.getPlace() == null ? "NA" : sEvent.getPlace().getName();
         String pictureURL = sEvent.getPictureURL();
         StringBuilder interestedMaybe = new StringBuilder();
         if (sEvent.getAttendingCount() != null) {

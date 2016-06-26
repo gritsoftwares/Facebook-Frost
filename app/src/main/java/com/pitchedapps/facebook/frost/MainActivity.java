@@ -41,11 +41,11 @@ import com.pitchedapps.facebook.frost.dialogs.CreatePostDialog;
 import com.pitchedapps.facebook.frost.dialogs.EventFullDialog;
 import com.pitchedapps.facebook.frost.dialogs.LogoutDialog;
 import com.pitchedapps.facebook.frost.dialogs.OverlayCommentView;
+import com.pitchedapps.facebook.frost.enums.FrostFragment;
 import com.pitchedapps.facebook.frost.interfaces.OnBackPressListener;
 import com.pitchedapps.facebook.frost.interfaces.OnTabIconPressListener;
 import com.pitchedapps.facebook.frost.utils.AnimUtils;
 import com.pitchedapps.facebook.frost.utils.ColorUtils;
-import com.pitchedapps.facebook.frost.utils.FragmentUtils;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
 import com.sromku.simple.fb.Permission;
@@ -538,7 +538,7 @@ public class MainActivity extends AppCompatActivity {
                         false);
 
                 icon.setImageDrawable(new IconicsDrawable(mContext)
-                        .icon(FragmentUtils.getFrostFragment(position).getTabIcon())
+                        .icon(FrostFragment.fromInt(position).getTabIcon())
                         .sizeDp(24));
                 return icon;
             }
@@ -586,7 +586,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentPagerItems pages = new FragmentPagerItems(mContext);
 
         for (int i = 0; i < 4; i++) {
-            pages.add(FragmentPagerItem.of(s(FragmentUtils.getFrostFragment(i).getTabNameID()), FragmentUtils.getFrostFragment(i).getFragment()));
+            pages.add(FragmentPagerItem.of(s(FrostFragment.fromInt(i).getTabNameID()), FrostFragment.fromInt(i).getFragment()));
         }
 
         mFPIAdapter = new FragmentPagerItemAdapter(
@@ -601,7 +601,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentPageID(int position) {
-        mCurrentFragmentID = FragmentUtils.getFrostFragment(position).getTabNameID();
+        mCurrentFragmentID = FrostFragment.fromInt(position).getTabNameID();
     }
 
     private int getCurrentPageID() {

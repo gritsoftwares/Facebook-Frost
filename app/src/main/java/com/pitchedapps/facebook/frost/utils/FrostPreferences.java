@@ -3,7 +3,6 @@ package com.pitchedapps.facebook.frost.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.enums.AnimSpeed;
 import com.pitchedapps.facebook.frost.enums.Themes;
 
@@ -34,12 +33,9 @@ public class FrostPreferences {
             HEADER_TEXT_COLOR_CP = "header_text_color_cp",
             HEADER_BACKGROUND_COLOR_CP = "header_bg_color_cp",
             HEADER_THEME_STYLE = "header_theme_style",
-            HEADER_THEME_STYLE_STRING_ID = "header_theme_style_theme_id",
             THEME_STYLE = "theme_style",
-            THEME_STYLE_STRING_ID = "theme_style_theme_id",
             ANIMATION_SPEED = "animation_speed",
-            ANIMATION_DIALOG_CHECKED = "animation_dialog_checked",
-            ANIMATION_SPEED_STRING_ID = "animation_speed_string_id";
+            ANIMATION_DIALOG_CHECKED = "animation_dialog_checked";
 
     private final Context mContext;
 
@@ -197,16 +193,8 @@ public class FrostPreferences {
         return getSharedPreferences().getInt(HEADER_BACKGROUND_COLOR_CP, ColorUtils.cFACEBOOK);
     }
 
-    public void setHeaderTheme(int i) {
-        setInt(HEADER_THEME_STYLE, i);
-    }
-
-    public int getHeaderTheme() {
-        return getSharedPreferences().getInt(HEADER_THEME_STYLE, 2);
-    }
-
-    public void setHeaderThemeStringID(Themes t) {
-        setInt(HEADER_THEME_STYLE_STRING_ID, t.getStringID());
+    public void setHeaderTheme(Themes t) {
+        setInt(HEADER_THEME_STYLE, t.getInt());
         switch (t) {
             case LIGHT:
                 setHeaderBackgroundColor(0xffeeeeee);
@@ -229,20 +217,12 @@ public class FrostPreferences {
         }
     }
 
-    public int getHeaderThemeStringID() {
-        return getSharedPreferences().getInt(HEADER_THEME_STYLE_STRING_ID, R.string.facebook_blue);
+    public int getHeaderTheme() {
+        return getSharedPreferences().getInt(HEADER_THEME_STYLE, Themes.FACEBOOK.getInt());
     }
 
-    public void setTheme(int i) {
-        setInt(THEME_STYLE, i);
-    }
-
-    public int getTheme() {
-        return getSharedPreferences().getInt(THEME_STYLE, 0);
-    }
-
-    public void setThemeStringID(Themes t) {
-        setInt(THEME_STYLE_STRING_ID, t.getStringID());
+    public void setTheme(Themes t) {
+        setInt(THEME_STYLE, t.getInt());
         switch (t) {
             case LIGHT:
                 setTextColor(0xff000000);
@@ -269,14 +249,13 @@ public class FrostPreferences {
         }
     }
 
-    public int getThemeStringID() {
-        return getSharedPreferences().getInt(THEME_STYLE_STRING_ID, R.string.light);
+    public int getTheme() {
+        return getSharedPreferences().getInt(THEME_STYLE, Themes.LIGHT.getInt());
     }
-
 
     public void saveAnimationEnum(AnimSpeed s) {
         setAnimationSpeedFactor(s);
-        setAnimationSpeedStringID(s);
+        setAnimationSpeedPosition(s.getInt());
     }
 
     private void setAnimationSpeedFactor(AnimSpeed s) {
@@ -285,14 +264,6 @@ public class FrostPreferences {
 
     public float getAnimationSpeedFactor() {
         return getSharedPreferences().getFloat(ANIMATION_SPEED, 1.0f);
-    }
-
-    private void setAnimationSpeedStringID(AnimSpeed s) {
-        setInt(ANIMATION_SPEED_STRING_ID, s.getStringID());
-    }
-
-    public int getAnimationSpeedStringID() {
-        return getSharedPreferences().getInt(ANIMATION_SPEED_STRING_ID, R.string.normal);
     }
 
     public static float getAnimationSpeedFactor(Context c) {

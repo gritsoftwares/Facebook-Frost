@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.pitchedapps.facebook.frost.R;
 import com.pitchedapps.facebook.frost.dialogs.AlertDialogWithSingleChoiceItems;
+import com.pitchedapps.facebook.frost.enums.AnimSpeed;
 import com.pitchedapps.facebook.frost.enums.Themes;
 import com.pitchedapps.facebook.frost.utils.FrostPreferences;
 import com.pitchedapps.facebook.frost.utils.Utils;
@@ -62,7 +63,7 @@ public class FrostPreferenceView extends RelativeLayout {
         PreferenceText cAnimations = (PreferenceText) findViewById(R.id.preferences_anim);
         cAnimations.initialize(s(R.string.animation_speed));
         final Button animValue = cAnimations.getValueTextView();
-        animValue.setText(s(fPrefs.getAnimationSpeedStringID()));
+        animValue.setText(s(AnimSpeed.fromInt(fPrefs.getAnimationSpeedPosition()).getStringID()));
         animValue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,10 +71,12 @@ public class FrostPreferenceView extends RelativeLayout {
             }
         });
 
+        Themes theme = Themes.fromInt(fPrefs.getTheme());
+
         PreferenceText cThemes = (PreferenceText) findViewById(R.id.preferences_theme);
         cThemes.initialize(s(R.string.theme));
         final Button themeValue = cThemes.getValueTextView();
-        themeValue.setText(s(fPrefs.getThemeStringID()));
+        themeValue.setText(s(theme.getStringID()));
         themeValue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,25 +90,31 @@ public class FrostPreferenceView extends RelativeLayout {
         ColorPicker cAccent = (ColorPicker) findViewById(R.id.preferences_accent_color);
         ColorPicker cText = (ColorPicker) findViewById(R.id.preferences_text_color);
         ColorPicker cBG = (ColorPicker) findViewById(R.id.preferences_background_color);
-        if (fPrefs.getThemeStringID() != Themes.CUSTOM.getStringID()) {
-            cAccent.setVisibility(GONE);
-            cText.setVisibility(GONE);
-            cBG.setVisibility(GONE);
-        } else {
-            cAccent.setText(getResources().getString(R.string.accent_color));
-            cAccent.setPrefKey(FrostPreferences.ACCENT_COLOR_CP);
 
-            cText.setText(getResources().getString(R.string.text_color));
-            cText.setPrefKey(FrostPreferences.TEXT_COLOR_CP);
+        switch (theme) {
+            case CUSTOM:
+                cAccent.setVisibility(GONE);
+                cText.setVisibility(GONE);
+                cBG.setVisibility(GONE);
+                break;
+            default:
+                cAccent.setText(getResources().getString(R.string.accent_color));
+                cAccent.setPrefKey(FrostPreferences.ACCENT_COLOR_CP);
 
-            cBG.setText(getResources().getString(R.string.background_color));
-            cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR_CP);
+                cText.setText(getResources().getString(R.string.text_color));
+                cText.setPrefKey(FrostPreferences.TEXT_COLOR_CP);
+
+                cBG.setText(getResources().getString(R.string.background_color));
+                cBG.setPrefKey(FrostPreferences.BACKGROUND_COLOR_CP);
+                break;
         }
+
+        Themes headerTheme = Themes.fromInt(fPrefs.getHeaderTheme());
 
         PreferenceText cHeaderThemes = (PreferenceText) findViewById(R.id.preferences_header_theme);
         cHeaderThemes.initialize(s(R.string.header_theme));
         final TextView headerThemeValue = cHeaderThemes.getValueTextView();
-        headerThemeValue.setText(s(fPrefs.getHeaderThemeStringID()));
+        headerThemeValue.setText(s(headerTheme.getStringID()));
         headerThemeValue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,16 +128,17 @@ public class FrostPreferenceView extends RelativeLayout {
         ColorPicker cHeaderText = (ColorPicker) findViewById(R.id.preferences_header_text_color);
         ColorPicker cHeaderBG = (ColorPicker) findViewById(R.id.preferences_header_background_color);
 
-        if (fPrefs.getHeaderThemeStringID() != Themes.CUSTOM.getStringID()) {
-            cHeaderText.setVisibility(GONE);
-
-            cHeaderBG.setVisibility(GONE);
-        } else {
-            cHeaderText.setText(getResources().getString(R.string.header_text_color));
-            cHeaderText.setPrefKey(FrostPreferences.HEADER_TEXT_COLOR_CP);
-
-            cHeaderBG.setText(getResources().getString(R.string.header_background_color));
-            cHeaderBG.setPrefKey(FrostPreferences.HEADER_BACKGROUND_COLOR_CP);
+        switch (headerTheme) {
+            case CUSTOM:
+                cHeaderText.setVisibility(GONE);
+                cHeaderBG.setVisibility(GONE);
+                break;
+            default:
+                cHeaderText.setText(getResources().getString(R.string.header_text_color));
+                cHeaderText.setPrefKey(FrostPreferences.HEADER_TEXT_COLOR_CP);
+                cHeaderBG.setText(getResources().getString(R.string.header_background_color));
+                cHeaderBG.setPrefKey(FrostPreferences.HEADER_BACKGROUND_COLOR_CP);
+                break;
         }
 //        mViewGroup.setPadding(0, Utils.getStatusBarHeight(), 0, Utils.getNavBarHeight());
     }
